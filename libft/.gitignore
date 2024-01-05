@@ -2,7 +2,7 @@
 .vscode
 
 # C
-minishell
+libft.a
 objs
 *.o
 *.out
