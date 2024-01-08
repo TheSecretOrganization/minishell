@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/08 11:08:34 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/08 11:14:02 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,12 @@
 # include <termios.h>
 # include <unistd.h>
 # include "libft.h"
+
+# define TYPE_CMD 1
+# define TYPE_INFILE 2
+# define TYPE_OUTFILE 3
+# define TYPE_PIPE 4
+# define TYPE_PIPE_AND 5
+# define TYPE_PIPE_OR 6
 
 #endif
