@@ -40,4 +40,16 @@
 # define TYPE_PIPE_AND 5
 # define TYPE_PIPE_OR 6
 
+typedef struct s_element
+{
+	int		type;
+	void	*value;
+}	t_element;
+
+typedef struct s_cmd
+{
+	char		**args;
+	t_element	*elements;
+}	t_cmd;
+
 #endif
