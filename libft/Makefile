@@ -111,13 +111,11 @@ $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean
-clean:
-	@echo "$(RED)! Removing$(DEFAULT) $(OBJS_DIR) files"
+clean: ; @printf "$(PURPLE)[$(NAME)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"
 	@$(RM) $(OBJS_DIR)
 
 .PHONY: fclean
-fclean: clean
-	@echo "$(RED)! Removing$(DEFAULT) $(NAME)"
+fclean: clean ; @printf "$(PURPLE)[$(NAME)] $(RED)Removing $(DEFAULT)$(NAME)\n"
 	@$(RM) $(NAME)
 
 .PHONY: re
@@ -126,4 +124,4 @@ re: fclean all
 .PHONY: norm
 norm:
 	@norminette $(SRC_DIR) $(INCLD_DIR) | awk '/Error/ {print; found=1} END \
-	{if (!found) {print "$(PURPLE)Norm OK$(DEFAULT)"; exit 0 } print found; exit 1 }'
+	{if (!found) {print "$(PURPLE)[$(NAME)] $(DEFAULT)Norm: $(BWHITE)OK$(DEFAULT)"; exit 0 }; exit 1 }'

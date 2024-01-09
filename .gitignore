@@ -4,5 +4,6 @@
 # C
 minishell
 objs
+.deps
 *.o
 *.out
