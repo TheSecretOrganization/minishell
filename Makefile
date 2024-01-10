@@ -63,7 +63,7 @@ $(NAME): $(LIB) $(OBJS)
 
 -include $(DEPS)
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
-	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $<$(DEFAULT)"
+	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT) $<"
 	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
