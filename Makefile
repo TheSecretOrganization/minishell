@@ -65,7 +65,6 @@ $(NAME): $(LIBFT) $(OBJS)
 	@printf "\n"
 
 -include $(DEPS)
--include $(LIBFT_DIR)/Makefile.DEPS
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $<$(DEFAULT)"
 	@mkdir -p $(OBJS_DIR)
