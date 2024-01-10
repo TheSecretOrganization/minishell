@@ -38,12 +38,15 @@ INCLUDES 	:= $(strip $(INCLUDES))
 INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
+<<<<<<< HEAD
 define LIB 	:=
 	$(LIBFT)
 	-lreadline
 endef
 LIB 		:= $(strip $(LIB))
 
+=======
+>>>>>>> c7388a1 (removed relink)
 define SRC 	:=
 	main.c
 endef
@@ -53,22 +56,20 @@ OBJS 		:= $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
 DEPS		:= $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 
 ### PROJECT ###
--include $(DEPS)
-
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(LIB) $(OBJS)
+$(NAME): $(LIBFT) $(OBJS)
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)"
-	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(OBJS) $(LIB) $(INCLD_FLAG) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLD_FLAG) -o $@
 	@printf "\n"
 
-
-$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(OBJS_DIR)
+-include $(DEPS)
+-include $(LIBFT_DIR)/Makefile.DEPS
+$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $<$(DEFAULT)"
+	@mkdir -p $(OBJS_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
-
-$(OBJS_DIR): ; @mkdir -p $@
 
 .PHONY: clean
 clean: ; @printf "$(PURPLE)[$(JP)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"

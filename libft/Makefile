@@ -2,7 +2,7 @@
 NAME		:= libft.a
 
 ### UTILS ###
-CC 			:= cc
+CC 			:= clang
 CFLAGS 		:= -Wall -Wextra -Werror -g3
 DEP_FLAGS	:= -MMD -MP
 RM 			:= rm -rf
@@ -32,6 +32,8 @@ define INCLUDES	:=
 	$(INCLD_DIR)
 endef
 INCLUDES	:= $(strip $(INCLUDES))
+
+INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 
 define SRC	:=
 	$(addprefix $(GNL_DIR)/, get_next_line_utils.c \
@@ -97,7 +99,7 @@ endef
 SRC 		:= $(strip $(SRC))
 
 OBJS 		:= $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
-INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
+DEPS		:= $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 
 ### PROJECT ###
 .PHONY: all
@@ -108,13 +110,12 @@ $(NAME): $(OBJS)
 	@ar rcs $@ $(OBJS)
 	@printf "\n"
 
-$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(GNL_DIR) $(PTF_DIR)
-	@printf "$(NEW)$(PURPLE)[$(NAME)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $<$(DEFAULT)"
+-include $(DEPS)
+$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
+	@printf "$(NEW)$(PURPLE)[$(NAME)] $(UGREEN)Building:$(DEFAULT) $<"
+	@mkdir -p $(OBJS_DIR)/$(GNL_DIR)
+	@mkdir -p $(OBJS_DIR)/$(PTF_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
-
-$(GNL_DIR): ; mkdir -p $(OBJS_DIR)/$@
-
-$(PTF_DIR): ; mkdir -p $(OBJS_DIR)/$@
 
 .PHONY: clean
 clean: ; @printf "$(PURPLE)[$(NAME)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"
