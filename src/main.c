@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/10 13:09:47 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/10 15:35:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(void)
 {
 	char	*line;
 
+	line = NULL;
 	register_signals();
 	while (prompt(&line))
 		;
