@@ -23,6 +23,7 @@ LIBFT		:= $(LIBFT_DIR)/libft.a
 
 define LIB 	:=
 	$(LIBFT)
+	-lreadline
 endef
 LIB 		:= $(strip $(LIB))
 
