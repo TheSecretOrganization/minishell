@@ -27,6 +27,7 @@ SRC_DIR 	:= src
 INCLD_DIR 	:= include
 OBJS_DIR 	:= objs
 LIBFT_DIR 	:= libft
+PARSING_DIR	:= parsing
 
 ### FILES ###
 define INCLUDES	:=
@@ -45,6 +46,7 @@ endef
 LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
+	$(addprefix $(PARSING_DIR)/, parse_line.c)
 	main.c
 	prompt.c
 	signal.c
@@ -66,7 +68,7 @@ $(NAME): $(LIB) $(OBJS)
 -include $(DEPS)
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT) $<"
-	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean
