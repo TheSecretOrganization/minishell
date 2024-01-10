@@ -1,16 +1,26 @@
 ### PROGRAM NAME ###
 NAME		:= minishell
+JP			:= 🦖
+
+### UTILS ###
+CC 			:= clang
+CFLAGS 		:= -Wall -Wextra -Werror -g3
+DEP_FLAGS	:= -MMD -MP
+MAKE_FLAG 	:= --no-print-directory --silent
+RM 			:= rm -rf
 
 ### COLORS ###
 DEFAULT    	:= \033[0m
 BLACK    	:= \033[0;30m
 RED        	:= \033[0;31m
 GREEN    	:= \033[0;32m
-YELLOW    	:= \033[0;33m
+UGREEN    	:= \033[4;32m
+YELLOW    	:= \033[;33m
 BLUE    	:= \033[0;34m
 PURPLE    	:= \033[0;35m
 CYAN    	:= \033[0;36m
 BWHITE    	:= \033[1;37m
+NEW			:= \r\033[K
 
 ### DIRECTORIES ###
 SRC_DIR 	:= src
@@ -19,6 +29,13 @@ OBJS_DIR 	:= objs
 LIBFT_DIR 	:= libft
 
 ### FILES ###
+define INCLUDES	:=
+	$(INCLD_DIR)/
+	$(LIBFT_DIR)/$(INCLD_DIR)/
+endef
+INCLUDES 	:= $(strip $(INCLUDES))
+
+INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
 define LIB 	:=
@@ -32,42 +49,30 @@ define SRC 	:=
 endef
 SRC 		:= $(strip $(SRC))
 
-define INCLUDES	:=
-	$(INCLD_DIR)/
-	$(LIBFT_DIR)/$(INCLD_DIR)/
-endef
-INCLUDES 	:= $(strip $(INCLUDES))
-
 OBJS 		:= $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
-
-### UTILS ###
-CC 			:= cc
-CFLAGS 		:= -Wall -Wextra -Werror -g3
-RM 			:= rm -rf
-INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
-MAKE_FLAG 	:= --no-print-directory --silent
+DEPS		:= $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 
 ### PROJECT ###
 .PHONY: all
 all: $(NAME)
 
 $(NAME): $(LIB) $(OBJS)
-	@echo "$(GREEN)* Assembling $(BWHITE)$@$(DEFAULT)"
+	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LIB) $(INCLD_FLAG) -o $@
+	@printf "\n"
 
+-include $(DEPS)
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
-	@echo "$(CYAN)- Compiling$(DEFAULT) $<"
+	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT) $<"
 	@mkdir -p $(OBJS_DIR)
-	@$(CC) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
+	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean
-clean:
-	@echo "$(RED)! Removing$(DEFAULT) $(OBJS_DIR) files"
+clean: ; @printf "$(PURPLE)[$(JP)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"
 	@$(RM) $(OBJS_DIR)
 
 .PHONY: fclean
-fclean: clean
-	@echo "$(RED)! Removing$(DEFAULT) $(NAME)"
+fclean: clean ; @printf "$(PURPLE)[$(JP)] $(RED)Removing $(DEFAULT)$(NAME)\n"
 	@$(RM) $(NAME)
 
 .PHONY: re
@@ -75,33 +80,19 @@ re: fclean all
 
 ### LIBFT ###
 $(LIBFT):
-	@echo "$(YELLOW)$(WD) ./$(LIBFT_DIR)$(DEFAULT)"
 	@make -C $(LIBFT_DIR) $(MAKE_FLAG)
-	@echo "$(YELLOW)$(WD) ./$(DEFAULT)"
 
 .PHONY: cleanlib
-cleanlib:
-	@echo "$(YELLOW)$(WD) ./$(LIBFT_DIR)$(DEFAULT)"
-	@make -C $(LIBFT_DIR) clean $(MAKE_FLAG)
-	@echo "$(YELLOW)$(WD) ./$(DEFAULT)"
+cleanlib: ; @make -C $(LIBFT_DIR) clean $(MAKE_FLAG)
 
 .PHONY: fcleanlib
-fcleanlib:
-	@echo "$(YELLOW)$(WD) ./$(LIBFT_DIR)$(DEFAULT)"
-	@make -C $(LIBFT_DIR) fclean $(MAKE_FLAG)
-	@echo "$(YELLOW)$(WD) ./$(DEFAULT)"
+fcleanlib: ; @make -C $(LIBFT_DIR) fclean $(MAKE_FLAG)
 
 .PHONY: relib
-relib:
-	@echo "$(YELLOW)$(WD) ./$(LIBFT_DIR)$(DEFAULT)"
-	@make -C $(LIBFT_DIR) re $(MAKE_FLAG)
-	@echo "$(YELLOW)$(WD) ./$(DEFAULT)"
+relib: ; @make -C $(LIBFT_DIR) re $(MAKE_FLAG)
 
 ### NORM ###
 .PHONY: norm
-norm:
-	@echo "$(YELLOW)$(WD) ./$(LIBFT_DIR)$(DEFAULT)"
-	@make -C $(LIBFT_DIR) norm $(MAKE_FLAG)
-	@echo "$(YELLOW)$(WD) ./$(DEFAULT)"
+norm: ; @make -C $(LIBFT_DIR) norm $(MAKE_FLAG)
 	@norminette $(SRC_DIR) $(INCLD_DIR) | awk '/Error/ {print; found=1} END \
-	{if (!found) {print "$(PURPLE)Norm OK$(DEFAULT)"; exit 0 }; exit 1 }'
+	{if (!found) {print "$(PURPLE)[$(JP)] $(DEFAULT)Norm: $(BWHITE)OK$(DEFAULT)"; exit 0 }; exit 1 }'
