@@ -1,5 +1,6 @@
 ### PROGRAM NAME ###
 NAME		:= minishell
+JP			:= 🦖
 
 ### UTILS ###
 CC 			:= clang
@@ -19,6 +20,7 @@ BLUE    	:= \033[0;34m
 PURPLE    	:= \033[0;35m
 CYAN    	:= \033[0;36m
 BWHITE    	:= \033[1;37m
+NEW			:= \r\033[K
 
 ### DIRECTORIES ###
 SRC_DIR 	:= src
@@ -57,31 +59,31 @@ DEPS		:= $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 all: $(NAME)
 
 $(NAME): $(LIB) $(OBJS)
-	@printf "$(PURPLE)[$@] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)\n"
+	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)"
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(OBJS) $(LIB) $(INCLD_FLAG) -o $@
 	@printf "\n"
 
-$(OBJS_DIR): ; @mkdir -p $@
 
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(OBJS_DIR)
-	@echo "$(CYAN)- Compiling$(DEFAULT) $<"
+	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $<$(DEFAULT)"
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
+$(OBJS_DIR): ; @mkdir -p $@
+
 .PHONY: clean
-clean: ; @printf "$(PURPLE)[$(NAME)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"
+clean: ; @printf "$(PURPLE)[$(JP)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"
 	@$(RM) $(OBJS_DIR)
 
 .PHONY: fclean
-fclean: clean ; @printf "$(PURPLE)[$(NAME)] $(RED)Removing $(DEFAULT)$(NAME)\n"
+fclean: clean ; @printf "$(PURPLE)[$(JP)] $(RED)Removing $(DEFAULT)$(NAME)\n"
 	@$(RM) $(NAME)
 
 .PHONY: re
 re: fclean all
 
 ### LIBFT ###
-$(LIBFT): ; @printf "\r$(PURPLE)[$(NAME)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)\n"
+$(LIBFT):
 	@make -C $(LIBFT_DIR) $(MAKE_FLAG)
-	@printf "\n"
 
 .PHONY: cleanlib
 cleanlib: ; @make -C $(LIBFT_DIR) clean $(MAKE_FLAG)
@@ -90,11 +92,10 @@ cleanlib: ; @make -C $(LIBFT_DIR) clean $(MAKE_FLAG)
 fcleanlib: ; @make -C $(LIBFT_DIR) fclean $(MAKE_FLAG)
 
 .PHONY: relib
-relib: fcleanlib $(LIBFT)
+relib: ; @make -C $(LIBFT_DIR) re $(MAKE_FLAG)
 
 ### NORM ###
 .PHONY: norm
 norm: ; @make -C $(LIBFT_DIR) norm $(MAKE_FLAG)
 	@norminette $(SRC_DIR) $(INCLD_DIR) | awk '/Error/ {print; found=1} END \
-	{if (!found) {print "$(PURPLE)[$(NAME)] $(DEFAULT)Norm: $(BWHITE)OK$(DEFAULT)"; exit 0 }; exit 1 }'
-	@printf "\n"
+	{if (!found) {print "$(PURPLE)[$(JP)] $(DEFAULT)Norm: $(BWHITE)OK$(DEFAULT)"; exit 0 }; exit 1 }'

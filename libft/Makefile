@@ -1,16 +1,24 @@
 ### PROGRAM NAME ###
 NAME		:= libft.a
 
+### UTILS ###
+CC 			:= cc
+CFLAGS 		:= -Wall -Wextra -Werror -g3
+DEP_FLAGS	:= -MMD -MP
+RM 			:= rm -rf
+
 ### COLORS ###
 DEFAULT    	:= \033[0m
 BLACK    	:= \033[0;30m
 RED        	:= \033[0;31m
 GREEN    	:= \033[0;32m
-YELLOW    	:= \033[0;33m
+UGREEN    	:= \033[4;32m
+YELLOW    	:= \033[;33m
 BLUE    	:= \033[0;34m
 PURPLE    	:= \033[0;35m
 CYAN    	:= \033[0;36m
 BWHITE    	:= \033[1;37m
+NEW			:= \r\033[K
 
 ### DIREECTORIES ###
 SRC_DIR 	:= src
@@ -89,11 +97,6 @@ endef
 SRC 		:= $(strip $(SRC))
 
 OBJS 		:= $(patsubst %.c,$(OBJS_DIR)/%.o,$(SRC))
-
-### UTILS ###
-CC 			:= cc
-CFLAGS 		:= -Wall -Wextra -Werror -g3
-RM 			:= rm -rf
 INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 
 ### PROJECT ###
@@ -101,14 +104,17 @@ INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@echo "$(GREEN)* Assembling $(BWHITE)$@$(DEFAULT)"
+	@printf "$(NEW)$(PURPLE)[$@] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)"
 	@ar rcs $@ $(OBJS)
+	@printf "\n"
 
-$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
-	@echo "$(CYAN)- Compiling$(DEFAULT) $<"
-	@mkdir -p $(OBJS_DIR)/$(GNL_DIR)
-	@mkdir -p $(OBJS_DIR)/$(PTF_DIR)
-	@$(CC) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
+$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(GNL_DIR) $(PTF_DIR)
+	@printf "$(NEW)$(PURPLE)[$(NAME)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $<$(DEFAULT)"
+	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
+
+$(GNL_DIR): ; mkdir -p $(OBJS_DIR)/$@
+
+$(PTF_DIR): ; mkdir -p $(OBJS_DIR)/$@
 
 .PHONY: clean
 clean: ; @printf "$(PURPLE)[$(NAME)] $(RED)Removing $(DEFAULT)$(OBJS_DIR) files\n"
