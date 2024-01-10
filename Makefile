@@ -39,6 +39,7 @@ INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 define LIB 	:=
 	$(LIBFT)
 	-lreadline
@@ -47,6 +48,14 @@ LIB 		:= $(strip $(LIB))
 
 =======
 >>>>>>> c7388a1 (removed relink)
+=======
+define LIB	:=
+	$(LIB)
+	-lreadline
+endef
+LIB			:= $(strip $(LIB))
+
+>>>>>>> 656c118 (added readline lib)
 define SRC 	:=
 	main.c
 endef
@@ -59,9 +68,9 @@ DEPS		:= $(patsubst %.c,$(OBJS_DIR)/%.d,$(SRC))
 .PHONY: all
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIB) $(OBJS)
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT)$(BWHITE) $@$(DEFAULT)"
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(INCLD_FLAG) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIB) $(INCLD_FLAG) -o $@
 	@printf "\n"
 
 -include $(DEPS)
