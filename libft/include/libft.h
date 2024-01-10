@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 09:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/01/04 23:47:03 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/10 15:37:23 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@
 # include <unistd.h>
 # include <limits.h>
 
-# define TRUE 1
-# define FALSE 0
+typedef enum e_bool
+{
+	B_TRUE = 1,
+	B_FALSE = 0
+}	t_bool;
 
 typedef struct s_list
 {
