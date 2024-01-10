@@ -38,24 +38,12 @@ INCLUDES 	:= $(strip $(INCLUDES))
 INCLD_FLAG 	:= $(addprefix -I , $(INCLUDES))
 LIBFT		:= $(LIBFT_DIR)/libft.a
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 define LIB 	:=
 	$(LIBFT)
 	-lreadline
 endef
 LIB 		:= $(strip $(LIB))
 
-=======
->>>>>>> c7388a1 (removed relink)
-=======
-define LIB	:=
-	$(LIB)
-	-lreadline
-endef
-LIB			:= $(strip $(LIB))
-
->>>>>>> 656c118 (added readline lib)
 define SRC 	:=
 	main.c
 endef
