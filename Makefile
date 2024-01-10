@@ -46,6 +46,8 @@ LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
 	main.c
+	prompt.c
+	signal.c
 endef
 SRC 		:= $(strip $(SRC))
 
