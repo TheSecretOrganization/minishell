@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:34:45 by averin            #+#    #+#             */
-/*   Updated: 2024/01/10 13:49:42 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/10 13:53:46 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	register_action(int signal, void (*handler)(int))
 /**
  * Bind signals to their handlers
 */
-void	register_signals()
+void	register_signals(void)
 {
 	register_action(SIGINT, &handle_singint);
 	register_action(SIGQUIT, SIG_IGN);

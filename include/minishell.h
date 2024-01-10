@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/10 13:02:24 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/10 13:53:50 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ typedef struct s_cmd
 }	t_cmd;
 
 char	*prompt(char **line);
-void	register_signals();
+void	register_signals(void);
 
 #endif
