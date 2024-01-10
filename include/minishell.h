@@ -53,5 +53,6 @@ typedef struct s_cmd
 }	t_cmd;
 
 char	*prompt(char **line);
+void	register_signals();
 
 #endif

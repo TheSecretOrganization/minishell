@@ -16,6 +16,7 @@ int	main(void)
 {
 	char	*line;
 
+	register_signals();
 	while (prompt(&line))
 		;
 	return (0);
