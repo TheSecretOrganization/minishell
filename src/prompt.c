@@ -14,7 +14,7 @@
 #include "colors.h"
 
 /**
- * Prompt the user
+ * Send a prompt to the user
  * @return user's input or NULL if EOT
 */
 char	*prompt(char **line)
