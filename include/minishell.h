@@ -47,7 +47,7 @@ typedef enum e_code
 {
 	C_SUCCES = 0,
 	C_ERR_GEN = 1,
-	C_BAD_USE = 1,
+	C_BAD_USE = 2,
 	C_ERR_MEM = 3
 }	t_code;
 
