@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 19:08:34 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 19:34:05 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Tokenize a line
  * @param lst pointer to the head of the list
  * @param line line to tokenize
- * @return t_bool exit code
+ * @return t_bool return B_TRUE or B_FALSE if malloc fails
 */
 static t_bool	init_tokens(t_token **lst, char *line)
 {
