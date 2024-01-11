@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/11 18:50:33 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 22:10:59 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,16 @@
 # define TYPE_PIPE_AND 5
 # define TYPE_PIPE_OR 6
 
-# define ERR_MEM "memory allocation failled\n"
+# define ERR_GEN "error"
+# define ERR_MEM "memory allocation failled"
+
+typedef enum e_code
+{
+	C_SUCCES = 0,
+	C_ERR_GEN = 1,
+	C_BAD_USE = 1,
+	C_ERR_MEM = 3
+}	t_code;
 
 typedef struct s_element
 {
@@ -54,7 +63,7 @@ typedef struct s_cmd
 	t_element	*elements;
 }	t_cmd;
 
-int		error(char *el, char *message);
+t_code	error(t_code code, char *el, char *message);
 char	*prompt(char **line);
 void	register_signals(void);
 

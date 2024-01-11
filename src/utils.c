@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 18:50:38 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 22:10:55 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,18 @@
 
 /**
  * Write error statement to stderr
- * @param el element which caused the error
- * @param message error message details
- * @return int error code
+ * @param code exit code to return
+ * @param el element which caused the error, nullable
+ * @param message error message details, nullable
+ * @return t_code error code
 */
-int	error(char *el, char *message)
+t_code	error(t_code code, char *el, char *message)
 {
-	ft_dprintf(STDERR_FILENO, "%s: %s", el, message);
-	return (EXIT_FAILURE);
+	ft_putstr_fd("🦕 :", STDERR_FILENO);
+	if (el)
+		ft_dprintf(STDERR_FILENO, " %s:", el);
+	if (message)
+		ft_dprintf(STDERR_FILENO, " %s", message);
+	ft_putchar_fd('\n', STDERR_FILENO);
+	return (code);
 }
