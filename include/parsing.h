@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 15:00:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 22:34:05 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ t_token	*t_token_last(t_token *lst);
 t_token	*t_token_new(char *id);
 size_t	t_token_size(t_token *lst);
 
-t_bool	parse_line(t_cmd *cmd, char *line);
+void	print_lst(t_token *lst);
 
 #endif

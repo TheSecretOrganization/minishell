@@ -48,6 +48,7 @@ LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
 	$(addprefix $(PARSING_DIR)/, parse_line.c \
+	utils.c \
 	$(addprefix $(T_TOKEN_DIR)/, t_token_addback.c \
 	t_token_clear.c \
 	t_token_delone.c \
