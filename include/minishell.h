@@ -40,6 +40,8 @@
 # define TYPE_PIPE_AND 5
 # define TYPE_PIPE_OR 6
 
+# define ERR_MEM "memory allocation failled\n"
+
 typedef struct s_element
 {
 	int		type;
