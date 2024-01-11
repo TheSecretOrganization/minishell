@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   t_token_addback.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 12:03:15 by abasdere         ###   ########.fr       */
+/*   Created: 2024/01/11 11:53:42 by abasdere          #+#    #+#             */
+/*   Updated: 2024/01/11 12:50:24 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "parsing.h"
 
-# include "minishell.h"
-
-typedef struct s_token
+/**
+ * Add a new node at the end of a t_token list
+ * @param lst list to add the node to
+ * @param new node to add
+*/
+void	t_token_addback(t_token **lst, t_token *new)
 {
-	int		val;
-	char	*id;
-	t_token	*next;
-	t_token	*prev;
-}	t_token;
+	t_token	*last;
 
-void	t_token_addback(t_token **lst, t_token *new);
-void	t_token_clear(t_token **lst);
-void	t_token_delone(t_token *lst);
-t_token	*t_token_last(t_token *lst);
-size_t	t_token_size(t_token *lst);
-
-t_bool	parse_line(t_cmd *cmd, char *line);
-
-#endif
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	last = t_token_last(*lst);
+	last->next = new;
+	new->prev = last;
+	new->next = NULL;
+}
