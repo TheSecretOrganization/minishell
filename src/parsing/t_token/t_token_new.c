@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:49:27 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 13:46:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 14:59:56 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_val	get_val(char c)
 		return (SPCL_CHAR);
 	else if (c == '\"')
 		return (D_QUOTE);
-	else if (c =='\'')
+	else if (c == '\'')
 		return (QUOTE);
 	else if (c == '$')
 		return (VARIABLE);
