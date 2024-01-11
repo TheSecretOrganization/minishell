@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/10 16:19:03 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:32:15 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Parse user's input
- * @return t_bool
+ * @return B_TRUE if user's input is valid, B_FALS if it isn't
 */
 t_bool	parse_line(t_cmd *cmd, char *line)
 {
