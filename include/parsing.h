@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 13:44:42 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:00:11 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ typedef enum e_val
 
 typedef struct s_token
 {
-	t_val	val;
-	char	*id;
-	t_token	*next;
-	t_token	*prev;
+	t_val			val;
+	char			*id;
+	struct s_token	*next;
+	struct s_token	*prev;
 }	t_token;
 
 void	t_token_addback(t_token **lst, t_token *new);
