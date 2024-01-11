@@ -28,6 +28,7 @@ INCLD_DIR 	:= include
 OBJS_DIR 	:= objs
 LIBFT_DIR 	:= libft
 PARSING_DIR	:= parsing
+T_TOKEN_DIR	:= t_token
 
 ### FILES ###
 define INCLUDES	:=
@@ -46,7 +47,13 @@ endef
 LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
-	$(addprefix $(PARSING_DIR)/, parse_line.c)
+	$(addprefix $(PARSING_DIR)/, parse_line.c \
+	$(addprefix $(T_TOKEN_DIR)/, t_token_addback.c \
+	t_token_clear.c \
+	t_token_delone.c \
+	t_token_last.c \
+	t_token_new.c \
+	t_token_size.c))
 	main.c
 	prompt.c
 	signal.c
@@ -68,7 +75,8 @@ $(NAME): $(LIB) $(OBJS)
 -include $(DEPS)
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT) $<"
-	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)
+	@mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)/$(T_TOKEN_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean
