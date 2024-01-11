@@ -42,6 +42,7 @@ t_token	*t_token_last(t_token *lst);
 t_token	*t_token_new(char *id);
 size_t	t_token_size(t_token *lst);
 
+t_code	parse_line(t_code *code, t_cmd *cmd, char *line);
 void	print_lst(t_token *lst);
 
 #endif
