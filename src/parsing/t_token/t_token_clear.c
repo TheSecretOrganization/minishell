@@ -6,12 +6,11 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:59:18 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 12:45:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:01:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
 
 /**
  * Delete a t_token list
