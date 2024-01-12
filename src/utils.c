@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 19:14:38 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:30:26 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	free_cmd(t_cmd *cmd)
 	{
 		while (cmd->elements[++i])
 		{
-			if (cmd->elements[i]->type == T_CMD || cmd->elements[i]->type == T_PIPE)
+			if (cmd->elements[i]->type == T_CMD || \
+			cmd->elements[i]->type == T_PIPE)
 				free_cmd((t_cmd *) cmd->elements[i]->value);
 			else
 				free(cmd->elements[i]->value);
