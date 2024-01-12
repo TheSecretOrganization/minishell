@@ -69,6 +69,34 @@ static t_code	init_spcl_chars(t_token *tk)
 }
 
 /**
+ * Parse in function of their precedence
+ * @param code return code
+ * @param list of comamnd to init
+ * @param tk head of the token list to parse
+ * @param prec determine what level of tokens is being treated
+ * @return t_token new position in the token list or NULL if a error occurs
+*/
+t_token	*parse_tokens(t_code *code, t_cmd **cmd, t_token *tk, t_val prec)
+{
+	if (prec == V_SEP)
+		while (tk && tk->val == V_SEP)
+			tk = tk->next;
+	else if (prec == V_CHAR)
+		;
+	else if (prec == V_WILDCARD)
+		return (error_syntax(C_BAD_USE, '*'), NULL);
+	else if (prec == V_VARIABLE)
+		;
+	else if (prec == V_QUOTE)
+		;
+	else if (prec == V_DQUOTE)
+		;
+	else if (prec == V_SPCL_CHAR)
+		return (parse_spcl_char(code, cmd, tk));
+	return (tk);
+}
+
+/**
  * Use the precedence climbing algorithm to parse the tokens
  * @param code return code
  * @param list of comamnd to init
