@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 11:33:59 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:53:39 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,16 @@
 
 # include "minishell.h"
 
-# define ERR_SYN "syntax error near unexpected token "
-
 typedef enum e_val
 {
-	ERROR = 0,
-	CHAR = 1,
-	SEP = 2,
-	WILDCARD = 3,
-	VARIABLE = 4,
-	QUOTE = 5,
-	D_QUOTE = 6,
-	SPCL_CHAR = 7
+	V_ERROR = 0,
+	V_CHAR = 1,
+	V_SEP = 2,
+	V_WILDCARD = 3,
+	V_VARIABLE = 4,
+	V_QUOTE = 5,
+	V_DQUOTE = 6,
+	V_SPCL_CHAR = 7
 }	t_val;
 
 typedef struct s_token
@@ -45,6 +43,7 @@ void	t_token_print_vals(t_token *tk);
 size_t	t_token_size(t_token *tk);
 
 void	clean_exit(t_code code, t_cmd *cmd, char **line, t_token **tk);
+t_code	error_syntax(t_code code, char el);
 void	parse_line(t_cmd *cmd, char **line);
 
 #endif

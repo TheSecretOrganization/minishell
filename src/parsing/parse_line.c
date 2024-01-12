@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 11:32:14 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:55:46 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,22 @@ static t_code	init_spcl_chars(t_token *tk)
 	nb[1] = 0;
 	while (tk)
 	{
-		if (nb[0] % 2 && tk->val != CHAR && tk->val != QUOTE)
-			tk->val = CHAR;
-		if (nb[1] % 2 && tk->val != CHAR && tk->val != D_QUOTE && \
-		tk->val != VARIABLE)
-			tk->val = CHAR;
-		if ((tk->val == QUOTE && ++(nb[0])) || \
-		(tk->val == D_QUOTE && ++(nb[1])))
+		if (!(nb[0] % 2) && !(nb[1] % 2) && tk->val == V_ERROR)
+			return (error_syntax(C_BAD_USE, *(tk->id)));
+		if (nb[0] % 2 && tk->val != V_CHAR && tk->val != V_QUOTE)
+			tk->val = V_CHAR;
+		if (nb[1] % 2 && tk->val != V_CHAR && tk->val != V_DQUOTE && \
+		tk->val != V_VARIABLE)
+			tk->val = V_CHAR;
+		if ((tk->val == V_QUOTE && ++(nb[0])) || \
+		(tk->val == V_DQUOTE && ++(nb[1])))
 			;
 		tk = tk->next;
 	}
 	if (nb[0] % 2)
-		return (error(C_BAD_USE, NULL, ERR_SYN"`''"));
+		return (error_syntax(C_BAD_USE, '\''));
 	else if (nb[1] % 2)
-		return (error(C_BAD_USE, NULL, ERR_SYN"`\"'"));
+		return (error_syntax(C_BAD_USE, '\"'));
 	return (C_SUCCES);
 }
 

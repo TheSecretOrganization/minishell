@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:49:27 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 14:59:56 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:47:20 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@
 static t_val	get_val(char c)
 {
 	if (ft_strchr("~`#()\\[]{};?!", c))
-		return (ERROR);
+		return (V_ERROR);
 	if (ft_strchr("&|<>", c))
-		return (SPCL_CHAR);
+		return (V_SPCL_CHAR);
 	else if (c == '\"')
-		return (D_QUOTE);
+		return (V_DQUOTE);
 	else if (c == '\'')
-		return (QUOTE);
+		return (V_QUOTE);
 	else if (c == '$')
-		return (VARIABLE);
+		return (V_VARIABLE);
 	else if (c == '*')
-		return (WILDCARD);
+		return (V_WILDCARD);
 	else if (c == ' ')
-		return (SEP);
-	return (CHAR);
+		return (V_SEP);
+	return (V_CHAR);
 }
 
 /**
