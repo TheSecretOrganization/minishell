@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 14:13:55 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 19:34:44 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ static t_code	init_spcl_chars(t_token *tk)
 		if ((tk->val == V_QUOTE && ++(nb[0])) || \
 		(tk->val == V_DQUOTE && ++(nb[1])))
 			;
+		if (tk->val == V_VARIABLE && tk->next && tk->next->val == V_CHAR)
+			tk->next->val = V_VARIABLE;
 		tk = tk->next;
 	}
 	if (nb[0] % 2)
@@ -72,14 +74,16 @@ static t_code	init_spcl_chars(t_token *tk)
  * @param line pointer to the line to parse
  * @return t_code C_SUCCES or an error code
 */
-t_code	parse_line(t_cmd *cmd, char **line)
+t_code	parse_line(t_cmd **cmd, char *line)
 {
 	t_token	*tk;
+	t_code	code;
 
 	tk = NULL;
-	if (init_tokens(&tk, *line))
-		exit(clean_memory(C_ERR_MEM, cmd, line, &tk));
+	code = C_SUCCES;
+	if (init_tokens(&tk, line))
+		exit(clean_memory(C_ERR_MEM, *cmd, line, &tk));
 	if (init_spcl_chars(tk))
-		return (clean_memory(C_BAD_USE, cmd, NULL, &tk));
-	return (clean_memory(C_SUCCES, cmd, NULL, &tk));
+		return (clean_memory(C_BAD_USE, *cmd, NULL, &tk));
+	return (clean_memory(code, *cmd, NULL, &tk));
 }
