@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 11:55:46 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:13:55 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,18 @@ static t_code	init_spcl_chars(t_token *tk)
 
 /**
  * Parse user's input, exit the program if error occurs
+ * @param cmd list of comamnd to init
+ * @param line pointer to the line to parse
+ * @return t_code C_SUCCES or an error code
 */
-void	parse_line(t_cmd *cmd, char **line)
+t_code	parse_line(t_cmd *cmd, char **line)
 {
 	t_token	*tk;
 
 	tk = NULL;
 	if (init_tokens(&tk, *line))
-		clean_exit(C_ERR_MEM, cmd, line, &tk);
+		exit(clean_memory(C_ERR_MEM, cmd, line, &tk));
 	if (init_spcl_chars(tk))
-		clean_exit(C_BAD_USE, cmd, line, &tk);
+		return (clean_memory(C_BAD_USE, cmd, NULL, &tk));
+	return (clean_memory(C_SUCCES, cmd, NULL, &tk));
 }
