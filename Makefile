@@ -48,6 +48,7 @@ define SRC 	:=
 	main.c
 	prompt.c
 	signal.c
+	utils.c
 endef
 SRC 		:= $(strip $(SRC))
 
