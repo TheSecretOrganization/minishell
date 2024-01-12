@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/10 13:53:50 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/12 16:34:15 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,43 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define TYPE_CMD 1
-# define TYPE_INFILE 2
-# define TYPE_OUTFILE 3
-# define TYPE_PIPE 4
-# define TYPE_PIPE_AND 5
-# define TYPE_PIPE_OR 6
+# define PROMPT_HEAD "🦖"
+
+# define ERR_GEN "error"
+# define ERR_MEM "memory allocation failled"
+
+typedef enum e_code
+{
+	C_SUCCES = 0,
+	C_ERR_GEN = 1,
+	C_BAD_USE = 2,
+	C_ERR_MEM = 3
+}	t_code;
+
+typedef enum e_type
+{
+	T_CMD = 1,
+	T_INFILE = 2,
+	T_OUTFILE = 3,
+	T_PIPE = 4,
+	T_PIPE_AND = 5,
+	T_PIPE_OR = 6
+}	t_type;
 
 typedef struct s_element
 {
-	int		type;
+	t_type	type;
 	void	*value;
 }	t_element;
 
 typedef struct s_cmd
 {
 	char		**args;
-	t_element	*elements;
+	t_element	**elements;
 }	t_cmd;
 
+t_code	error(t_code code, char *el, char *message);
+void	free_cmd(t_cmd *cmd);
 char	*prompt(char **line);
 void	register_signals(void);
 
