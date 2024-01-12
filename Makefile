@@ -54,6 +54,7 @@ define SRC 	:=
 	t_token_delone.c \
 	t_token_last.c \
 	t_token_new.c \
+	t_token_print_vals.c \
 	t_token_size.c))
 	main.c
 	prompt.c

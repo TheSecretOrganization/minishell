@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   t_token_print_vals.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 11:15:49 by abasdere         ###   ########.fr       */
+/*   Created: 2024/01/12 11:15:27 by abasdere          #+#    #+#             */
+/*   Updated: 2024/01/12 11:16:36 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void	clean_exit(t_code code, t_cmd *cmd, char **line, t_token **lst)
+/**
+ * Print all vals of a t_token list
+ * @param lst list to print
+*/
+void	t_token_print_vals(t_token *lst)
 {
-	if (cmd)
-		(void)cmd;
-	if (line && *line)
-		free(*line);
-	if (lst)
-		t_token_clear(lst);
-	exit(code);
+	while (lst)
+	{
+		printf("%d", lst->val);
+		lst = lst->next;
+	}
+	printf("\n");
 }

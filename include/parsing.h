@@ -15,6 +15,8 @@
 
 # include "minishell.h"
 
+# define ERR_SYN "syntax error near unexpected token "
+
 typedef enum e_val
 {
 	ERROR = 0,
