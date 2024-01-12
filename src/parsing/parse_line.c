@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 22:45:19 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:16:58 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_code	init_tokens(t_token **lst, char *line)
 /**
  * Assign the special char tokens their final values
  * @param lst head of the list
- * @return t_code return C_SUUCES or C_BAD_USAGE if there is unclosed quotes
+ * @return t_code return C_SUCCES or C_BAD_USAGE if there is unclosed quotes
 */
 static t_code	init_spcl_chars(t_token *lst)
 {
@@ -57,25 +57,23 @@ static t_code	init_spcl_chars(t_token *lst)
 			;
 		lst = lst->next;
 	}
-	if (nb[0] % 2 || nb[1] % 2)
-		return (C_BAD_USE);
+	if (nb[0] % 2)
+		return (error(C_BAD_USE, NULL, ERR_SYN"`''"));
+	else if (nb[1] % 2)
+		return (error(C_BAD_USE, NULL, ERR_SYN"`\"'"));
 	return (C_SUCCES);
 }
 
 /**
- * Parse user's input
- * @return t_code C_SUCCES or a error if user's input isn't valid
+ * Parse user's input, exit the program if error occurs
 */
-t_code	parse_line(t_code *code, t_cmd *cmd, char *line)
+void	parse_line(t_cmd *cmd, char **line)
 {
 	t_token	*lst;
 
 	lst = NULL;
-	*code = init_tokens(&lst, line);
-	if (*code)
-		return (*code);
-	*code = init_spcl_chars(lst);
-	if (*code)
-		return (t_token_clear(&lst), *code);
-	return (t_token_clear(&lst), *code);
+	if (init_tokens(&lst, *line))
+		clean_exit(C_ERR_MEM, cmd, line, &lst);
+	if (init_spcl_chars(lst))
+		clean_exit(C_BAD_USE, cmd, line, &lst);
 }

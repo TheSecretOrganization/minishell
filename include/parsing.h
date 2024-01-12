@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 22:34:05 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:16:34 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@ void	t_token_clear(t_token **lst);
 void	t_token_delone(t_token *lst);
 t_token	*t_token_last(t_token *lst);
 t_token	*t_token_new(char *id);
+void	t_token_print_vals(t_token *lst);
 size_t	t_token_size(t_token *lst);
 
-t_code	parse_line(t_code *code, t_cmd *cmd, char *line);
-void	print_lst(t_token *lst);
+void	clean_exit(t_code code, t_cmd *cmd, char **line, t_token **lst);
+void	parse_line(t_cmd *cmd, char **line);
 
 #endif
