@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/12 10:09:31 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:35:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include <termios.h>
 # include <unistd.h>
 # include "libft.h"
+
+# define PROMPT_HEAD "🦖"
 
 # define ERR_GEN "error"
 # define ERR_MEM "memory allocation failled"
