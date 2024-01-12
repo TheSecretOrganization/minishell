@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 19:34:44 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 19:39:07 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,36 @@ static t_code	init_spcl_chars(t_token *tk)
 }
 
 /**
+ * Use the precedence climbing algorithm to parse the tokens
+ * @param code return code
+ * @param list of comamnd to init
+ * @param tk head of the token list to parse
+ * @param prec determine what level of tokens is being treated
+ * @return t_token new position in the token list or NULL if a error occurs
+*/
+static t_token	*prec_climb(t_code *code, t_cmd **cmd, t_token *tk, t_val prec)
+{
+	return (tk);
+	while (tk && tk->val >= prec)
+	{
+		if (prec != V_SPCL_CHAR && tk->val == prec)
+		{
+			prec_climb(code, cmd, tk->next, prec + 1);
+			if (code != C_SUCCES)
+				return (NULL);
+		}
+		if (tk->val > prec)
+			tk = prec_climb(code, cmd, tk, prec + 1);
+		if (!tk && *code != C_SUCCES)
+			return (NULL);
+		tk = parse_tokens(code, cmd, tk, prec);
+		if (!tk && *code != C_SUCCES)
+			return (NULL);
+	}
+	return (tk);
+}
+
+/**
  * Parse user's input, exit the program if error occurs
  * @param cmd list of comamnd to init
  * @param line pointer to the line to parse
@@ -85,5 +115,8 @@ t_code	parse_line(t_cmd **cmd, char *line)
 		exit(clean_memory(C_ERR_MEM, *cmd, line, &tk));
 	if (init_spcl_chars(tk))
 		return (clean_memory(C_BAD_USE, *cmd, NULL, &tk));
+	prec_climb(&code, cmd, tk, V_SEP);
+	if (code != C_SUCCES)
+		exit(clean_memory(C_ERR_MEM, *cmd, line, &tk));
 	return (clean_memory(code, *cmd, NULL, &tk));
 }
