@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 14:14:41 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:30:34 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 t_code	clean_memory(t_code code, t_cmd *cmd, char **line, t_token **tk)
 {
 	if (cmd)
-		(void)cmd;
+		free_cmd(cmd);
 	if (line && *line)
 		free(*line);
 	if (tk)
