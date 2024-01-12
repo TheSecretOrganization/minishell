@@ -38,7 +38,7 @@ void	clean_exit(t_code code, t_cmd *cmd, char **line, t_token **tk)
 */
 t_code	error_syntax(t_code code, char el)
 {
-	ft_putstr_fd(PROMPT_HEAD" :", STDERR_FILENO);
+	ft_putstr_fd(PROMPT_HEAD":", STDERR_FILENO);
 	if (el)
 		ft_dprintf(STDERR_FILENO, \
 		" syntax error near unexpected token `%c'", el);
