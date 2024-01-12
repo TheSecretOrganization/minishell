@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/11 22:10:59 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:35:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,7 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define TYPE_CMD 1
-# define TYPE_INFILE 2
-# define TYPE_OUTFILE 3
-# define TYPE_PIPE 4
-# define TYPE_PIPE_AND 5
-# define TYPE_PIPE_OR 6
+# define PROMPT_HEAD "🦖"
 
 # define ERR_GEN "error"
 # define ERR_MEM "memory allocation failled"
@@ -47,13 +42,23 @@ typedef enum e_code
 {
 	C_SUCCES = 0,
 	C_ERR_GEN = 1,
-	C_BAD_USE = 1,
+	C_BAD_USE = 2,
 	C_ERR_MEM = 3
 }	t_code;
 
+typedef enum e_type
+{
+	T_CMD = 1,
+	T_INFILE = 2,
+	T_OUTFILE = 3,
+	T_PIPE = 4,
+	T_PIPE_AND = 5,
+	T_PIPE_OR = 6
+}	t_type;
+
 typedef struct s_element
 {
-	int		type;
+	t_type	type;
 	void	*value;
 }	t_element;
 
