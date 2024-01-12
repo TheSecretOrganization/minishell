@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 19:07:06 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 20:48:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,18 @@ void	free_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 	ft_fsplit(cmd->args);
-	while (cmd->elements && cmd->elements[++i])
-	{
-		if (cmd->elements[i]->type == T_CMD || cmd->elements[i]->type == T_PIPE)
-			free_cmd((t_cmd *) cmd->elements[i]->value);
-		else
-			free(cmd->elements[i]->value);
-		free(cmd->elements[i]);
-	}
 	if (cmd->elements)
+	{
+		while (cmd->elements[++i])
+		{
+			if (cmd->elements[i]->type == T_CMD || \
+			cmd->elements[i]->type == T_PIPE)
+				free_cmd((t_cmd *) cmd->elements[i]->value);
+			else
+				free(cmd->elements[i]->value);
+			free(cmd->elements[i]);
+		}
 		free(cmd->elements);
+	}
 	free(cmd);
 }
