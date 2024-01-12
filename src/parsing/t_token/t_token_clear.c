@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:59:18 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/11 15:01:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:33:51 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 /**
  * Delete a t_token list
- * @param lst node to destroy
+ * @param tk node to destroy
 */
-void	t_token_clear(t_token **lst)
+void	t_token_clear(t_token **tk)
 {
-	if (!lst || !(*lst))
+	if (!tk || !(*tk))
 		return ;
-	if ((*lst)->next)
-		t_token_clear(&(*lst)->next);
-	t_token_delone(*lst);
-	*lst = NULL;
+	if ((*tk)->next)
+		t_token_clear(&(*tk)->next);
+	free(*tk);
+	*tk = NULL;
 }

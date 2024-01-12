@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 11:15:27 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/12 11:16:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 11:32:14 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 /**
  * Print all vals of a t_token list
- * @param lst list to print
+ * @param tk list to print
 */
-void	t_token_print_vals(t_token *lst)
+void	t_token_print_vals(t_token *tk)
 {
-	while (lst)
+	while (tk)
 	{
-		printf("%d", lst->val);
-		lst = lst->next;
+		printf("%d", tk->val);
+		tk = tk->next;
 	}
 	printf("\n");
 }

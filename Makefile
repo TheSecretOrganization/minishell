@@ -51,7 +51,6 @@ define SRC 	:=
 	utils.c \
 	$(addprefix $(T_TOKEN_DIR)/, t_token_addback.c \
 	t_token_clear.c \
-	t_token_delone.c \
 	t_token_last.c \
 	t_token_new.c \
 	t_token_print_vals.c \
