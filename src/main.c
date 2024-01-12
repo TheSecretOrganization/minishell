@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/10 15:35:08 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/12 10:03:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int	main(void)
 {
 	char	*line;
+	t_code	code;
 
 	line = NULL;
+	code = C_SUCCES;
 	register_signals();
 	while (prompt(&line))
 		;
-	return (0);
+	return (code);
 }
