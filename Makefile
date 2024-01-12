@@ -46,6 +46,7 @@ endef
 LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
+	$(addprefix $(EXEC_DIR)/, exec.c)
 	main.c
 	prompt.c
 	signal.c

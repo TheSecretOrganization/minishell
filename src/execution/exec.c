@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/11 15:45:59 by averin           ###   ########.fr       */
+/*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
+/*   Updated: 2024/01/12 14:44:58 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTION_H
-# define EXECUTION_H
+#include "minishell.h"
+#include "execution.h"
 
-# include "minishell.h"
-
-int		exec_cmd(t_cmd *cmd, char **path);
-
-#endif
+/**
+ * Execute a command
+ * @param cmd command to execute
+ * @param path environment's path
+ * @return exit code
+*/
+int	exec_cmd(t_cmd *cmd, char **path)
+{
+	(void)cmd;
+	(void)path;
+	return (0);
+}
