@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:50:14 by averin            #+#    #+#             */
-/*   Updated: 2024/01/12 10:17:43 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/12 10:35:43 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*prompt(char **line)
 {
 	if (*line)
 		free(*line);
-	*line = readline("🦖 "GREEN"❯ "DEFAULT);
+	*line = readline(PROMPT_HEAD" "GREEN"❯ "DEFAULT);
 	add_history(*line);
 	return (*line);
 }
