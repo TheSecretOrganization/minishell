@@ -45,5 +45,6 @@ size_t	t_token_size(t_token *tk);
 t_code	clean_memory(t_code code, t_cmd *cmd, char *line, t_token **tk);
 t_code	error_syntax(t_code code, char el);
 t_code	parse_line(t_cmd **cmd, char *line);
+t_token	*parse_spcl_char(t_code *code, t_cmd **cmd, t_token *tk);
 
 #endif
