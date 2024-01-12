@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/13 00:35:28 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/13 00:37:06 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static t_code	check_tokens(t_token *tk, size_t i)
 t_code	parse_line(t_cmd **cmd, char *line)
 {
 	t_token	*tk;
-	size_t	i;
 
 	printf("%s\n", line);
 	tk = malloc((ft_strlen(line) + 1) * sizeof(t_token));
@@ -97,9 +96,5 @@ t_code	parse_line(t_cmd **cmd, char *line)
 		exit(clean_memory(C_ERR_MEM, *cmd, line, tk));
 	if (!init_tokens(line, tk, -1) && check_tokens(tk, -1))
 		return (clean_memory(C_BAD_USE, *cmd, NULL, tk));
-	i = -1;
-	while (tk[++i].id)
-		printf("%d", tk[i].val);
-	printf("\n");
 	return (clean_memory(C_SUCCES, *cmd, NULL, tk));
 }
