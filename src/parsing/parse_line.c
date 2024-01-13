@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/13 00:39:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/13 17:17:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,17 +89,20 @@ static t_code	check_tokens(t_token *tk, size_t i)
 t_code	parse_line(t_cmd **cmd, char *line)
 {
 	t_token	*tk;
+	t_token	**tks;
 	size_t	i;
 
-	tk = malloc((ft_strlen(line) + 1) * sizeof(t_token));
+	tk = ft_calloc(ft_strlen(line) + 1, sizeof(t_token));
 	if (!tk)
-		exit(clean_memory(C_ERR_MEM, *cmd, line, tk));
+		(clean_memory(*cmd, line, tk, NULL), exit(C_ERR_MEM));
 	if (!init_tokens(line, tk, -1) && check_tokens(tk, -1))
-		return (clean_memory(C_BAD_USE, *cmd, NULL, tk));
+		return (clean_memory(*cmd, NULL, tk, NULL), C_BAD_USE);
 	printf("%s\n", line);
 	i = -1;
 	while (tk[++i].id)
 		printf("%d", tk[i].val);
 	printf("\n");
-	return (clean_memory(C_SUCCES, *cmd, NULL, tk));
+	if (!o_split_tokens(&tks, tk))
+		(clean_memory(*cmd, line, NULL, tks), exit(C_ERR_MEM));
+	return (clean_memory(*cmd, NULL, NULL, tks), C_SUCCES);
 }

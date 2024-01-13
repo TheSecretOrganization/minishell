@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/13 00:39:29 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/13 17:17:28 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,28 @@
 
 /**
  * Free the allocated memory
- * @param code return code
  * @param cmd list of commands to free, nullable
  * @param line line to free, nullable
  * @param tk list of tokens to free, nullable
- * @return t_code
+ * @param tks array of list of tokens to free, nullable
 */
-t_code	clean_memory(t_code code, t_cmd *cmd, char *line, t_token *tk)
+void	clean_memory(t_cmd *cmd, char *line, t_token *tk, t_token **tks)
 {
+	size_t	i;
+
+	i = -1;
 	if (cmd)
 		free_cmd(cmd);
 	if (line)
 		free(line);
 	if (tk)
 		free(tk);
-	return (code);
+	if (tks)
+	{
+		while (tks[++i])
+			free(tks[i]);
+		free(tks);
+	}
 }
 
 /**
