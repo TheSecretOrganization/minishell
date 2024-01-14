@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/13 17:17:29 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/14 00:39:27 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_code	parse_line(t_cmd **cmd, char *line)
 	while (tk[++i].id)
 		printf("%d", tk[i].val);
 	printf("\n");
-	if (!o_split_tokens(&tks, tk))
+	if (!o_split_tokens(&tks, tk, -1))
 		(clean_memory(*cmd, line, NULL, tks), exit(C_ERR_MEM));
 	return (clean_memory(*cmd, NULL, NULL, tks), C_SUCCES);
 }

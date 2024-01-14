@@ -36,6 +36,7 @@ typedef struct s_token
 
 void	clean_memory(t_cmd *cmd, char *line, t_token *tk, t_token **tks);
 t_code	error_syntax(t_code code, char el);
+t_token	**o_split_tokens(t_token ***tks, t_token *tk);
 t_code	parse_line(t_cmd **cmd, char *line);
 
 #endif

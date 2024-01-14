@@ -6,11 +6,72 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/13 17:17:28 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/14 00:53:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+/**
+ * Free an array of lists of tokens
+ * @param tks array to free
+*/
+static void	free_tokens(t_token **tks)
+{
+	size_t	i;
+
+	if (!tks)
+		return ;
+	i = -1;
+	while (tks[++i])
+		free(tks[i]);
+	free(tks);
+}
+
+/**
+ * Find the number of V_OPE tokens
+ * @param tk list of tokens to parse
+ * @return size_t number of V_OPE tokens
+*/
+static size_t	find_nb_cmds(t_token *tk)
+{
+	size_t	nb_cmds;
+
+	if (!tk)
+		return (0);
+	nb_cmds = 1;
+	while (tk.id)
+		if ((tk++).val == V_OPE)
+			nb_cmds++;
+	return (nb_cmds);
+}
+
+/**
+ * Split the tokens on the V_OPE\
+ * @param tks array of tokens to use to store the tokens
+ * @param tk tokens to split, will be free
+ * @param i counter
+ * @return t_token ** or NULL if an error occurs
+*/
+t_token	**o_split_tokens(t_token ***tks, t_token *tk, size_t i)
+{
+	size_t	nb_cmds;
+	size_t	j;
+
+	nb_cmds = find_nb_cmds(tk);
+	*tks = ft_calloc(nb_cmds + 1, sizeof(t_token *));
+	if (!*tks)
+		return (error(C_ERR_MEM, "split_tokens", ERR_MEM), free(tk), NULL);
+	while (++i < nb_cmds)
+	{
+		j = -1;
+		while (tk && tk->val != V_OPE)
+		{
+
+		}
+	}
+	return (free(tk), *tks);
+}
 
 /**
  * Free the allocated memory
@@ -31,11 +92,7 @@ void	clean_memory(t_cmd *cmd, char *line, t_token *tk, t_token **tks)
 	if (tk)
 		free(tk);
 	if (tks)
-	{
-		while (tks[++i])
-			free(tks[i]);
-		free(tks);
-	}
+		free_tokens(tks);
 }
 
 /**
