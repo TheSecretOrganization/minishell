@@ -44,6 +44,8 @@ typedef enum e_code
 	C_GEN,
 	C_BAD_USE,
 	C_MEM,
+	C_NOFILE,
+	C_NOEXEC
 }	t_code;
 
 typedef enum e_type
