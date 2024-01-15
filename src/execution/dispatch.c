@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 12:46:36 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 12:49:47 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,15 @@ static char	*find_path_exec(char *cmd, char **path)
  * @param path environment's path
  * @return exit code
 */
-int	exec_cmd(t_cmd *cmd, char **path)
+int	dispatch_cmd(t_cmd *cmd, char **path)
 {
+	char	*exec;
+	int		pid;
 
+	if (strchr(cmd->args[0], '/'))
+		exec = find_relative_exec(cmd->args[0]);
+	else
+		exec = find_path_exec(cmd->args[0], path);
 	pid = do_exec(exec, cmd->args, NULL, (int []){0, 1});
 	waitpid(pid, NULL, 0);
 	return (0);
