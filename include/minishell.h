@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/12 16:34:15 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 15:49:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,15 @@
 
 # define PROMPT_HEAD "🦖"
 
-# define ERR_GEN "error"
-# define ERR_MEM "memory allocation failled"
+# define M_ERROR "error"
+# define M_MEM "memory allocation failled"
 
 typedef enum e_code
 {
 	C_SUCCES = 0,
-	C_ERR_GEN = 1,
-	C_BAD_USE = 2,
-	C_ERR_MEM = 3
+	C_GEN,
+	C_BAD_USE,
+	C_MEM,
 }	t_code;
 
 typedef enum e_type
