@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 12:49:47 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 14:12:14 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@
 # define E_NOEXEC 1
 # define E_NOFILE 2
 # define E_MEM 3
+
+typedef struct s_exec
+{
+	char	**args;
+	char	*pathname;
+	int		pipes[2];
+	int		infile;
+	int		outfile;
+}	t_exec;
 
 int	dispatch_cmd(t_cmd *cmd, char **path);
 int	do_exec(char *exec, char **args, char **envp, int *fds);
