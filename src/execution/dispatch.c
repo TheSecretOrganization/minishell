@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 12:49:47 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:04:16 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 static char	*find_relative_exec(char *cmd)
 {
 	if (access(cmd, F_OK) == -1)
-		return (errno = E_NOFILE, NULL);
+		return (errno = C_NOFILE, NULL);
 	if (access(cmd, F_OK | X_OK) == -1)
-		return (errno = E_NOEXEC, NULL);
+		return (errno = C_NOEXEC, NULL);
 	return (cmd);
 }
 
@@ -43,17 +43,17 @@ static char	*find_path_exec(char *cmd, char **path)
 	{
 		exec = ft_strjoin(cmd, path[i]);
 		if (!exec)
-			return (errno = E_MEM, NULL);
+			return (errno = C_MEM, NULL);
 		if (access(exec, F_OK) == -1)
 		{
 			free(exec);
 			continue ;
 		}
 		if (access(exec, F_OK | X_OK) == -1)
-			return (free(exec), errno = E_NOEXEC, NULL);
+			return (free(exec), errno = C_NOEXEC, NULL);
 		return (exec);
 	}
-	return (free(exec), errno = E_NOFILE, NULL);
+	return (free(exec), errno = C_NOFILE, NULL);
 }
 
 /**

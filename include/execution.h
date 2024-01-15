@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 14:12:14 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 16:03:42 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include "minishell.h"
 # include "errno.h"
-
-# define E_NOEXEC 1
-# define E_NOFILE 2
-# define E_MEM 3
 
 typedef struct s_exec
 {
