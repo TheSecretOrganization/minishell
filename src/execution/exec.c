@@ -6,12 +6,26 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 12:13:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 12:46:36 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+/**
+ * Find an executable with a relative path
+ * @param cmd relative path
+ * @return path or NULL
+*/
+static char	*find_relative_exec(char *cmd)
+{
+	if (access(cmd, F_OK) == -1)
+		return (errno = E_NOFILE, NULL);
+	if (access(cmd, F_OK | X_OK) == -1)
+		return (errno = E_NOEXEC, NULL);
+	return (cmd);
+}
 
 /**
  * Find an executable in the path
