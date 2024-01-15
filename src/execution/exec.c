@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/12 14:44:58 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/15 11:00:54 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@
 */
 int	exec_cmd(t_cmd *cmd, char **path)
 {
-	(void)cmd;
-	(void)path;
+	int	pid;
+
+	pid = do_exec(exec, cmd->args, NULL, (int []){0, 1});
+	waitpid(pid, NULL, 0);
 	return (0);
 }
