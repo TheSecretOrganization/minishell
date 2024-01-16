@@ -48,6 +48,7 @@ LIB 		:= $(strip $(LIB))
 define SRC 	:=
 	$(addprefix $(EXEC_DIR)/, child.c)
 	$(addprefix $(EXEC_DIR)/, dispatch.c)
+	$(addprefix $(EXEC_DIR)/, path.c)
 	main.c
 	prompt.c
 	signal.c
