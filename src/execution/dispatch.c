@@ -6,12 +6,22 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 10:26:28 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 10:58:04 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+/**
+ * Free execution
+ * @param exec struct to free
+*/
+static void	free_exec(t_exec exec)
+{
+	free(exec.pathname);
+	ft_fsplit(exec.args);
+}
 
 /**
  * Find an executable with a relative path
