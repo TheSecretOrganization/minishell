@@ -72,10 +72,11 @@ int	do_exec(t_exec *exec, char **envp)
 	else if (pid == 0)
 	{
 		if (duplicate_fds(exec->infile, exec->outfile))
-			(perror("redirect error"), exit(254));
+			(perror("redirect error"), close_fds(exec), free_exec(*exec), \
+			exit(254));
 		close_fds(exec);
 		if (execve(exec->pathname, exec->args, envp) == -1)
-			(perror("execution error"), exit(253));
+			(perror("execution error"), free_exec(*exec), exit(253));
 	}
 	return (pid);
 }
