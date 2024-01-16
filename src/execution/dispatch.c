@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 16:04:16 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 10:26:28 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*find_path_exec(char *cmd, char **path)
 	i = -1;
 	while (path[++i])
 	{
-		exec = ft_strjoin(cmd, path[i]);
+		exec = ft_strjoin(path[i], cmd);
 		if (!exec)
 			return (errno = C_MEM, NULL);
 		if (access(exec, F_OK) == -1)
@@ -53,7 +53,7 @@ static char	*find_path_exec(char *cmd, char **path)
 			return (free(exec), errno = C_NOEXEC, NULL);
 		return (exec);
 	}
-	return (free(exec), errno = C_NOFILE, NULL);
+	return (errno = C_NOFILE, NULL);
 }
 
 /**
