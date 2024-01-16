@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 10:34:07 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 10:38:12 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ static void	close_fds(t_exec *exec)
 		(close(exec->pipes[0]), exec->pipes[0] = -1);
 	if (exec->pipes[1] != -1)
 		(close(exec->pipes[1]), exec->pipes[1] = -1);
+}
+
+/**
+ * Free execution
+ * @param exec struct to free
+*/
+static void	free_exec(t_exec exec)
+{
+	free(exec.pathname);
+	ft_fsplit(exec.args);
 }
 
 /**
