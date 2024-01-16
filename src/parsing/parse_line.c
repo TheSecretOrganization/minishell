@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/14 00:39:27 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:57:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,16 @@ static t_code	init_tokens(char *line, t_token *tk, size_t i)
 /**
  * Assign the tokens their final values
  * @param tk tokens to check
- * @param i counter
  * @return t_code C_SUCCES or C_BAD_USAGE
 */
-static t_code	check_tokens(t_token *tk, size_t i)
+static t_code	check_tokens(t_token *tk)
 {
 	size_t	nb[2];
+	size_t	i;
 
 	nb[0] = 0;
 	nb[1] = 0;
+	i = -1;
 	while (tk[++i].id)
 	{
 		if (!(nb[0] % 2) && !(nb[1] % 2) && tk[i].val == V_ERROR)
@@ -90,19 +91,13 @@ t_code	parse_line(t_cmd **cmd, char *line)
 {
 	t_token	*tk;
 	t_token	**tks;
-	size_t	i;
 
 	tk = ft_calloc(ft_strlen(line) + 1, sizeof(t_token));
 	if (!tk)
-		(clean_memory(*cmd, line, tk, NULL), exit(C_ERR_MEM));
-	if (!init_tokens(line, tk, -1) && check_tokens(tk, -1))
+		(clean_memory(*cmd, line, tk, NULL), exit(C_MEM));
+	if (!init_tokens(line, tk, -1) && check_tokens(tk))
 		return (clean_memory(*cmd, NULL, tk, NULL), C_BAD_USE);
-	printf("%s\n", line);
-	i = -1;
-	while (tk[++i].id)
-		printf("%d", tk[i].val);
-	printf("\n");
-	if (!o_split_tokens(&tks, tk, -1))
-		(clean_memory(*cmd, line, NULL, tks), exit(C_ERR_MEM));
-	return (clean_memory(*cmd, NULL, NULL, tks), C_SUCCES);
+	if (!o_split_tokens(&tks, tk))
+		(clean_memory(*cmd, line, tk, tks), exit(C_MEM));
+	return (clean_memory(*cmd, NULL, tk, tks), C_SUCCES);
 }
