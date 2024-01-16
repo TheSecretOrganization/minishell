@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 15:49:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 08:52:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 
 typedef enum e_code
 {
-	C_SUCCES = 0,
+	C_SUCCESS = 0,
 	C_GEN,
 	C_BAD_USE,
 	C_MEM,
