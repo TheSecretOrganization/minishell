@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 10:59:51 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 11:00:32 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ int	dispatch_cmd(t_cmd *cmd, char **path)
 	}
 	pid = do_exec(&exec, NULL);
 	waitpid(pid, NULL, 0);
+	free_exec(exec);
 	return (0);
 }
