@@ -57,6 +57,29 @@ static char	*find_path_exec(char *cmd, char **path)
 }
 
 /**
+ * Init the exec structure
+ * @param exec structure to init
+ * @param cmd cmd to init from
+ * @param path the path
+ * @return SUCCESS 
+*/
+static int	init_exec(t_exec *exec, t_cmd cmd, char **path)
+{
+	exec->args = cmd.args;
+	if (ft_strchr(exec->args[0], '/'))
+		exec->pathname = find_relative_exec(exec->args[0]);
+	else
+		exec->pathname = find_path_exec(exec->args[0], path);
+	if (!exec->pathname)
+		return (C_GEN);
+	exec->infile = -1;
+	exec->outfile = -1;
+	exec->pipes[0] = -1;
+	exec->pipes[1] = -1;
+	return (C_SUCCESS);
+}
+
+/**
  * Execute a command
  * @param cmd command to execute
  * @param path environment's path
@@ -64,14 +87,17 @@ static char	*find_path_exec(char *cmd, char **path)
 */
 int	dispatch_cmd(t_cmd *cmd, char **path)
 {
-	char	*exec;
+	t_exec	exec;
 	int		pid;
 
-	if (strchr(cmd->args[0], '/'))
-		exec = find_relative_exec(cmd->args[0]);
-	else
-		exec = find_path_exec(cmd->args[0], path);
-	pid = do_exec(exec, cmd->args, NULL, (int []){0, 1});
+	if (init_exec(&exec, *cmd, path) == C_GEN)
+	{
+		if (errno == C_NOEXEC)
+			return (printf("No permission\n"), 127);
+		else if (errno == C_NOFILE)
+			return (printf("Not found\n"), 126);
+	}
+	pid = do_exec(&exec, NULL);
 	waitpid(pid, NULL, 0);
 	return (0);
 }
