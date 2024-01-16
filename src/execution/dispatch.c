@@ -6,14 +6,14 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 16:29:14 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 16:33:05 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-static void *find_element(t_cmd cmd, t_type type)
+static void	*find_element(t_cmd cmd, t_type type)
 {
 	size_t	i;
 
