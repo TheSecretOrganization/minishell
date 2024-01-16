@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 09:40:25 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 10:34:07 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ static void	close_fds(t_exec *exec)
 		(close(exec->pipes[1]), exec->pipes[1] = -1);
 }
 
+/**
+ * Duplicate fds to stdin and stdout
+ * @param infd fd to duplicate to stdin
+ * @param outfd fd to duplicate to stdout
+ * @return 0 or 1 if error
+*/
 static int	duplicate_fds(int infd, int outfd)
 {
 	if (infd == -1)
