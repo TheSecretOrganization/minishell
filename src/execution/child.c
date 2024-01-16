@@ -6,11 +6,37 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/15 11:06:52 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 09:40:25 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+/**
+ * Close all opened fds
+ * @param exec current exec status
+*/
+static void	close_fds(t_exec *exec)
+{
+	if (exec->infile != -1)
+		(close(exec->infile), exec->infile = -1);
+	if (exec->outfile != -1)
+		(close(exec->outfile), exec->outfile = -1);
+	if (exec->pipes[0] != -1)
+		(close(exec->pipes[0]), exec->pipes[0] = -1);
+	if (exec->pipes[1] != -1)
+		(close(exec->pipes[1]), exec->pipes[1] = -1);
+}
+
+static int	duplicate_fds(int infd, int outfd)
+{
+	if (infd == -1)
+		infd = 0;
+	if (outfd == -1)
+		outfd = 1;
+	return (dup2(infd, STDIN_FILENO) == -1
+		|| dup2(outfd, STDOUT_FILENO) == -1);
+}
 
 /**
  * Execute the command with the args and the env, redirect input and output
