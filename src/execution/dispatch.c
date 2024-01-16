@@ -6,12 +6,57 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 16:27:52 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 16:29:14 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+static void *find_element(t_cmd cmd, t_type type)
+{
+	size_t	i;
+
+	i = -1;
+	while (cmd.elements[++i])
+	{
+		if (cmd.elements[i]->type == type)
+			return (cmd.elements[i]->value);
+	}
+	return (NULL);
+}
+
+/**
+ * Read redirections from command and set it to exec
+ * @param cmd command from wich read redirections
+ * @param exec where to store opened fds
+ * @result C_SUCCESS or C_GEN when error
+*/
+static int	init_redirect(t_cmd *cmd, t_exec *exec)
+{
+	void	*element;
+
+	element = find_element(*cmd, T_INFILE);
+	if (element != NULL)
+	{
+		exec->infile = open(element, O_RDONLY);
+		if (exec->infile == -1)
+			return (perror(element), C_GEN);
+	}
+	element = find_element(*cmd, T_OUTFILE);
+	if (element != NULL)
+	{
+		exec->outfile = open(element, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (exec->outfile == -1)
+		{
+			perror(element);
+			if (exec->infile != -1)
+				close(exec->infile);
+			return (C_GEN);
+		}
+	}
+	return (C_SUCCESS);
+}
 
 /**
  * Free execution
@@ -64,6 +109,8 @@ int	dispatch_cmd(t_cmd *cmd, char **path)
 		else if (errno == C_NOFILE)
 			return (printf("Not found\n"), 126);
 	}
+	if (init_redirect(cmd, &exec) == C_GEN)
+		return (-1);
 	pid = do_exec(&exec, NULL);
 	waitpid(pid, NULL, 0);
 	free(exec.pathname);
