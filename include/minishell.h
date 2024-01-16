@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 08:52:53 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/16 14:24:33 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,23 @@ typedef enum e_type
 	T_PIPE_OR = 6
 }	t_type;
 
+typedef enum e_open_type
+{
+	TRUNCATE = 1,
+	APPEND
+}	t_open_type;
+
 typedef struct s_element
 {
 	t_type	type;
 	void	*value;
 }	t_element;
+
+typedef struct s_redirect
+{
+	char		*filename;
+	t_open_type	otype;
+}	t_redirect;
 
 typedef struct s_cmd
 {
