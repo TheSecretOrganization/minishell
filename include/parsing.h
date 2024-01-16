@@ -39,5 +39,6 @@ t_code	error_syntax(t_code code, char el);
 void	free_tokens(t_token **tks);
 t_token	**o_split_tokens(t_token ***tks, t_token *tk);
 t_code	parse_line(t_cmd **cmd, char *line);
+void	print_tokens(t_token *tk);
 
 #endif
