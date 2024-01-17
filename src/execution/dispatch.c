@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 16:33:05 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:14:49 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,11 @@ static int	init_exec(t_exec *exec, t_cmd cmd, char **path)
 		return (C_GEN);
 	exec->infile = -1;
 	exec->outfile = -1;
-	exec->pipes[0] = -1;
-	exec->pipes[1] = -1;
+	if (exec->pipes[0] == -1 && exec->pipes[1] == -1)
+	{
+		exec->pipes[0] = -1;
+		exec->pipes[1] = -1;
+	}
 	return (C_SUCCESS);
 }
 
