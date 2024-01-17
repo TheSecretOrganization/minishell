@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 08:02:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/16 17:00:20 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:51:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ static size_t	find_nb_cmds(t_token *tk)
 		return (0);
 	nb_cmds = 1;
 	while (tk->id)
-		if ((tk++)->val == V_OPE)
-			nb_cmds++;
+	{
+		if ((tk++)->val == V_OPE && ++nb_cmds)
+			while (tk->id && tk->val == V_OPE)
+				tk++;
+	}
 	return (nb_cmds);
 }
 
@@ -35,7 +38,11 @@ static t_token	*get_next_ope_index(t_token *tk)
 	while (tk && tk->id)
 	{
 		if (tk->val == V_OPE)
-			return (*(tk->id) = '\0', tk);
+		{
+			while (tk && tk->val == V_OPE)
+				tk++;
+			return (tk - 1);
+		}
 		tk++;
 	}
 	return (tk);
@@ -51,12 +58,11 @@ static t_token	*sub_tokens(t_token *start, t_token *end)
 	len = end - start;
 	dup = ft_calloc(len + 1, sizeof(t_token));
 	if (!dup)
-		return (NULL);
+		return (error(C_MEM, "sub_tokens", M_MEM), NULL);
 	while (++i < len)
 	{
 		dup[i].id = start->id;
-		dup[i].val = start->val;
-		start++;
+		dup[i].val = (start++)->val;
 	}
 	return (dup);
 }
@@ -73,37 +79,40 @@ void	free_tokens(t_token **tks)
 		return ;
 	i = -1;
 	while (tks[++i])
-		free(tks[i]);
-	free(tks);
+		(free(tks[i]), tks[i] = NULL);
+	(free(tks), tks = NULL);
 }
 
 /**
  * Split the tokens on the V_OPE\
  * @param tks array of tokens to use to store the tokens
  * @param tk tokens to split
- * @return t_token ** or NULL if an error occurs
+ * @param line line to free if an error occurs
+ * @return t_code C_SUCCESS or an error
 */
-t_token	**o_split_tokens(t_token ***tks, t_token *tk)
+t_code	o_split_tokens(t_token ***tks, t_token *tk, char *line)
 {
-	size_t	nb_cmds;
 	size_t	i;
+	size_t	nb_cmds;
 	t_token	*next;
 
-	nb_cmds = find_nb_cmds(tk);
 	i = -1;
+	nb_cmds = find_nb_cmds(tk);
+	if (!nb_cmds)
+		return (C_BAD_USE);
 	*tks = ft_calloc(nb_cmds + 1, sizeof(t_token *));
 	if (!*tks)
-		return (error(C_MEM, "split_tokens", M_MEM), NULL);
+		(clean_memory(NULL, line, tk, *tks), \
+		exit(error(C_MEM, "o_split_tokens", M_MEM)));
 	while (++i < nb_cmds)
 	{
 		next = get_next_ope_index(tk);
 		(*tks)[i] = sub_tokens(tk, next);
 		if (!(*tks)[i])
-			return (error(C_MEM, "sub_tokens", M_MEM), free_tokens(*tks), NULL);
+			(clean_memory(NULL, line, tk, *tks), exit(C_MEM));
+		tk = NULL;
 		if (next)
 			tk = next + 1;
-		else
-			tk = NULL;
 	}
-	return (*tks);
+	return (C_SUCCESS);
 }
