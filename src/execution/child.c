@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 10:57:58 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/17 13:09:15 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,22 @@ static void	close_fds(t_exec *exec)
  * @param outfd fd to duplicate to stdout
  * @return 0 or 1 if error
 */
-static int	duplicate_fds(int infd, int outfd)
+static int	duplicate_fds(t_exec exec)
 {
-	if (infd == -1)
+	int	infd;
+	int	outfd;
+
+	if (exec.pipes[0] != -1)
+		infd = exec.pipes[0];
+	else if (exec.infile != -1)
+		infd = exec.infile;
+	else
 		infd = 0;
-	if (outfd == -1)
+	if (exec.pipes[1] != -1)
+		outfd = exec.pipes[1];
+	else if (exec.outfile != -1)
+		outfd = exec.outfile;
+	else
 		outfd = 1;
 	return (dup2(infd, STDIN_FILENO) == -1
 		|| dup2(outfd, STDOUT_FILENO) == -1);
@@ -61,7 +72,7 @@ int	do_exec(t_exec *exec, char **envp)
 		return (perror("fork"), -1);
 	else if (pid == 0)
 	{
-		if (duplicate_fds(exec->infile, exec->outfile))
+		if (duplicate_fds(*exec))
 			(perror("redirect error"), close_fds(exec), free_exec(*exec), \
 			exit(254));
 		close_fds(exec);
