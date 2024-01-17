@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/16 16:56:18 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/17 14:32:16 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	clean_memory(t_cmd *cmd, char *line, t_token *tk, t_token **tks)
 	if (cmd)
 		free_cmd(cmd);
 	if (line)
-		free(line);
+		(free(line), line = NULL);
 	if (tk)
-		free(tk);
+		(free(tk), tk = NULL);
 	if (tks)
 		free_tokens(tks);
 }
@@ -38,14 +38,22 @@ void	clean_memory(t_cmd *cmd, char *line, t_token *tk, t_token **tks)
  * Write error statement to stderr
  * @param code exit code to return
  * @param el element which caused the error, nullable
+ * @param n number of char from el to print
  * @return t_code error code
 */
-t_code	error_syntax(t_code code, char el)
+t_code	error_syntax(t_code code, char *el, size_t n)
 {
+	size_t	i;
+
+	i = -1;
 	ft_putstr_fd(PROMPT_HEAD":", STDERR_FILENO);
 	if (el)
-		ft_dprintf(STDERR_FILENO, \
-		" syntax error near unexpected token `%c'", el);
+	{
+		ft_putstr_fd(" syntax error near unexpected token `", STDERR_FILENO);
+		while (el && ++i < n)
+			ft_putchar_fd(*(el++), STDERR_FILENO);
+		ft_putchar_fd('\'', STDERR_FILENO);
+	}
 	ft_putchar_fd('\n', STDERR_FILENO);
 	return (code);
 }

@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/17 10:18:27 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/17 15:12:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ int	main(void)
 	line = NULL;
 	cmd = NULL;
 	register_signals();
-	line = ft_strdup("echo \"$PATH test || \" | rev ");
-	if (!line)
-		return (C_MEM);
-	(parse_line(&cmd, line), free(line), free_cmd(cmd));
-	// while (prompt(&line))
-	// {
-	// 	parse_line(&cmd, line);
-	// }
+	// line = ft_strdup("echo \"$PATH test || \" &| rev ");
+	// if (!line)
+	// 	return (C_MEM);
+	// (parse_line(&cmd, line), free_cmd(cmd));
+	while (prompt(&line))
+	{
+		parse_line(&cmd, line);
+	}
 	return (C_SUCCESS);
 }
