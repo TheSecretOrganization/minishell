@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 17:12:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 22:41:50 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ t_code	clean_memory(t_cmd *cmd, char *line, char *args)
 	if (line)
 		(free(line), line = NULL);
 	if (args)
-		free(args);
+		(free(args), args = NULL);
+	return (C_SUCCESS);
 }
 
 /**
