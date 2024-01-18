@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 16:21:39 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 17:12:36 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@
  * @param args struct to free, nullable
  * @return t_code C_SUCCESS
 */
-t_code	clean_memory(t_cmd *cmd, char *line, t_parse *parse)
+t_code	clean_memory(t_cmd *cmd, char *line, char *args)
 {
 	if (cmd)
 		free_cmd(cmd);
 	if (line)
 		(free(line), line = NULL);
-	if (parse)
-	{
-		ft_fsplit(parse->els);
-	}
+	if (args)
+		free(args);
 }
 
 /**
