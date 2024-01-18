@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 14:26:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:21:39 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
  * @param cmd list of commands to free, nullable
  * @param line line to free, nullable
  * @param args struct to free, nullable
+ * @return t_code C_SUCCESS
 */
-void	clean_memory(t_cmd *cmd, char *line, t_parse *parse)
+t_code	clean_memory(t_cmd *cmd, char *line, t_parse *parse)
 {
 	if (cmd)
 		free_cmd(cmd);
