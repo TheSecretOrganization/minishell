@@ -50,6 +50,7 @@ define SRC 	:=
 	$(addprefix $(EXEC_DIR)/, dispatch.c)
 	$(addprefix $(EXEC_DIR)/, path.c)
 	$(addprefix $(EXEC_DIR)/, pathname.c)
+	$(addprefix $(EXEC_DIR)/, utils.c)
 	main.c
 	prompt.c
 	signal.c
