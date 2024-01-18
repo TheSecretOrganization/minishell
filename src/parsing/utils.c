@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 11:17:08 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 14:26:11 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@
  * Free the allocated memory
  * @param cmd list of commands to free, nullable
  * @param line line to free, nullable
- * @param args split line to free, nullable
+ * @param args struct to free, nullable
 */
-void	clean_memory(t_cmd *cmd, char *line, char **args)
+void	clean_memory(t_cmd *cmd, char *line, t_parse *parse)
 {
 	if (cmd)
 		free_cmd(cmd);
 	if (line)
 		(free(line), line = NULL);
-	if (args)
-		(ft_fsplit(args), args = NULL);
+	if (parse)
+	{
+		ft_fsplit(parse->els);
+	}
 }
 
 /**

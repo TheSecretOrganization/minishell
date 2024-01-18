@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 10:52:00 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 13:35:48 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ static t_code	check_syntax(char *line)
 t_code	parse_line(t_cmd **cmd, char *line)
 {
 	if (check_syntax(line))
+		return (C_BAD_USE);
+	if (create_cmd(cmd, line))
 		return (C_BAD_USE);
 	return (C_SUCCESS);
 }

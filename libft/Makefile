@@ -52,6 +52,7 @@ define SRC	:=
 	ft_atol.c
 	ft_bzero.c
 	ft_calloc.c
+	ft_freejoin.c
 	ft_isalnum.c
 	ft_isalpha.c
 	ft_isascii.c
