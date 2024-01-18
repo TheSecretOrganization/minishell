@@ -14,6 +14,7 @@
 
 /**
  * Free execution
+ * TODO: May move to child.c
  * @param exec struct to free
 */
 void	free_exec(t_exec exec)

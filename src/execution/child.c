@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 10:32:43 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:29:26 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,7 @@ int	do_exec(t_exec *exec, char **envp)
 		if (execve(exec->pathname, exec->args, envp) == -1)
 			(perror("execution error"), free_exec(*exec), exit(253));
 	}
+	(close(exec->infile), exec->infile = -1);
+	(close(exec->outfile), exec->outfile = -1);
 	return (pid);
 }
