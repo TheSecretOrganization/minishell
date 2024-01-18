@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/17 14:24:05 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:22:11 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define PARSING_H
 
 # include "minishell.h"
+
+# define CH_ERR "~`#()\\[]{};?!"
+# define CH_OPE "&|"
+# define CH_DIR "<>"
 
 typedef enum e_val
 {

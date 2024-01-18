@@ -6,106 +6,75 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/17 16:11:21 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 10:52:00 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
 /**
- * Tokenize a line
- * @param line line to tokenize
- * @param tk tokens to init
- * @param i counter
- * @return t_code C_SUCCESS
- * */
-static t_code	init_tokens(char *line, t_token *tk, size_t i)
-{
-	while (line[++i])
-	{
-		tk[i].id = &line[i];
-		if (ft_strchr("~`#()\\[]{};?!", line[i]))
-			tk[i].val = V_ERROR;
-		else if (ft_strchr("&|", line[i]))
-			tk[i].val = V_OPE;
-		else if (ft_strchr("<>", line[i]))
-			tk[i].val = V_REDIR;
-		else if (line[i] == '\"')
-			tk[i].val = V_DQUOTE;
-		else if (line[i] == '\'')
-			tk[i].val = V_QUOTE;
-		else if (line[i] == '$')
-			tk[i].val = V_VAR;
-		else if (line[i] == '*')
-			tk[i].val = V_WLDCRD;
-		else if (line[i] == ' ')
-			tk[i].val = V_SEP;
-		else
-			tk[i].val = V_CHAR;
-	}
-	tk[i].id = NULL;
-	tk[i].val = -1;
-	return (C_SUCCESS);
-}
-
-/**
- * Deal with V_OPE tokens errors
+ * Print syntax error for a special char error
  * @param code error code to return
- * @param tk tokens to compute
+ * @param line line that was parsed
  * @return t_code error code
 */
-static t_code	error_ope(t_code code, t_token *tk)
+static t_code	error_ope(t_code code, char *line)
 {
-	if (!tk)
+	if (!line)
 		return (code);
-	if (tk + 1 && (tk + 1)->val == V_OPE)
-		if (*tk->id == '|' || *(tk + 1)->id == '&')
-			return (error_syntax(code, tk->id, 2));
-	return (error_syntax(code, tk->id, 1));
+	if (line + 1 && ft_strchr(CH_OPE, *(line + 1)) && \
+	(*line == '|' || *(line + 1) == '&'))
+		return (error_syntax(code, line, 2));
+	return (error_syntax(code, line, 1));
 }
 
 /**
- * Check the syntax of the V_OPE tokens
- * @param tk tokens to check
+ * Check the syntax for special chars
+ * @param line
  * @return t_code C_SUCCESS or C_BAD_USAGE
 */
-static t_code	check_ope(t_token **tk, size_t *x)
+static t_code	check_ope(char **line)
 {
-	while (tk && *tk && (*tk)->val == V_OPE)
+	char	c;
+	size_t	i;
+
+	c = **line;
+	i = 0;
+	while (*line && **line && ft_strchr(CH_OPE, **line) && ++i < 3)
 	{
-		if (!*x)
-			return (error_ope(C_BAD_USE, *tk));
+		if (c == '&' && **line != c)
+			return (error_ope(C_BAD_USE, *line));
+		(*line)++;
 	}
-	return (*x = 0, C_SUCCESS);
+	if (i >= 3)
+		return (error_ope(C_BAD_USE, *line));
+	return ((*line)--, C_SUCCESS);
 }
 
 /**
- * Assign the tokens their final values
- * @param tk tokens to check
- * @param nq number of quotes
- * @param nd number of double quotes
- * @param x syntax checker
- * @return t_code C_SUCCESS or C_BAD_USAGE
+ * Check bash syntax in one line
+ * @param line line to check
+ * @return t_code C_SUCCESS or C_BAD_USE
 */
-static t_code	check_tokens(t_token *tk, size_t nq, size_t nd, size_t x)
+static t_code	check_syntax(char *line)
 {
-	while (tk->id)
+	size_t	nq;
+	size_t	nd;
+
+	nq = 0;
+	nd = 0;
+	while (line && *line)
 	{
-		if (!(nq % 2) && !(nd % 2) && tk->val == V_ERROR)
-			return (error_syntax(C_BAD_USE, &(*tk->id), 1));
-		else if ((nq % 2 && tk->val != V_QUOTE) || \
-		(nd % 2 && tk->val != V_DQUOTE && tk->val != V_VAR))
-			tk->val = V_CHAR;
-		else if (tk->val == V_VAR && (tk + 1)->id && (tk + 1)->val == V_CHAR)
-			(tk + 1)->val = V_VAR;
-		if ((tk->val == V_QUOTE && ++(nq)) || \
-		(tk->val == V_DQUOTE && ++(nd)))
-			;
-		if (tk->val == V_CHAR || tk->val == V_VAR)
-			x++;
-		if (tk->val == V_OPE && check_ope(&tk, &x))
+		if (*line == '\'' && !(nd % 2))
+			nq++;
+		if (*line == '\"' && !(nq % 2))
+			nd++;
+		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, *line))
+			return (error_syntax(C_BAD_USE, line, 1));
+		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_OPE, *line) \
+		&& check_ope(&line))
 			return (C_BAD_USE);
-		tk++;
+		line++;
 	}
 	if (nq % 2)
 		return (error_syntax(C_BAD_USE, "\'", 1));
@@ -122,19 +91,7 @@ static t_code	check_tokens(t_token *tk, size_t nq, size_t nd, size_t x)
 */
 t_code	parse_line(t_cmd **cmd, char *line)
 {
-	t_token	**tks;
-	t_token	*tk;
-
-	tks = NULL;
-	tk = ft_calloc(ft_strlen(line) + 1, sizeof(t_token));
-	if (!tk)
-		(free(line), exit(error(C_MEM, "ft_calloc", M_MEM)));
-	if (!init_tokens(line, tk, -1) && check_tokens(tk, 0, 0, 0))
-		return (clean_memory(*cmd, line, tk, tks), C_BAD_USE);
-	if (o_split_tokens(&tks, tk, line))
-		return (clean_memory(*cmd, line, tk, tks), C_BAD_USE);
-	free(tk);
-	if (create_cmds(cmd, tks, line))
-		return (clean_memory(*cmd, line, NULL, tks), C_BAD_USE);
-	return (clean_memory(NULL, line, NULL, tks), C_SUCCESS);
+	if (check_syntax(line))
+		return (C_BAD_USE);
+	return (C_SUCCESS);
 }
