@@ -6,25 +6,12 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 14:11:19 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:07:09 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
-
-static void	*find_element(t_cmd cmd, t_type type)
-{
-	size_t	i;
-
-	i = -1;
-	while (cmd.elements[++i])
-	{
-		if (cmd.elements[i]->type == type)
-			return (cmd.elements[i]->value);
-	}
-	return (NULL);
-}
 
 /**
  * Read redirections from command and set it to exec
@@ -63,37 +50,6 @@ static int	init_redirect(t_cmd *cmd, t_exec *exec)
 }
 
 /**
- * Free execution
- * @param exec struct to free
-*/
-void	free_exec(t_exec exec)
-{
-	free(exec.pathname);
-	ft_fsplit(exec.args);
-}
-
-/**
- * Init the exec structure
- * @param exec structure to init
- * @param cmd cmd to init from
- * @param path the path
- * @return SUCCESS 
-*/
-static int	init_exec(t_exec *exec, t_cmd cmd, char **path)
-{
-	exec->args = cmd.args;
-	if (exec->pathname)
-		free(exec->pathname);
-	if (ft_strchr(exec->args[0], '/'))
-		exec->pathname = find_relative_exec(exec->args[0]);
-	else
-		exec->pathname = find_path_exec(exec->args[0], path);
-	if (!exec->pathname)
-		return (C_GEN);
-	return (C_SUCCESS);
-}
-
-/**
  * Execute a command
  * @param cmd command to execute
  * @param path environment's path
@@ -117,7 +73,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path)
 				return (-1);
 			exec.outfile = exec.pipes[1];
 		}
-		if (init_exec(&exec, *cmd, path) == C_GEN)
+		if (fill_exec(&exec, *cmd, path) == C_GEN)
 		{
 			if (errno == C_NOEXEC)
 				return (printf("No permission\n"), 127);

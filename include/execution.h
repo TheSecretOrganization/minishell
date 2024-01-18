@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 16:25:58 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:09:30 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ char	*find_relative_exec(char *cmd);
 char	*find_path_exec(char *cmd, char **path);
 char	**get_path(void);
 void	free_exec(t_exec exec);
+int		fill_exec(t_exec *exec, t_cmd cmd, char **path);
+void	*find_element(t_cmd cmd, t_type type);
 
 #endif
