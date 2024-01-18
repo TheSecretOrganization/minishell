@@ -47,9 +47,7 @@ endef
 LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
-	$(addprefix $(PARSING_DIR)/, create_cmds.c \
-	o_split_tokens.c \
-	parse_line.c \
+	$(addprefix $(PARSING_DIR)/, parse_line.c \
 	utils.c)
 	main.c
 	prompt.c

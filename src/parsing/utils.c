@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/17 14:32:16 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 11:17:08 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,16 @@
  * Free the allocated memory
  * @param cmd list of commands to free, nullable
  * @param line line to free, nullable
- * @param tk list of tokens to free, nullable
- * @param tks array of list of tokens to free, nullable
+ * @param args split line to free, nullable
 */
-void	clean_memory(t_cmd *cmd, char *line, t_token *tk, t_token **tks)
+void	clean_memory(t_cmd *cmd, char *line, char **args)
 {
-	size_t	i;
-
-	i = -1;
 	if (cmd)
 		free_cmd(cmd);
 	if (line)
 		(free(line), line = NULL);
-	if (tk)
-		(free(tk), tk = NULL);
-	if (tks)
-		free_tokens(tks);
+	if (args)
+		(ft_fsplit(args), args = NULL);
 }
 
 /**
@@ -56,18 +50,4 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 	}
 	ft_putchar_fd('\n', STDERR_FILENO);
 	return (code);
-}
-
-/**
- * Print a list of tokens
- * @param tk list to print
-*/
-void	print_tokens(t_token *tk)
-{
-	size_t	i;
-
-	i = -1;
-	while (tk[++i].id)
-		printf("%d", tk[i].val);
-	printf("\n");
 }
