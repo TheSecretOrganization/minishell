@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 15:04:01 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 15:10:20 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,17 @@ t_element	*new_element(t_type type, void *value)
 t_code	addback_cmd(t_cmd *cmd, t_element *el)
 {
 	size_t		i;
-	t_element	*tmp;
+	t_element	**tmp;
 
 	i = -1;
 	while (cmd->elements[i])
 		i++;
-	tmp = ft_calloc(i + 2, sizeof(t_element));
+	tmp = ft_calloc(i + 2, sizeof(t_element *));
 	if (!tmp)
 		return (C_MEM);
 	i = -1;
 	while (cmd->elements[++i])
-		tmp[i] = cmd->elements[++i];
+		tmp[i] = cmd->elements[i];
 	(free(cmd->elements), tmp[i] = el);
 	return (cmd->elements = tmp, C_SUCCESS);
 }
