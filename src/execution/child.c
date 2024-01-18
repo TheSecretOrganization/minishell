@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/17 13:09:15 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/18 10:32:43 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,11 @@ static int	duplicate_fds(t_exec exec)
 	int	infd;
 	int	outfd;
 
-	if (exec.pipes[0] != -1)
-		infd = exec.pipes[0];
-	else if (exec.infile != -1)
+	if (exec.infile != -1)
 		infd = exec.infile;
 	else
 		infd = 0;
-	if (exec.pipes[1] != -1)
-		outfd = exec.pipes[1];
-	else if (exec.outfile != -1)
+	if (exec.outfile != -1)
 		outfd = exec.outfile;
 	else
 		outfd = 1;
