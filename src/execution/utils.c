@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 15:09:23 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:31:44 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
 	exec->args = cmd.args;
 	if (exec->pathname)
-		free_exec(exec->pathname);
+		free(exec->pathname);
 	if (ft_strchr(exec->args[0], '/'))
 		exec->pathname = find_relative_exec(exec->args[0]);
 	else
