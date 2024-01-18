@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 15:20:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/18 16:06:46 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ t_element	*new_element(t_type type, void *value)
 {
 	t_element	*el;
 
+	if (!value)
+		return (NULL);
 	el = ft_calloc(1, sizeof(t_element));
 	if (!el)
 		return (NULL);
@@ -79,15 +81,17 @@ t_element	*new_element(t_type type, void *value)
 /**
  * Add a new element to cmd's element array
  * @param cmd
- * @return t_code C_SUCCESS or C_MEM
+ * @return t_code C_SUCCESS or an error
 */
 t_code	addback_cmd(t_cmd *cmd, t_element *el)
 {
 	size_t		i;
 	t_element	**tmp;
 
-	i = -1;
-	while (cmd->elements[i])
+	i = 0;
+	if (!cmd || !el)
+		return (C_BAD_USE);
+	while (cmd->elements && cmd->elements[i])
 		i++;
 	tmp = ft_calloc(i + 2, sizeof(t_element *));
 	if (!tmp)
@@ -95,6 +99,7 @@ t_code	addback_cmd(t_cmd *cmd, t_element *el)
 	i = -1;
 	while (cmd->elements[++i])
 		tmp[i] = cmd->elements[i];
-	(free(cmd->elements), tmp[i] = el);
-	return (cmd->elements = tmp, C_SUCCESS);
+	(free(cmd->elements[i]), tmp[i] = el);
+	(free(cmd->elements), cmd->elements = tmp);
+	return (C_SUCCESS);
 }
