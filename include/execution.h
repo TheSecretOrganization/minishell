@@ -33,5 +33,6 @@ char	**get_path(void);
 void	free_exec(t_exec exec);
 int		fill_exec(t_exec *exec, t_cmd cmd, char **path);
 void	*find_element(t_cmd cmd, t_type type);
+void	init_exec(t_exec *exec);
 
 #endif

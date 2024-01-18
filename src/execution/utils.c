@@ -22,6 +22,15 @@ void	free_exec(t_exec exec)
 	ft_fsplit(exec.args);
 }
 
+void	init_exec(t_exec *exec)
+{
+	exec->pathname = NULL;
+	exec->infile = -1;
+	exec->outfile = -1;
+	exec->pipes[0] = -1;
+	exec->pipes[1] = -1;
+}
+
 /**
  * Init the exec structure
  * @param exec structure to init
