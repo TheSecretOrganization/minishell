@@ -6,27 +6,11 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/18 13:35:48 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/19 14:36:18 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-/**
- * Print syntax error for a special char error
- * @param code error code to return
- * @param line line that was parsed
- * @return t_code error code
-*/
-static t_code	error_ope(t_code code, char *line)
-{
-	if (!line)
-		return (code);
-	if (line + 1 && ft_strchr(CH_OPE, *(line + 1)) && \
-	(*line == '|' || *(line + 1) == '&'))
-		return (error_syntax(code, line, 2));
-	return (error_syntax(code, line, 1));
-}
 
 /**
  * Check the syntax for special chars
@@ -40,14 +24,21 @@ static t_code	check_ope(char **line)
 
 	c = **line;
 	i = 0;
-	while (*line && **line && ft_strchr(CH_OPE, **line) && ++i < 3)
+	while (*line && **line && ft_strchr(CH_OPE, **line) && ++i)
 	{
-		if (c == '&' && **line != c)
-			return (error_ope(C_BAD_USE, *line));
+		if (i <= 2 && **line != c)
+			return (error_syntax(C_BAD_USE, *line, 1));
 		(*line)++;
 	}
-	if (i >= 3)
-		return (error_ope(C_BAD_USE, *line));
+	if ((c == '&' && i == 1) || i == 3)
+		return (error_syntax(C_BAD_USE, *line - 1, 1));
+	else if (i > 3)
+	{
+		*line -= (i - 2);
+		if (**line == '|' || **line == *(*line + 1))
+			return (error_syntax(C_BAD_USE, *line, 2));
+		return (error_syntax(C_BAD_USE, *line, 1));
+	}
 	return ((*line)--, C_SUCCESS);
 }
 
@@ -91,6 +82,8 @@ static t_code	check_syntax(char *line)
 */
 t_code	parse_line(t_cmd **cmd, char *line)
 {
+	if (!line || !*line)
+		return (C_SUCCESS);
 	if (check_syntax(line))
 		return (C_BAD_USE);
 	if (create_cmd(cmd, line))
