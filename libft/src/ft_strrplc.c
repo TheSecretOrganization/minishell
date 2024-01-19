@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 13:05:44 by averin            #+#    #+#             */
-/*   Updated: 2024/01/19 14:03:14 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/19 14:04:41 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,22 @@ char	*ft_strrplc(char *from, char *td, char *tr)
 	from += td_len;
 	while (*from)
 		str[++i] = *(from++);
+	return (str);
+}
+
+/**
+ * Replace the string `td` in the string `from` by the string `tr`
+ * and free `from`
+ * @param from the string in wich replace and that will be freed
+ * @param td the string to delete
+ * @param tr the string to replace by
+ * @return a new freeable string or NULL
+*/
+char	*ft_fstrrplc(char *from, char *td, char *tr)
+{
+	char	*str;
+
+	str = ft_strrplc(from, td, tr);
+	free(from);
 	return (str);
 }
