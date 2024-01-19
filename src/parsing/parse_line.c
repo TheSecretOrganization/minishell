@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/19 15:48:34 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:04:48 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ static t_code	check_syntax(char *line)
 			nd++;
 		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, *line))
 			return (error_syntax(C_BAD_USE, line, 1));
-		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_OPE, *line) \
-		&& check_ope(&line))
+		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_OPE, *line)
+			&& check_ope(&line))
 			return (C_BAD_USE);
 		line++;
 	}

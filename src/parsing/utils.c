@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/19 15:37:31 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/19 16:04:38 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,8 @@ char	*find_next_sep(char *line)
 {
 	while (line && *line)
 	{
-		if (ft_strchr(CH_DIR, *line) || ft_strchr(CH_OPE, *line) \
-		|| *line == ' ')
+		if (ft_strchr(CH_DIR, *line) || ft_strchr(CH_OPE, *line)
+			|| *line == ' ')
 			return (line);
 		line++;
 	}
