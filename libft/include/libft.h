@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 09:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/01/04 23:47:03 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/19 13:13:31 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 char	*ft_strcut(char *str, char delimiter);
+char	*ft_strrplc(char *from, char *td, char *tr);
 
 int		ft_atoi(const char *nptr);
 long	ft_atol(const char *nptr);
