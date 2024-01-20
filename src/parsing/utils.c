@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/19 16:04:38 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:37:37 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,14 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 	size_t	i;
 
 	i = -1;
-	ft_putstr_fd(PROMPT_HEAD":", STDERR_FILENO);
+	ft_putstr_fd(PROMPT_HEAD": syntax error near unexpected token `", \
+	STDERR_FILENO);
 	if (el)
-	{
-		ft_putstr_fd(" syntax error near unexpected token `", STDERR_FILENO);
-		while (el && ++i < n)
+		while (*el && ++i < n)
 			ft_putchar_fd(*(el++), STDERR_FILENO);
-		ft_putchar_fd('\'', STDERR_FILENO);
-	}
-	ft_putchar_fd('\n', STDERR_FILENO);
+	else
+		ft_putstr_fd("newline", STDERR_FILENO);
+	ft_putendl_fd("\'", STDERR_FILENO);
 	return (code);
 }
 
