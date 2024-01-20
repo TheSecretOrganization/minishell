@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_abs.c                                       :+:      :+:    :+:   */
+/*   create_ast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/19 15:49:34 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/20 12:49:11 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ static void	print_abs(t_cmd *cmd)
 }
 
 /**
- * Create the ABS
- * @param cmd pointer to the root of the ABS
+ * Create the AST of commands
+ * @param cmd pointer to the root of the AST
  * @param line line to parse
  * @return t_code C_SUCCESS or an error
 */
-t_code	create_abs(t_cmd **cmd, char *line)
+t_code	create_ast(t_cmd **cmd, char *line)
 {
 	char	*j_args;
 	char	*next;

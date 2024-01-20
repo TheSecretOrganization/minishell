@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/19 15:37:45 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/20 12:48:54 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define CH_DIR "<>"
 
 t_code	clean_memory(t_cmd *cmd, char *line, char *args);
-t_code	create_abs(t_cmd **cmd, char *line);
+t_code	create_ast(t_cmd **cmd, char *line);
 t_code	error_syntax(t_code code, char *el, size_t n);
 char	*find_next_sep(char *line);
 char	*fspace_njoin(char *s1, char *s2, size_t n);
