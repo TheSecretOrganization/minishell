@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/20 12:49:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/20 14:06:37 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,18 @@ static t_code	split_args(t_cmd	**target, char **join_args)
 static t_code	add_ope(t_cmd **target, char *line, size_t *i)
 {
 	t_cmd	*tmp;
-	t_bool	same;
 	t_type	type;
+	t_bool	same;
 
 	tmp = NULL;
+	type = T_PIPE;
 	same = B_FALSE;
 	if (line[*i] == line[*i + 1])
 		same = B_TRUE;
-	type = T_PIPE + same;
-	if (same && line[*i] == '|')
-		type++;
+	if (same && line[*i] == '&')
+		type = T_PIPE_AND;
+	else if (same && line[*i] == '|')
+		type = T_PIPE_OR;
 	if (o_init_cmd(&tmp))
 		return (C_MEM);
 	if (addback_cmd(*target, new_element(type, tmp)))
