@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/20 16:45:42 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/21 18:16:24 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,24 @@ static t_code	check_ope(char **line, char *start)
 	i = 0;
 	while (*line && **line && ft_strchr(CH_OPE, **line) && ++i)
 	{
-		if (i <= 2 && **line != c)
-			return (error_syntax(C_BAD_USE, *line, 1));
+		if (**line != c && ((c == '|' && i < 3) || (c == '&' && i >= 3)))
+			return (error_syntax(C_BAD_USE, *line - 1, 2));
+		else if (**line != c && c == '&')
+			return (error_syntax(C_BAD_USE, *line - 1, 1));
+		else if (**line != c && c == '|')
+			return (error_syntax(C_BAD_USE, *line - 2, 2));
 		(*line)++;
 	}
-	if ((c == '&' && i == 1) || i == 3)
-		return (error_syntax(C_BAD_USE, *line - 1, 1));
-	else if (i > 3)
+	if (i >= 3)
+		return (error_syntax(C_BAD_USE, *line - (i - 1), 2));
+	else if (is_only_ope_or_sep(*line - i, start))
 	{
-		*line -= (i - 2);
-		if (**line == '|' || **line == *(*line + 1))
-			return (error_syntax(C_BAD_USE, *line, 2));
-		return (error_syntax(C_BAD_USE, *line, 1));
+		if (i == 1)
+			return (error_syntax(C_BAD_USE, *line - i, 1));
+		return (error_syntax(C_BAD_USE, *line - i, 2));
 	}
-	if (is_only_ope_or_sep(*line - i, start))
-		return (error_syntax(C_BAD_USE, *line - i, i));
+	else if (c == '&' && i == 1)
+		return (error_syntax(C_BAD_USE, *line - 1, 1));
 	return ((*line)--, C_SUCCESS);
 }
 
@@ -77,25 +80,28 @@ static t_bool	is_only_dir_or_sep(char *line)
 	return (B_TRUE);
 }
 
-static	t_bool	check_diff_dir(char **line, char c)
+t_code	check_diff_dir(char **line, char c)
 {
 	size_t	i;
 
 	i = -1;
-	(*line)++;
 	while (*line && **line && ft_strchr(CH_DIR, **line) && ++i)
 	{
 		if (**line != *(*line + 1))
 			break ;
 		(*line)++;
 	}
-	if (c == '<')
+	if (c == '<' && i < 2)
 	{
-
+		if (i - 2 > 3)
+			return (error_syntax(C_BAD_USE, *line - (i - 2), 3));
+		return (error_syntax(C_BAD_USE, *line - (i - 2), i - 2));
 	}
 	else if (c == '>')
 	{
-
+		if (i - 1 > 3)
+			return (error_syntax(C_BAD_USE, *line - (i - 1), 3));
+		return (error_syntax(C_BAD_USE, *line - (i - 1), i - 1));
 	}
 	return (C_SUCCESS);
 }
@@ -103,9 +109,10 @@ static	t_bool	check_diff_dir(char **line, char c)
 /**
  * Check the syntax for redirection chars
  * @param line
+ * @param start start of line
  * @return t_code C_SUCCESS or C_BAD_USAGE
 */
-static t_code	check_dir(char **line)
+static t_code	check_dir(char **line, char *start)
 {
 	char	c;
 	size_t	i;
@@ -114,19 +121,19 @@ static t_code	check_dir(char **line)
 	i = 0;
 	while (*line && **line == c && ++i)
 		(*line)++;
-	if (ft_strchr(CH_DIR, *(*line + 1)) && check_diff_dir(line, c))
+	if (ft_strchr(CH_DIR, *(*line)) && check_diff_dir(line, c))
 		return (C_BAD_USE);
 	if ((c == '<' && i > 3))
 	{
-		if (i - 3 > 3)
-			return (error_syntax(C_BAD_USE, *line - (i - 3), 3));
-		return (error_syntax(C_BAD_USE, *line - (i - 3), i - 3));
+		if (i - 3 >= 3)
+			return (error_syntax(C_BAD_USE, start + 3, 3));
+		return (error_syntax(C_BAD_USE, start + 3, i - 3));
 	}
 	else if ((c == '>' && i > 2))
 	{
-		if (i - 2 > 2)
-			return (error_syntax(C_BAD_USE, *line - (i - 2), 2));
-		return (error_syntax(C_BAD_USE, *line - (i - 2), i - 2));
+		if (i - 2 >= 2)
+			return (error_syntax(C_BAD_USE, start + 2, 2));
+		return (error_syntax(C_BAD_USE, start + 2, 1));
 	}
 	if (is_only_dir_or_sep(*line))
 		return (error_syntax(C_BAD_USE, NULL, 0));
@@ -156,7 +163,7 @@ t_code	check_syntax(char *line, char *start)
 			return (error_syntax(C_BAD_USE, line, 1));
 		if (!(nq % 2) && !(nd % 2)
 			&& ((ft_strchr(CH_OPE, *line) && check_ope(&line, start))
-				|| (ft_strchr(CH_DIR, *line) && check_dir(&line))))
+				|| (ft_strchr(CH_DIR, *line) && check_dir(&line, line))))
 			return (C_BAD_USE);
 		line++;
 	}
