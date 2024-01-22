@@ -6,13 +6,19 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/22 11:11:29 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/22 11:37:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
+/**
+ * Open infile and set corresponding fd in exec
+ * @param cmd Command in wich search infile
+ * @param exec Where to store infile fd
+ * @return `C_SUCCESS` or `C_GEN` when error
+*/
 static int	init_outfile(t_cmd *cmd, t_exec *exec)
 {
 	void	*element;
@@ -30,10 +36,10 @@ static int	init_outfile(t_cmd *cmd, t_exec *exec)
 }
 
 /**
- * Read redirections from command and set it to exec
- * @param cmd command from wich read redirections
- * @param exec where to store opened fds
- * @result C_SUCCESS or C_GEN when error
+ * Open or create outfile and set corresponding fd in exec
+ * @param cmd Command in wich search infile
+ * @param exec Where to store infile fd
+ * @return `C_SUCCESS` or `C_GEN` when error
 */
 static int	init_infile(t_cmd *cmd, t_exec *exec)
 {
@@ -51,6 +57,12 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 	return (C_SUCCESS);
 }
 
+/**
+ * If the command have a pipe create it and store it in exec
+ * @param cmd Where search for pipe
+ * @param exec Where store thie pipe
+ * @return `C_SUCCESS` or `C_GEN` when error
+*/
 static int	init_pipe(t_cmd *cmd, t_exec *exec)
 {
 	if (find_element(*cmd, T_PIPE))
