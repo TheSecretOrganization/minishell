@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 15:32:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/22 11:11:29 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ static int	init_outfile(t_cmd *cmd, t_exec *exec)
 {
 	void	*element;
 
-	element = find_element(*cmd, T_INFILE);
+	element = find_element(*cmd, T_OUTFILE);
 	if (element != NULL)
 	{
 		if (exec->pipes[0] != -1)
 			(close(exec->pipes[0]), exec->pipes[0] = -1);
-		exec->infile = open(element, O_RDONLY);
-		if (exec->infile == -1)
+		exec->outfile = open(element, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (exec->outfile == -1)
 			return (perror(element), C_GEN);
 	}
 	return (C_SUCCESS);
@@ -39,13 +39,13 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 {
 	void	*element;
 
-	element = find_element(*cmd, T_OUTFILE);
+	element = find_element(*cmd, T_INFILE);
 	if (element != NULL)
 	{
 		if (exec->pipes[1] != -1)
 			(close(exec->pipes[1]), exec->pipes[1] = -1);
-		exec->outfile = open(element, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		if (exec->outfile == -1)
+		exec->infile = open(element, O_RDONLY);
+		if (exec->infile == -1)
 			return (perror(element), C_GEN);
 	}
 	return (C_SUCCESS);
