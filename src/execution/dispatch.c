@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/22 11:37:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/22 13:20:20 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static int	init_outfile(t_cmd *cmd, t_exec *exec)
 	element = find_element(*cmd, T_OUTFILE);
 	if (element != NULL)
 	{
-		if (exec->pipes[0] != -1)
-			(close(exec->pipes[0]), exec->pipes[0] = -1);
 		exec->outfile = open(element, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 		if (exec->outfile == -1)
 			return (perror(element), C_GEN);
@@ -48,8 +46,6 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 	element = find_element(*cmd, T_INFILE);
 	if (element != NULL)
 	{
-		if (exec->pipes[1] != -1)
-			(close(exec->pipes[1]), exec->pipes[1] = -1);
 		exec->infile = open(element, O_RDONLY);
 		if (exec->infile == -1)
 			return (perror(element), C_GEN);
@@ -58,13 +54,18 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 }
 
 /**
- * If the command have a pipe create it and store it in exec
+ * If the command have a pipe create it and store it in exec and close if 
+ * another pipe is already open
  * @param cmd Where search for pipe
  * @param exec Where store thie pipe
  * @return `C_SUCCESS` or `C_GEN` when error
 */
 static int	init_pipe(t_cmd *cmd, t_exec *exec)
 {
+	if (exec->pipes[0] == -1)
+		(close(exec->pipes[0]), exec->pipes[0] = -1);
+	if (exec->pipes[1] == -1)
+		(close(exec->pipes[1]), exec->pipes[1] = -1);
 	if (find_element(*cmd, T_PIPE))
 	{
 		if (pipe(exec->pipes) == -1)
