@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/20 14:06:37 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:47:04 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,30 @@ static t_code	o_init_cmd(t_cmd **cmd)
 	return (C_SUCCESS);
 }
 
-static t_code	split_args(t_cmd	**target, char **join_args)
+/**
+ * Split the arguments of a command
+ * @param target pointer on the targeted command
+ * @param j_args pointer on the arguments to split
+ * @return t_code C_SUCCESS or an error
+*/
+static t_code	split_args(t_cmd	**target, char **j_args)
 {
-	(*target)->args = ft_split(*join_args, ' ');
-	(free(*join_args), *join_args = NULL);
+	if (!target || !*target || !j_args || !*j_args)
+		return (C_BAD_USE);
+	(*target)->args = ft_split(*j_args, ' ');
+	(free(*j_args), *j_args = NULL);
 	if (!(*target)->args)
 		return (error(C_MEM, "ft_split", M_MEM));
 	return (C_SUCCESS);
 }
 
+/**
+ * Add a new command to the AST
+ * @param target pointer on the current target
+ * @param line line parsed
+ * @param i pointer on the index into line
+ * @return t_code C_SUCCESS or an error
+*/
 static t_code	add_ope(t_cmd **target, char *line, size_t *i)
 {
 	t_cmd	*tmp;
@@ -61,23 +76,22 @@ static t_code	add_ope(t_cmd **target, char *line, size_t *i)
 	return (*target = tmp, C_SUCCESS);
 }
 
-static void	print_abs(t_cmd *cmd)
+/**
+ * Join the new argument argument with the joined ones
+ * @param j_args joined arguments
+ * @param line line parsed
+ * @param next new argument
+ * @param i pointer on the position in the line
+ * @return t_code C_SUCCES or an error
+*/
+static t_code	join_args(char	**j_args, char *line, char *next, size_t *i)
 {
-	size_t	i;
-	size_t	nb;
-
-	nb = 0;
-	while (cmd)
-	{
-		i = -1;
-		while (cmd->args[++i])
-			printf("%ld: %s\n", nb, cmd->args[i]);
-		nb++;
-		if (cmd->elements[0] && cmd->elements[0]->value)
-			cmd = cmd->elements[0]->value;
-		else
-			cmd = NULL;
-	}
+	if (!j_args || !line || !next || !i)
+		return (C_BAD_USE);
+	*j_args = fspace_njoin(*j_args, line + (*i), next - &(line[*i]));
+	if (!*j_args)
+		return (C_MEM);
+	return (*i = next - &(line[0]), C_SUCCESS);
 }
 
 /**
@@ -106,16 +120,10 @@ t_code	create_ast(t_cmd **cmd, char *line)
 			if (split_args(&target, &j_args) || add_ope(&target, line, &i))
 				(clean_memory(*cmd, line, NULL), exit(C_MEM));
 		}
-		else
-		{
-			j_args = fspace_njoin(j_args, line + i, next - &(line[i]));
-			if (!j_args)
-				(clean_memory(*cmd, &(line[0]), NULL), exit(C_MEM));
-			i = next - &(line[0]);
-		}
+		else if (join_args(&j_args, line, next, &i))
+			(clean_memory(*cmd, &(line[0]), NULL), exit(C_MEM));
 	}
-	if (split_args(&target, &j_args))
+	if (split_args(&target, &j_args) == C_MEM)
 		(clean_memory(*cmd, line, NULL), exit(C_MEM));
-	print_abs(*cmd);
 	return (C_SUCCESS);
 }

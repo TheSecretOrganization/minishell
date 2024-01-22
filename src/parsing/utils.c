@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/20 15:37:37 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/22 09:47:20 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,29 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 		ft_putstr_fd("newline", STDERR_FILENO);
 	ft_putendl_fd("\'", STDERR_FILENO);
 	return (code);
+}
+
+/**
+ * Print a ATS of commands
+ * @param cmd ats of commands to print
+*/
+void	print_ats(t_cmd *cmd)
+{
+	size_t	i;
+	size_t	nb;
+
+	nb = 0;
+	while (cmd)
+	{
+		i = -1;
+		while (cmd->args[++i])
+			printf("%ld: %s\n", nb, cmd->args[i]);
+		nb++;
+		if (cmd->elements[0] && cmd->elements[0]->value)
+			cmd = cmd->elements[0]->value;
+		else
+			cmd = NULL;
+	}
 }
 
 /**
