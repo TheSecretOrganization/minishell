@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 15:14:29 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/23 11:10:24 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include "libft.h"
 
 # define PROMPT_HEAD "🦖"
+# define PROMPT_ERR "☄️"
 
 # define M_ERROR "error"
 # define M_MEM "memory allocation failled"

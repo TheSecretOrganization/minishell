@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/22 09:47:20 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/23 10:55:21 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,52 +28,6 @@ t_code	clean_memory(t_cmd *cmd, char *line, char *join_args)
 	if (join_args)
 		free(join_args);
 	return (C_SUCCESS);
-}
-
-/**
- * Write error statement to stderr
- * @param code exit code to return
- * @param el element which caused the error, nullable
- * @param n number of char from el to print
- * @return t_code error code
-*/
-t_code	error_syntax(t_code code, char *el, size_t n)
-{
-	size_t	i;
-
-	i = -1;
-	ft_putstr_fd(PROMPT_HEAD": syntax error near unexpected token `", \
-	STDERR_FILENO);
-	if (el)
-		while (*el && ++i < n)
-			ft_putchar_fd(*(el++), STDERR_FILENO);
-	else
-		ft_putstr_fd("newline", STDERR_FILENO);
-	ft_putendl_fd("\'", STDERR_FILENO);
-	return (code);
-}
-
-/**
- * Print a ATS of commands
- * @param cmd ats of commands to print
-*/
-void	print_ats(t_cmd *cmd)
-{
-	size_t	i;
-	size_t	nb;
-
-	nb = 0;
-	while (cmd)
-	{
-		i = -1;
-		while (cmd->args[++i])
-			printf("%ld: %s\n", nb, cmd->args[i]);
-		nb++;
-		if (cmd->elements[0] && cmd->elements[0]->value)
-			cmd = cmd->elements[0]->value;
-		else
-			cmd = NULL;
-	}
 }
 
 /**
@@ -112,7 +66,9 @@ char	*fspace_njoin(char *s1, char *s2, size_t n)
 */
 char	*find_next_sep(char *line)
 {
-	while (line && *line)
+	if (!line)
+		return (NULL);
+	while (*line)
 	{
 		if (ft_strchr(CH_DIR, *line) || ft_strchr(CH_OPE, *line)
 			|| *line == ' ')
