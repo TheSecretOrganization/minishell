@@ -91,6 +91,7 @@ define SRC	:=
 	ft_strncmp.c
 	ft_strnstr.c
 	ft_strrchr.c
+	ft_strrplc.c
 	ft_strtrim.c
 	ft_substr.c
 	ft_tolower.c

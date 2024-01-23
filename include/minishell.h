@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 08:52:53 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/18 15:14:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,23 @@ typedef enum e_type
 	T_PIPE_OR = 6
 }	t_type;
 
+typedef enum e_open_type
+{
+	TRUNCATE = 1,
+	APPEND
+}	t_open_type;
+
 typedef struct s_element
 {
 	t_type	type;
 	void	*value;
 }	t_element;
+
+typedef struct s_redirect
+{
+	char		*filename;
+	t_open_type	otype;
+}	t_redirect;
 
 typedef struct s_cmd
 {
@@ -70,9 +82,12 @@ typedef struct s_cmd
 	t_element	**elements;
 }	t_cmd;
 
-t_code	error(t_code code, char *el, char *message);
-void	free_cmd(t_cmd *cmd);
-char	*prompt(char **line);
-void	register_signals(void);
+t_code		error(t_code code, char *el, char *message);
+void		free_cmd(t_cmd *cmd);
+char		*prompt(char **line);
+void		register_signals(void);
+
+t_code		addback_cmd(t_cmd *cmd, t_element *el);
+t_element	*new_element(t_type type, void *value);
 
 #endif
