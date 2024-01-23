@@ -6,11 +6,12 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 11:40:37 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:49:23 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "execution.h"
 
 int	main(int argc, char **argv, char **envp)
 {
