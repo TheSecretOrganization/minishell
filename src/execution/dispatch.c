@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 11:31:56 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:01:21 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static int	init_pipe(t_cmd *cmd, t_exec *exec)
  * Execute a command
  * @param cmd command to execute
  * @param path environment's path
+ * @param envp current environment
  * @return exit code
 */
 int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)

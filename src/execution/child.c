@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 10:43:50 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:00:55 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ static void	close_fds(t_exec *exec)
 
 /**
  * Duplicate fds to stdin and stdout
- * @param infd fd to duplicate to stdin
- * @param outfd fd to duplicate to stdout
+ * @param exec current execution informations
  * @return 0 or 1 if error
 */
 static int	duplicate_fds(t_exec exec)
@@ -53,10 +52,8 @@ static int	duplicate_fds(t_exec exec)
 
 /**
  * Execute the command with the args and the env, redirect input and output
- * @param exec executable path
- * @param args commands' args
+ * @param exec current execution informations
  * @param envp envp
- * @param fds fd to redirect to {in, out}
  * @return execution's pid or -1
 */
 int	do_exec(t_exec *exec, char **envp)

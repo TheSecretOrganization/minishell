@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 15:31:44 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:05:43 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	free_exec(t_exec exec)
 	ft_fsplit(exec.args);
 }
 
+/**
+ * @brief Initialize exec with default values
+ * 
+ * @param exec pointer to exec to init
+ */
 void	init_exec(t_exec *exec)
 {
 	exec->pathname = NULL;
