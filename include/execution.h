@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/18 15:09:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 09:14:25 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_exec
 	int		outfile;
 }	t_exec;
 
-int		dispatch_cmd(t_cmd *cmd, char **path);
+int		dispatch_cmd(t_cmd *cmd, char **path, char **envp);
 int		do_exec(t_exec *exec, char **envp);
 char	*find_relative_exec(char *cmd);
 char	*find_path_exec(char *cmd, char **path);

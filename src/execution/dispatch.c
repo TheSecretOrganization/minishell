@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/22 13:20:20 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 09:13:18 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	init_pipe(t_cmd *cmd, t_exec *exec)
  * @param path environment's path
  * @return exit code
 */
-int	dispatch_cmd(t_cmd *cmd, char **path)
+int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 {
 	t_exec	exec;
 	int		pid;
@@ -101,7 +101,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path)
 		if (init_infile(cmd, &exec) == C_GEN
 			|| init_outfile(cmd, &exec) == C_GEN)
 			return (-1);
-		pid = do_exec(&exec, NULL);
+		pid = do_exec(&exec, envp);
 		cmd = find_element(*cmd, T_PIPE);
 		if (cmd)
 			exec.infile = exec.pipes[0];
