@@ -55,11 +55,11 @@ define SRC 	:=
 		utils.c
 	)
 	$(addprefix $(PARSING_DIR)/, \
-    check_syntax.c \
-    create_ast.c \
-    parse_line.c \
-    utils.c
-  )
+		check_syntax.c \
+		create_ast.c \
+		parse_line.c \
+		utils.c
+	)
 	main.c
 	prompt.c
 	signal.c
