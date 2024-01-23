@@ -73,7 +73,7 @@ $(NAME): $(LIB) $(OBJS)
 $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT) $<"
 	@mkdir -p $(OBJS_DIR)
-	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)/$(T_TOKEN_DIR)
+	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean
