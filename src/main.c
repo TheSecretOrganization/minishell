@@ -22,7 +22,7 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	path = get_path();
 	if (!path)
-		return (NULL);
+		return (C_GEN);
 	register_signals();
 	while (prompt(&line))
 		dispatch_cmd(cmd, path, envp);
