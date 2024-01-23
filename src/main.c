@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 11:49:23 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:35:27 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	main(int argc, char **argv, char **envp)
 	line = NULL;
 	cmd = NULL;
 	status = 0;
-  path = get_path();
+	path = get_path();
 	if (!path)
 		return (C_GEN);
 	register_signals();
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 		status = parse_line(&cmd, line);
 		if (status == C_BAD_USE)
 			continue ;
-    status = dispatch_cmd(cmd, path, envp);
+		status = dispatch_cmd(cmd, path, envp);
 	}
 	(free_cmd(cmd), ft_fsplit(path));
 	return (C_SUCCESS);
