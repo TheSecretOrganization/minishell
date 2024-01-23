@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 10:45:42 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:31:56 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,6 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 */
 static int	init_pipe(t_cmd *cmd, t_exec *exec)
 {
-	if (exec->pipes[0] == -1)
-		(close(exec->pipes[0]), exec->pipes[0] = -1);
-	if (exec->pipes[1] == -1)
-		(close(exec->pipes[1]), exec->pipes[1] = -1);
 	if (find_element(*cmd, T_PIPE))
 	{
 		if (pipe(exec->pipes) == -1)
