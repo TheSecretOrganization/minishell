@@ -28,6 +28,7 @@ INCLD_DIR 	:= include
 OBJS_DIR 	:= objs
 LIBFT_DIR 	:= libft
 EXEC_DIR	:= execution
+PARSING_DIR	:= parsing
 
 ### FILES ###
 define INCLUDES	:=
@@ -53,6 +54,12 @@ define SRC 	:=
 		pathname.c \
 		utils.c
 	)
+	$(addprefix $(PARSING_DIR)/, \
+    check_syntax.c \
+    create_ast.c \
+    parse_line.c \
+    utils.c
+  )
 	main.c
 	prompt.c
 	signal.c
@@ -77,6 +84,7 @@ $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@printf "$(NEW)$(PURPLE)[$(JP)] $(UGREEN)Building:$(DEFAULT) $<"
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/$(EXEC_DIR)
+	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean
