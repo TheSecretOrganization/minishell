@@ -1,5 +1,6 @@
 # VSCode
 .vscode
+compile_flags.txt
 
 # C
 minishell
