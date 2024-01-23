@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:42:17 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 13:53:29 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 11:44:48 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ char	**get_path(void)
 			temp = ft_strjoin(result[i], "/");
 			if (!temp)
 				return (ft_fsplit(result), NULL);
-			free(result[i]);
-			result[i] = temp;
+			(free(result[i]), result[i] = temp);
 		}
 	}
 	return (result);
