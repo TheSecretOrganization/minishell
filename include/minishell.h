@@ -85,7 +85,7 @@ typedef struct s_cmd
 
 t_code		error(t_code code, char *el, char *message);
 void		free_cmd(t_cmd *cmd);
-char		*prompt(char **line);
+char		*prompt(char **line, int status);
 void		register_signals(void);
 
 t_code		addback_cmd(t_cmd *cmd, t_element *el);
