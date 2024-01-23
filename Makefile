@@ -28,7 +28,6 @@ INCLD_DIR 	:= include
 OBJS_DIR 	:= objs
 LIBFT_DIR 	:= libft
 PARSING_DIR	:= parsing
-T_TOKEN_DIR	:= t_token
 
 ### FILES ###
 define INCLUDES	:=
