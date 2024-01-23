@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/22 11:28:25 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 10:43:50 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,27 @@ int	do_exec(t_exec *exec, char **envp)
 	if (exec->outfile != -1)
 		(close(exec->outfile), exec->outfile = -1);
 	return (pid);
+}
+
+/**
+ * Wait for all children
+ * @param pid last execution pid
+ * @return last execution exit code
+*/
+int	wait_children(int pid)
+{
+	int	wstatus;
+	int	code;
+
+	while (errno != ECHILD)
+	{
+		if (wait(&wstatus) == pid)
+		{
+			if (WIFEXITED(wstatus))
+				code = WEXITSTATUS(wstatus);
+			else
+				code = 128 + WTERMSIG(wstatus);
+		}
+	}
+	return (code);
 }

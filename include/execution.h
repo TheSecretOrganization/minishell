@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 09:14:25 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 10:44:54 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void	free_exec(t_exec exec);
 int		fill_exec(t_exec *exec, t_cmd cmd, char **path);
 void	*find_element(t_cmd cmd, t_type type);
 void	init_exec(t_exec *exec);
+int		wait_children(int pid);
 
 #endif
