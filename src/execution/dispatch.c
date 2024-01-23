@@ -90,7 +90,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 	while (cmd)
 	{
 		if (init_pipe(cmd, &exec) == C_GEN)
-			return (-1);
+			return (124);
 		if (fill_exec(&exec, *cmd, path) == C_GEN)
 		{
 			if (errno == C_NOEXEC)
@@ -100,7 +100,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 		}
 		if (init_infile(cmd, &exec) == C_GEN
 			|| init_outfile(cmd, &exec) == C_GEN)
-			return (-1);
+			return (125);
 		pid = do_exec(&exec, envp);
 		cmd = find_element(*cmd, T_PIPE);
 		if (cmd)
