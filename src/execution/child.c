@@ -6,11 +6,21 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:00:55 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:22:06 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+/**
+ * Free execution
+ * @param exec struct to free
+*/
+static void	free_exec(t_exec exec)
+{
+	free(exec.pathname);
+	ft_fsplit(exec.args);
+}
 
 /**
  * Close all opened fds

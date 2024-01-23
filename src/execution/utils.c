@@ -6,22 +6,12 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:05:43 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:12:46 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-/**
- * Free execution
- * TODO: May move to child.c
- * @param exec struct to free
-*/
-void	free_exec(t_exec exec)
-{
-	free(exec.pathname);
-	ft_fsplit(exec.args);
-}
 
 /**
  * @brief Initialize exec with default values
