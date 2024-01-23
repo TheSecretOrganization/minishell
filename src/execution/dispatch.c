@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:01:21 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/23 12:24:01 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "execution.h"
 
 /**
- * Open infile and set corresponding fd in exec
+ * Open outfile and set corresponding fd in exec
  * @param cmd Command in wich search infile
  * @param exec Where to store infile fd
  * @return `C_SUCCESS` or `C_GEN` when error
@@ -34,7 +34,7 @@ static int	init_outfile(t_cmd *cmd, t_exec *exec)
 }
 
 /**
- * Open or create outfile and set corresponding fd in exec
+ * Open or create infile and set corresponding fd in exec
  * @param cmd Command in wich search infile
  * @param exec Where to store infile fd
  * @return `C_SUCCESS` or `C_GEN` when error
