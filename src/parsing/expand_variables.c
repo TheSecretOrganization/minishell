@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:07:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 15:48:40 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 15:58:42 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static size_t	expand_status(t_data *data, size_t i)
 size_t	expand_variables(t_data *data, size_t i)
 {
 	if (data->line[i] == '~' && (data->line[i + 1] == ' '
-		|| ft_strchr(CH_SPCL, data->line[i + 1])))
+			|| ft_strchr(CH_SPCL, data->line[i + 1])))
 		i = expand_home(data, i);
 	else if (data->line[i] == '$')
 	{
