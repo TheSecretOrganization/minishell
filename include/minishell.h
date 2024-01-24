@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 13:27:39 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/24 13:47:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,7 @@ void		register_signals(void);
 
 t_code		addback_cmd(t_cmd *cmd, t_element *el);
 t_element	*new_element(t_type type, void *value);
+
+int			here_doc(char *delimiter);
 
 #endif
