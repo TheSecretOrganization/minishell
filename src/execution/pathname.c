@@ -6,16 +6,16 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/01/16 16:25:44 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/24 14:09:18 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
 /**
- * Find an executable with a relative path
+ * Find an executable with a relative path, errno is set in case of error
  * @param cmd relative path
- * @return path or NULL
+ * @return freeable path or NULL
 */
 char	*find_relative_exec(char *cmd)
 {
@@ -23,6 +23,9 @@ char	*find_relative_exec(char *cmd)
 		return (errno = C_NOFILE, NULL);
 	if (access(cmd, F_OK | X_OK) == -1)
 		return (errno = C_NOEXEC, NULL);
+	cmd = ft_strdup(cmd);
+	if (!cmd)
+		return (errno = C_MEM, NULL);
 	return (cmd);
 }
 
