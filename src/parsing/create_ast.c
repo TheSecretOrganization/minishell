@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 10:27:37 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:03:38 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_code	create_ast(t_data *data)
 	size_t	i;
 
 	if (o_init_cmd(&(data->cmd)))
-		(clean_memory(NULL, data->line, NULL), exit(C_MEM));
+		(clean_memory(data, NULL), exit(C_MEM));
 	j_args = NULL;
 	i = 0;
 	target = data->cmd;
@@ -118,12 +118,12 @@ t_code	create_ast(t_data *data)
 		{
 			if (split_args(&target, &j_args)
 				|| add_ope(&target, data->line, &i))
-				(clean_memory(data->cmd, data->line, NULL), exit(C_MEM));
+				(clean_memory(data, NULL), exit(C_MEM));
 		}
 		else if (join_args(&j_args, data->line, next, &i))
-			(clean_memory(data->cmd, &(data->line[0]), NULL), exit(C_MEM));
+			(clean_memory(data, NULL), exit(C_MEM));
 	}
 	if (split_args(&target, &j_args) == C_MEM)
-		(clean_memory(data->cmd, data->line, NULL), exit(C_MEM));
+		(clean_memory(data, NULL), exit(C_MEM));
 	return (C_SUCCESS);
 }
