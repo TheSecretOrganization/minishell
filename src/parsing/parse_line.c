@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 10:32:29 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:56:55 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 */
 t_code	parse_line(t_data *data)
 {
-	if (check_syntax(data->line))
+	if (check_syntax(data))
 		return (C_BAD_USE);
 	if (create_ast(data))
 		return (C_BAD_USE);
