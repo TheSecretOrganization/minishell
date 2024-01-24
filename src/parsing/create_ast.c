@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 16:40:00 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:09:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ t_code	create_ast(t_data *data)
 		ast.next = find_next_sep(&(data->line[ast.i + 1]));
 		if (ft_strchr(CH_OPE, data->line[ast.i]))
 		{
-			if (split_args(&ast) && add_ope(&ast, data->line))
+			if (split_args(&ast) == C_MEM || add_ope(&ast, data->line))
 				(clean_memory(data, NULL), exit(C_MEM));
 		}
 		else if (join_args(&ast, data->line))

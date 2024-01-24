@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 16:32:31 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 17:09:45 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ char	*fspace_njoin(char *s1, char *s2, size_t n)
 */
 t_code	join_args(t_ast *ast, char *line)
 {
-	if (!ast || !ast->j_args || ast->next || !line)
-		return (C_BAD_USE);
-	ast->j_args = fspace_njoin(ast->j_args, line + \
-	ast->i, ast->next - &(line[ast->i]));
+	if (!ast || !line)
+		return (error(C_BAD_USE, "join_args", M_ERROR));
+	ast->j_args = fspace_njoin(ast->j_args, line \
+	+ ast->i, ast->next - &(line[ast->i]));
 	if (!ast->j_args)
-		return (C_MEM);
+		return (error(C_MEM, "fspace_njoin", M_MEM));
 	return (ast->i = ast->next - &(line[0]), C_SUCCESS);
 }
 
