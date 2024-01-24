@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/22 09:45:56 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 10:32:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 /**
  * Parse user's input, exit the program if error occurs
- * @param cmd list of comamnd to init
- * @param line line to parse
+ * @param data pointer on where the data is stored
  * @return t_code C_SUCCESS or an error code
 */
-t_code	parse_line(t_cmd **cmd, char *line)
+t_code	parse_line(t_data *data)
 {
-	if (!line || !*line)
-		return (C_SUCCESS);
-	if (check_syntax(line))
+	if (check_syntax(data->line))
 		return (C_BAD_USE);
-	if (create_ast(cmd, line))
+	if (create_ast(data))
 		return (C_BAD_USE);
+	(free(data->line), data->line = NULL);
 	return (C_SUCCESS);
 }

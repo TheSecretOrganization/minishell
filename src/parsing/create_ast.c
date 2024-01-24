@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/22 09:47:04 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 10:27:37 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,34 +96,34 @@ static t_code	join_args(char	**j_args, char *line, char *next, size_t *i)
 
 /**
  * Create the AST of commands
- * @param cmd pointer to the root of the AST
- * @param line line to parse
+ * @param data pointer on where the data is stored
  * @return t_code C_SUCCESS or an error
 */
-t_code	create_ast(t_cmd **cmd, char *line)
+t_code	create_ast(t_data *data)
 {
 	char	*j_args;
 	char	*next;
 	t_cmd	*target;
 	size_t	i;
 
-	if (o_init_cmd(cmd))
-		(clean_memory(NULL, line, NULL), exit(C_MEM));
+	if (o_init_cmd(&(data->cmd)))
+		(clean_memory(NULL, data->line, NULL), exit(C_MEM));
 	j_args = NULL;
 	i = 0;
-	target = *cmd;
-	while (line[i] && line[i + 1])
+	target = data->cmd;
+	while (data->line[i] && data->line[i + 1])
 	{
-		next = find_next_sep(&(line[i + 1]));
-		if (ft_strchr(CH_OPE, line[i]))
+		next = find_next_sep(&(data->line[i + 1]));
+		if (ft_strchr(CH_OPE, data->line[i]))
 		{
-			if (split_args(&target, &j_args) || add_ope(&target, line, &i))
-				(clean_memory(*cmd, line, NULL), exit(C_MEM));
+			if (split_args(&target, &j_args)
+				|| add_ope(&target, data->line, &i))
+				(clean_memory(data->cmd, data->line, NULL), exit(C_MEM));
 		}
-		else if (join_args(&j_args, line, next, &i))
-			(clean_memory(*cmd, &(line[0]), NULL), exit(C_MEM));
+		else if (join_args(&j_args, data->line, next, &i))
+			(clean_memory(data->cmd, &(data->line[0]), NULL), exit(C_MEM));
 	}
 	if (split_args(&target, &j_args) == C_MEM)
-		(clean_memory(*cmd, line, NULL), exit(C_MEM));
+		(clean_memory(data->cmd, data->line, NULL), exit(C_MEM));
 	return (C_SUCCESS);
 }
