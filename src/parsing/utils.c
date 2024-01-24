@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 11:01:08 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 19:52:37 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 /**
  * Free the allocated memory
  * @param data pointer on where the data is stored
- * @param join_args struct to free, nullable
- * @return t_code C_SUCCESS
 */
-t_code	clean_memory(t_data *data, char *join_args)
+void	clean_data(t_data *data)
 {
 	if (data->cmd)
 		(free_cmd(data->cmd), data->cmd = NULL);
@@ -26,9 +24,6 @@ t_code	clean_memory(t_data *data, char *join_args)
 		(free(data->line), data->line = NULL);
 	if (data->path)
 		(free(data->path), data->path = NULL);
-	if (join_args)
-		free(join_args);
-	return (C_SUCCESS);
 }
 
 /**
@@ -49,7 +44,7 @@ char	*fspace_njoin(char *s1, char *s2, size_t n)
 		len = ft_strlen(s1);
 	join = ft_calloc(len + n + 2, sizeof(char));
 	if (!join)
-		return (free(s1), error(C_MEM, "ft_calloc", M_MEM), NULL);
+		return (free(s1), s1 = NULL, error(C_MEM, "ft_calloc", M_MEM), NULL);
 	i = -1;
 	while (++i < len)
 		join[i] = s1[i];
@@ -57,7 +52,7 @@ char	*fspace_njoin(char *s1, char *s2, size_t n)
 	i = -1;
 	while (++i < n)
 		join[len + 1 + i] = s2[i];
-	return (free(s1), join);
+	return (free(s1), s1 = NULL, join);
 }
 
 /**
