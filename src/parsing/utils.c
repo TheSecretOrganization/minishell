@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/23 10:55:21 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 11:01:08 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 /**
  * Free the allocated memory
- * @param cmd list of commands to free, nullable
- * @param line line to free, nullable
+ * @param data pointer on where the data is stored
  * @param join_args struct to free, nullable
  * @return t_code C_SUCCESS
 */
-t_code	clean_memory(t_cmd *cmd, char *line, char *join_args)
+t_code	clean_memory(t_data *data, char *join_args)
 {
-	if (cmd)
-		free_cmd(cmd);
-	if (line)
-		free(line);
+	if (data->cmd)
+		(free_cmd(data->cmd), data->cmd = NULL);
+	if (data->line)
+		(free(data->line), data->line = NULL);
+	if (data->path)
+		(free(data->path), data->path = NULL);
 	if (join_args)
 		free(join_args);
 	return (C_SUCCESS);
