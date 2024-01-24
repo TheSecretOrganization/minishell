@@ -6,12 +6,19 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:07:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 15:58:42 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:38:12 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
+/**
+ * @brief Expand a variable if it is found in the env
+ *
+ * @param data data of the program, contains the line parsed
+ * @param i position in the line
+ * @return size_t new position in the line
+ */
 static size_t	expand_variable(t_data *data, size_t i)
 {
 	size_t	len;
@@ -40,6 +47,13 @@ static size_t	expand_variable(t_data *data, size_t i)
 	return (free(td), i + len);
 }
 
+/**
+ * @brief Expand the path to the home of the current user
+ *
+ * @param data data of the program, contains the line parsed
+ * @param i position in the line
+ * @return size_t new position in the line
+ */
 static size_t	expand_home(t_data *data, size_t i)
 {
 	size_t	len;
@@ -65,6 +79,13 @@ static size_t	expand_home(t_data *data, size_t i)
 	return (free(td), i + len);
 }
 
+/**
+ * @brief Expand the status code of the last command
+ *
+ * @param data data of the program, contains the line parsed
+ * @param i position in the line
+ * @return size_t new position in the line
+ */
 static size_t	expand_status(t_data *data, size_t i)
 {
 	size_t	len;
@@ -80,6 +101,13 @@ static size_t	expand_status(t_data *data, size_t i)
 	return (free(tr), i + len);
 }
 
+/**
+ * @brief Expand the variable found in the line
+ *
+ * @param data data of the program, contains the line parsed
+ * @param i position in the line
+ * @return size_t new position in the line
+ */
 size_t	expand_variables(t_data *data, size_t i)
 {
 	if (data->line[i] == '~' && (data->line[i + 1] == ' '
