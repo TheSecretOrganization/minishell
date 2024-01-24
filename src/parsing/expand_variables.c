@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:07:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 20:06:14 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:11:08 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static char	*expand_variable(char *line, size_t *i)
 	char	*tr;
 
 	len = 1;
-	// while (line[*i + len] && ft_isalnum(line[*i + len]))
 	while (line[*i + len] && !ft_strchr(CH_SPCL, line[*i + len]))
 		len++;
 	td = ft_substr(line, *i, len);
