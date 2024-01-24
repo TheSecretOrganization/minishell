@@ -40,5 +40,5 @@ int	main(int argc, char **argv, char **envp)
 		data.status = dispatch_cmd(data.cmd, data.path, data.envp);
 		free_cmd(data.cmd);
 	}
-	return (ft_fsplit(data.path), C_SUCCESS);
+	return (ft_printf("\nexit\n"), ft_fsplit(data.path), C_SUCCESS);
 }
