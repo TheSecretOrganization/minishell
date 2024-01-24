@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 11:03:38 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:40:00 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,30 +30,12 @@ static t_code	o_init_cmd(t_cmd **cmd)
 }
 
 /**
- * Split the arguments of a command
- * @param target pointer on the targeted command
- * @param j_args pointer on the arguments to split
- * @return t_code C_SUCCESS or an error
-*/
-static t_code	split_args(t_cmd	**target, char **j_args)
-{
-	if (!target || !*target || !j_args || !*j_args)
-		return (C_BAD_USE);
-	(*target)->args = ft_split(*j_args, ' ');
-	(free(*j_args), *j_args = NULL);
-	if (!(*target)->args)
-		return (error(C_MEM, "ft_split", M_MEM));
-	return (C_SUCCESS);
-}
-
-/**
  * Add a new command to the AST
- * @param target pointer on the current target
+ * @param ast pointer on the control structure
  * @param line line parsed
- * @param i pointer on the index into line
  * @return t_code C_SUCCESS or an error
 */
-static t_code	add_ope(t_cmd **target, char *line, size_t *i)
+static t_code	add_ope(t_ast *ast, char *line)
 {
 	t_cmd	*tmp;
 	t_type	type;
@@ -62,68 +44,46 @@ static t_code	add_ope(t_cmd **target, char *line, size_t *i)
 	tmp = NULL;
 	type = T_PIPE;
 	same = B_FALSE;
-	if (line[*i] == line[*i + 1])
+	if (line[ast->i] == line[ast->i + 1])
 		same = B_TRUE;
-	if (same && line[*i] == '&')
+	if (same && line[ast->i] == '&')
 		type = T_PIPE_AND;
-	else if (same && line[*i] == '|')
+	else if (same && line[ast->i] == '|')
 		type = T_PIPE_OR;
 	if (o_init_cmd(&tmp))
 		return (C_MEM);
-	if (addback_cmd(*target, new_element(type, tmp)))
+	if (addback_cmd(ast->target, new_element(type, tmp)))
 		return (free(tmp), error(C_MEM, "addback_cmd", M_MEM));
-	*i += 1 + same;
-	return (*target = tmp, C_SUCCESS);
-}
-
-/**
- * Join the new argument argument with the joined ones
- * @param j_args joined arguments
- * @param line line parsed
- * @param next new argument
- * @param i pointer on the position in the line
- * @return t_code C_SUCCES or an error
-*/
-static t_code	join_args(char	**j_args, char *line, char *next, size_t *i)
-{
-	if (!j_args || !line || !next || !i)
-		return (C_BAD_USE);
-	*j_args = fspace_njoin(*j_args, line + (*i), next - &(line[*i]));
-	if (!*j_args)
-		return (C_MEM);
-	return (*i = next - &(line[0]), C_SUCCESS);
+	ast->i += 1 + same;
+	return (ast->target = tmp, C_SUCCESS);
 }
 
 /**
  * Create the AST of commands
- * @param data pointer on where the data is stored
+ * @param data pointer on the data of the program
  * @return t_code C_SUCCESS or an error
 */
 t_code	create_ast(t_data *data)
 {
-	char	*j_args;
-	char	*next;
-	t_cmd	*target;
-	size_t	i;
+	t_ast	ast;
 
 	if (o_init_cmd(&(data->cmd)))
 		(clean_memory(data, NULL), exit(C_MEM));
-	j_args = NULL;
-	i = 0;
-	target = data->cmd;
-	while (data->line[i] && data->line[i + 1])
+	ast.j_args = NULL;
+	ast.i = 0;
+	ast.target = data->cmd;
+	while (data->line[ast.i] && data->line[ast.i + 1])
 	{
-		next = find_next_sep(&(data->line[i + 1]));
-		if (ft_strchr(CH_OPE, data->line[i]))
+		ast.next = find_next_sep(&(data->line[ast.i + 1]));
+		if (ft_strchr(CH_OPE, data->line[ast.i]))
 		{
-			if (split_args(&target, &j_args)
-				|| add_ope(&target, data->line, &i))
+			if (split_args(&ast) && add_ope(&ast, data->line))
 				(clean_memory(data, NULL), exit(C_MEM));
 		}
-		else if (join_args(&j_args, data->line, next, &i))
+		else if (join_args(&ast, data->line))
 			(clean_memory(data, NULL), exit(C_MEM));
 	}
-	if (split_args(&target, &j_args) == C_MEM)
+	if (split_args(&ast) == C_MEM)
 		(clean_memory(data, NULL), exit(C_MEM));
 	return (C_SUCCESS);
 }

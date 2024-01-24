@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 11:01:08 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:32:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,39 @@ char	*fspace_njoin(char *s1, char *s2, size_t n)
 	while (++i < n)
 		join[len + 1 + i] = s2[i];
 	return (free(s1), join);
+}
+
+/**
+ * Join the new argument argument with the joined ones
+ * @param ast pointer on the control structure
+ * @param line line parsed
+ * @return t_code C_SUCCES or an error
+*/
+t_code	join_args(t_ast *ast, char *line)
+{
+	if (!ast || !ast->j_args || ast->next || !line)
+		return (C_BAD_USE);
+	ast->j_args = fspace_njoin(ast->j_args, line + \
+	ast->i, ast->next - &(line[ast->i]));
+	if (!ast->j_args)
+		return (C_MEM);
+	return (ast->i = ast->next - &(line[0]), C_SUCCESS);
+}
+
+/**
+ * Split the arguments of a command
+ * @param ast pointer on the control structure
+ * @return t_code C_SUCCESS or an error
+*/
+t_code	split_args(t_ast *ast)
+{
+	if (!ast || !ast->target || !ast->j_args)
+		return (C_BAD_USE);
+	ast->target->args = ft_split(ast->j_args, ' ');
+	(free(ast->j_args), ast->j_args = NULL);
+	if (!ast->target->args)
+		return (error(C_MEM, "ft_split", M_MEM));
+	return (C_SUCCESS);
 }
 
 /**

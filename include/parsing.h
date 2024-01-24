@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 15:46:58 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 16:47:06 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@
 # define CH_OPE "&|"
 # define CH_DIR "<>"
 
+typedef struct s_ast
+{
+	char	*j_args;
+	char	*next;
+	t_cmd	*target;
+	size_t	i;
+}	t_ast;
+
 t_code	parse_line(t_data *data);
 
 t_code	check_syntax(t_data *data);
@@ -32,5 +40,8 @@ char	*find_next_sep(char *line);
 char	*fspace_njoin(char *s1, char *s2, size_t n);
 
 t_code	create_ast(t_data *data);
+
+t_code	join_args(t_ast *ast, char *line);
+t_code	split_args(t_ast *ast);
 
 #endif
