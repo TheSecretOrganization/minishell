@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 10:21:54 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 13:27:39 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,17 @@ typedef enum e_type
 	T_PIPE_OR = 6
 }	t_type;
 
-typedef enum e_open_type
+typedef enum e_intype
 {
 	TRUNCATE = 1,
 	APPEND
-}	t_open_type;
+}	t_intype;
+
+typedef enum e_outtype
+{
+	INFILE = 1,
+	HERE_DOC
+}	t_outtype;
 
 typedef struct s_element
 {
@@ -71,11 +77,17 @@ typedef struct s_element
 	void	*value;
 }	t_element;
 
-typedef struct s_redirect
+typedef struct s_infile
 {
 	char		*filename;
-	t_open_type	otype;
-}	t_redirect;
+	t_outtype	outtype;
+}	t_infile;
+
+typedef struct s_outfile
+{
+	char		*filename;
+	t_intype	intype;
+}	t_outfile;
 
 typedef struct s_cmd
 {
@@ -91,6 +103,8 @@ typedef struct s_data
 	char	**path;
 	int		status;
 }	t_data;
+
+extern int	g_signal;
 
 t_code		error(t_code code, char *el, char *message);
 void		free_cmd(t_cmd *cmd);
