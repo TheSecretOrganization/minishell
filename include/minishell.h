@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 13:47:08 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 09:18:49 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_data
 extern int	g_signal;
 
 t_code		error(t_code code, char *el, char *message);
+void		clean_data(t_data *data);
 void		free_cmd(t_cmd *cmd);
 char		*prompt(t_data *data);
 void		register_signals(void);

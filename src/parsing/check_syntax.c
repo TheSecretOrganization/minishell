@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/23 11:09:32 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:07:04 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,47 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 }
 
 /**
- * Check bash syntax in one line
- * @param line line to check
- * @return t_code C_SUCCESS or C_BAD_USE
-*/
-t_code	check_syntax(char *line)
+ * @brief Check if all quotes are closed in the line
+ *
+ * @param line line to parse
+ * @return t_code C_SUCCESS or an error
+ */
+t_code	check_quotes(char *line)
 {
 	size_t	nq;
 	size_t	nd;
+	size_t	i;
 
 	nq = 0;
 	nd = 0;
-	while (line && *line)
+	i = -1;
+	while (line[++i])
 	{
-		if (*line == '\'' && !(nd % 2))
+		if (line[i] == '\'' && !(nd % 2))
 			nq++;
-		if (*line == '\"' && !(nq % 2))
+		if (line[i] == '\"' && !(nq % 2))
 			nd++;
-		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, *line))
-			return (error_syntax(C_BAD_USE, line, 1));
-		line++;
+		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, line[i]))
+			return (error_syntax(C_BAD_USE, &(line[i]), 1));
 	}
 	if (nq % 2)
 		return (error_syntax(C_BAD_USE, "\'", 1));
 	else if (nd % 2)
 		return (error_syntax(C_BAD_USE, "\"", 1));
+	return (C_SUCCESS);
+}
+
+/**
+ * Check bash syntax in one line
+ * @param data pointer on where the data is stored
+ * @return t_code C_SUCCESS or C_BAD_USE
+*/
+t_code	check_syntax(t_data *data)
+{
+	if (check_quotes(data->line))
+		return (C_BAD_USE);
+	data->line = expand_variables(data->line, data->status);
+	if (!data->line)
+		return (C_MEM);
 	return (C_SUCCESS);
 }
