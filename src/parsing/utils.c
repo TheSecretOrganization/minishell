@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 09:23:34 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:21:50 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @param n number of char to catenate
  * @return char * or NULL if an error occurs
 */
-char	*fspace_njoin(char *s1, char *s2, size_t n)
+static char	*fspace_njoin(char *s1, char *s2, size_t n)
 {
 	size_t	len;
 	size_t	i;
@@ -85,8 +85,7 @@ char	*find_next_sep(char *line)
 		return (NULL);
 	while (*line)
 	{
-		if (ft_strchr(CH_DIR, *line) || ft_strchr(CH_OPE, *line)
-			|| *line == ' ')
+		if (ft_strchr(CH_SPCL, *line) || *line == ' ')
 			return (line);
 		line++;
 	}
