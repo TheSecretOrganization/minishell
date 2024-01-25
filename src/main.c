@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 11:12:24 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 12:23:25 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "execution.h"
 #include "parsing.h"
 
-int g_signal = 0;
+int	g_signal = 0;
 
 void	init_data(t_data *data, char **envp)
 {
