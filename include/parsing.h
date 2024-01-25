@@ -22,7 +22,7 @@
 
 typedef struct s_ast
 {
-	int 	status;
+	int		status;
 	char	*j_args;
 	char	*next;
 	t_cmd	*target;
