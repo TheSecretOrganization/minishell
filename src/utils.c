@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 09:23:57 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:28:55 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,24 @@ void	free_cmd(t_cmd *cmd)
 	if (!cmd)
 		return ;
 	ft_fsplit(cmd->args);
-	if (cmd->elements)
+	if (!cmd->elements)
+		return (free(cmd));
+	while (cmd->elements[++i])
 	{
-		while (cmd->elements[++i])
-		{
-			if (cmd->elements[i]->type == T_CMD
-				|| cmd->elements[i]->type == T_PIPE
-				|| cmd->elements[i]->type == T_PIPE_AND
-				|| cmd->elements[i]->type == T_PIPE_OR)
-				free_cmd((t_cmd *) cmd->elements[i]->value);
-			else
-				free(cmd->elements[i]->value);
-			free(cmd->elements[i]);
-		}
-		free(cmd->elements);
+		if (cmd->elements[i]->type == T_INFILE)
+			free(((t_infile *)cmd->elements[i]->value)->filename);
+		else if (cmd->elements[i]->type == T_OUTFILE)
+			free(((t_outfile *)cmd->elements[i]->value)->filename);
+		if (cmd->elements[i]->type == T_CMD
+			|| cmd->elements[i]->type == T_PIPE
+			|| cmd->elements[i]->type == T_PIPE_AND
+			|| cmd->elements[i]->type == T_PIPE_OR)
+			free_cmd((t_cmd *) cmd->elements[i]->value);
+		else
+			free(cmd->elements[i]->value);
+		free(cmd->elements[i]);
 	}
-	free(cmd);
+	(free(cmd->elements), free(cmd));
 }
 
 /**
