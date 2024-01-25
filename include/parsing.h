@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 13:54:47 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 14:02:16 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # define CH_SPCL "&|<>"
 # define CH_OPE "&|"
 # define CH_DIR "<>"
-# define CH_SPCL "<>&|"
 
 typedef struct s_ast
 {
