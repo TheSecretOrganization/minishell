@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 12:20:54 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 15:32:57 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 	{
 		err = manage_redirection(cmd, &exec, path);
 		if (err != C_SUCCESS)
-			return (err);
+			return (free(exec.pathname), err);
 		pid = do_exec(&exec, envp);
 		cmd = find_element(*cmd, T_PIPE);
 		if (cmd)
