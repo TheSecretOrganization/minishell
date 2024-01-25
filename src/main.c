@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 15:54:21 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 12:23:25 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 #include "parsing.h"
+
+int	g_signal = 0;
 
 void	init_data(t_data *data, char **envp)
 {
@@ -31,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	(init_data(&data, envp), register_signals());
 	while (prompt(&data))
 	{
+		g_signal = 0;
 		if (!*(data.line))
 		{
 			data.status = 0;

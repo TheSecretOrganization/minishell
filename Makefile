@@ -63,6 +63,7 @@ define SRC 	:=
 		parse_line.c \
 		utils.c
 	)
+	heredoc.c
 	main.c
 	prompt.c
 	signal.c

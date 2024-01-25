@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:34:45 by averin            #+#    #+#             */
-/*   Updated: 2024/01/10 15:34:32 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/24 12:49:35 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	handle_singint(int signal)
 {
-	(void)signal;
+	g_signal = signal;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

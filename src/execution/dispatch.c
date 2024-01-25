@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:24:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 12:20:54 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@
 */
 static int	init_outfile(t_cmd *cmd, t_exec *exec)
 {
-	void	*element;
+	t_outfile	*element;
 
-	element = find_element(*cmd, T_OUTFILE);
+	element = (t_outfile *) find_element(*cmd, T_OUTFILE);
 	if (element != NULL)
 	{
-		exec->outfile = open(element, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (element->outtype == OT_TRUNCATE)
+			exec->outfile = open(element->filename,
+					O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		else if (element->outtype == OT_APPEND)
+			exec->outfile = open(element->filename,
+					O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (exec->outfile == -1)
-			return (perror(element), C_GEN);
+			return (perror(element->filename), C_GEN);
 	}
 	return (C_SUCCESS);
 }
@@ -41,14 +46,19 @@ static int	init_outfile(t_cmd *cmd, t_exec *exec)
 */
 static int	init_infile(t_cmd *cmd, t_exec *exec)
 {
-	void	*element;
+	t_infile	*element;
 
-	element = find_element(*cmd, T_INFILE);
+	element = (t_infile *) find_element(*cmd, T_INFILE);
 	if (element != NULL)
 	{
-		exec->infile = open(element, O_RDONLY);
+		if (element->intype == IT_INFILE)
+			exec->infile = open(element->filename, O_RDONLY);
+		else if (element->intype == IT_HERE_DOC)
+			exec->infile = here_doc(element->filename);
 		if (exec->infile == -1)
-			return (perror(element), C_GEN);
+			return (perror(element->filename), C_GEN);
+		else if (exec->infile == -2)
+			return (C_BAD_USE);
 	}
 	return (C_SUCCESS);
 }
@@ -72,6 +82,34 @@ static int	init_pipe(t_cmd *cmd, t_exec *exec)
 }
 
 /**
+ * @brief Call redirections function and manage errors
+ * 
+ * @param cmd command to execute
+ * @param exec current execution
+ * @return int `C_SUCCESS` or an exit code
+ */
+static int	manage_redirection(t_cmd *cmd, t_exec *exec, char **path)
+{
+	t_code	err;
+
+	if (init_pipe(cmd, exec) == C_GEN)
+		return (124);
+	if (fill_exec(exec, *cmd, path) == C_GEN)
+	{
+		if (errno == C_NOEXEC)
+			return (printf("No permission\n"), 127);
+		else if (errno == C_NOFILE)
+			return (printf("Not found\n"), 126);
+	}
+	err = init_infile(cmd, exec);
+	if (err == C_BAD_USE)
+		return (130);
+	else if (err == C_GEN || init_outfile(cmd, exec) == C_GEN)
+		return (125);
+	return (C_SUCCESS);
+}
+
+/**
  * Execute a command
  * @param cmd command to execute
  * @param path environment's path
@@ -82,22 +120,14 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 {
 	t_exec	exec;
 	int		pid;
+	int		err;
 
 	init_exec(&exec);
 	while (cmd)
 	{
-		if (init_pipe(cmd, &exec) == C_GEN)
-			return (124);
-		if (fill_exec(&exec, *cmd, path) == C_GEN)
-		{
-			if (errno == C_NOEXEC)
-				return (printf("No permission\n"), 127);
-			else if (errno == C_NOFILE)
-				return (printf("Not found\n"), 126);
-		}
-		if (init_infile(cmd, &exec) == C_GEN
-			|| init_outfile(cmd, &exec) == C_GEN)
-			return (125);
+		err = manage_redirection(cmd, &exec, path);
+		if (err != C_SUCCESS)
+			return (err);
 		pid = do_exec(&exec, envp);
 		cmd = find_element(*cmd, T_PIPE);
 		if (cmd)
