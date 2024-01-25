@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 09:43:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:21:26 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ t_code	error_syntax(t_code code, char *el, size_t n);
 
 char	*expand_variables(char *line, int status);
 
-char	*find_next_sep(char *line);
-char	*fspace_njoin(char *s1, char *s2, size_t n);
-
 t_code	create_ast(t_data *data);
 
+t_code	add_ope(t_ast *ast, char *line);
+t_code	o_init_cmd(t_cmd **cmd);
+
+t_code	add_dir(t_ast *ast, char *line);
+
+char	*find_next_sep(char *line);
 t_code	join_args(t_ast *ast, char *line);
 t_code	split_args(t_ast *ast);
 
