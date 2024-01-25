@@ -6,25 +6,11 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 19:52:37 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:21:50 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-/**
- * Free the allocated memory
- * @param data pointer on where the data is stored
-*/
-void	clean_data(t_data *data)
-{
-	if (data->cmd)
-		(free_cmd(data->cmd), data->cmd = NULL);
-	if (data->line)
-		(free(data->line), data->line = NULL);
-	if (data->path)
-		(free(data->path), data->path = NULL);
-}
 
 /**
  * Catenate a space and n char from one string to another
@@ -33,7 +19,7 @@ void	clean_data(t_data *data)
  * @param n number of char to catenate
  * @return char * or NULL if an error occurs
 */
-char	*fspace_njoin(char *s1, char *s2, size_t n)
+static char	*fspace_njoin(char *s1, char *s2, size_t n)
 {
 	size_t	len;
 	size_t	i;
@@ -56,6 +42,39 @@ char	*fspace_njoin(char *s1, char *s2, size_t n)
 }
 
 /**
+ * Join the new argument argument with the joined ones
+ * @param ast pointer on the control structure
+ * @param line line parsed
+ * @return t_code C_SUCCES or an error
+*/
+t_code	join_args(t_ast *ast, char *line)
+{
+	if (!ast || !line)
+		return (error(C_BAD_USE, "join_args", M_ERROR));
+	ast->j_args = fspace_njoin(ast->j_args, line \
+	+ ast->i, ast->next - &(line[ast->i]));
+	if (!ast->j_args)
+		return (error(C_MEM, "fspace_njoin", M_MEM));
+	return (ast->i = ast->next - &(line[0]), C_SUCCESS);
+}
+
+/**
+ * Split the arguments of a command
+ * @param ast pointer on the control structure
+ * @return t_code C_SUCCESS or an error
+*/
+t_code	split_args(t_ast *ast)
+{
+	if (!ast || !ast->target || !ast->j_args)
+		return (C_BAD_USE);
+	ast->target->args = ft_split(ast->j_args, ' ');
+	(free(ast->j_args), ast->j_args = NULL);
+	if (!ast->target->args)
+		return (error(C_MEM, "ft_split", M_MEM));
+	return (C_SUCCESS);
+}
+
+/**
  * Find the next separator in a line
  * @param line line to check
  * @return char * to the next seprator
@@ -66,8 +85,7 @@ char	*find_next_sep(char *line)
 		return (NULL);
 	while (*line)
 	{
-		if (ft_strchr(CH_DIR, *line) || ft_strchr(CH_OPE, *line)
-			|| *line == ' ')
+		if (ft_strchr(CH_SPCL, *line) || *line == ' ')
 			return (line);
 		line++;
 	}
