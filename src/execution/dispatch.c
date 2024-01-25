@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 10:39:08 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:28:44 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 		if (exec->infile == -1)
 			return (perror(element->filename), C_GEN);
 		else if (exec->infile == -2)
-			return (C_GEN);
+			return (C_BAD_USE);
 	}
 	return (C_SUCCESS);
 }
@@ -92,6 +92,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 {
 	t_exec	exec;
 	int		pid;
+	t_code	err;
 
 	init_exec(&exec);
 	while (cmd)
@@ -105,8 +106,10 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 			else if (errno == C_NOFILE)
 				return (printf("Not found\n"), 126);
 		}
-		if (init_infile(cmd, &exec) == C_GEN
-			|| init_outfile(cmd, &exec) == C_GEN)
+		err = init_infile(cmd, &exec);
+		if (err == C_BAD_USE)
+			return (130);
+		else if (err == C_GEN || init_outfile(cmd, &exec) == C_GEN)
 			return (125);
 		pid = do_exec(&exec, envp);
 		cmd = find_element(*cmd, T_PIPE);
