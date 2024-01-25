@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:24:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 10:39:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@
 */
 static int	init_outfile(t_cmd *cmd, t_exec *exec)
 {
-	void	*element;
+	t_outfile	*element;
 
-	element = find_element(*cmd, T_OUTFILE);
+	element = (t_outfile *) find_element(*cmd, T_OUTFILE);
 	if (element != NULL)
 	{
-		exec->outfile = open(element, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		if (element->outtype == OT_TRUNCATE)
+			exec->outfile = open(element->filename,
+				O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		else if (element->outtype == OT_APPEND)
+			exec->outfile = open(element->filename,
+				O_WRONLY | O_APPEND | O_CREAT, 0644);
 		if (exec->outfile == -1)
-			return (perror(element), C_GEN);
+			return (perror(element->filename), C_GEN);
 	}
 	return (C_SUCCESS);
 }
@@ -41,14 +46,19 @@ static int	init_outfile(t_cmd *cmd, t_exec *exec)
 */
 static int	init_infile(t_cmd *cmd, t_exec *exec)
 {
-	void	*element;
+	t_infile	*element;
 
-	element = find_element(*cmd, T_INFILE);
+	element = (t_infile *) find_element(*cmd, T_INFILE);
 	if (element != NULL)
 	{
-		exec->infile = open(element, O_RDONLY);
+		if (element->intype == IT_INFILE)
+			exec->infile = open(element->filename, O_RDONLY);
+		else if (element->intype == IT_HERE_DOC)
+			exec->infile = here_doc(element->filename);
 		if (exec->infile == -1)
-			return (perror(element), C_GEN);
+			return (perror(element->filename), C_GEN);
+		else if (exec->infile == -2)
+			return (C_GEN);
 	}
 	return (C_SUCCESS);
 }
