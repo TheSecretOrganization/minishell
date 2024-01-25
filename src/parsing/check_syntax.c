@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 14:13:01 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:07:04 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 }
 
 /**
- * Check bash syntax in one line
- * @param data pointer on where the data is stored
- * @return t_code C_SUCCESS or C_BAD_USE
-*/
-t_code	check_syntax(t_data *data)
+ * @brief Check if all quotes are closed in the line
+ *
+ * @param line line to parse
+ * @return t_code C_SUCCESS or an error
+ */
+t_code	check_quotes(char *line)
 {
 	size_t	nq;
 	size_t	nd;
@@ -49,21 +50,33 @@ t_code	check_syntax(t_data *data)
 	nq = 0;
 	nd = 0;
 	i = -1;
-	while (data->line[++i])
+	while (line[++i])
 	{
-		if (data->line[i] == '\'' && !(nd % 2))
+		if (line[i] == '\'' && !(nd % 2))
 			nq++;
-		if (data->line[i] == '\"' && !(nq % 2))
+		if (line[i] == '\"' && !(nq % 2))
 			nd++;
-		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, data->line[i]))
-			return (error_syntax(C_BAD_USE, data->line, 1));
-		if (!(nq % 2)
-			&& (data->line[i] == '$' || (!(nd % 2) && data->line[i] == '~')))
-			i = expand_variables(data, i);
+		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, line[i]))
+			return (error_syntax(C_BAD_USE, &(line[i]), 1));
 	}
 	if (nq % 2)
 		return (error_syntax(C_BAD_USE, "\'", 1));
 	else if (nd % 2)
 		return (error_syntax(C_BAD_USE, "\"", 1));
+	return (C_SUCCESS);
+}
+
+/**
+ * Check bash syntax in one line
+ * @param data pointer on where the data is stored
+ * @return t_code C_SUCCESS or C_BAD_USE
+*/
+t_code	check_syntax(t_data *data)
+{
+	if (check_quotes(data->line))
+		return (C_BAD_USE);
+	data->line = expand_variables(data->line, data->status);
+	if (!data->line)
+		return (C_MEM);
 	return (C_SUCCESS);
 }

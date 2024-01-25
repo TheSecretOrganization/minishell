@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:07:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 16:38:12 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/24 20:11:08 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,110 +15,122 @@
 /**
  * @brief Expand a variable if it is found in the env
  *
- * @param data data of the program, contains the line parsed
- * @param i position in the line
- * @return size_t new position in the line
+ * @param line line to parse
+ * @param i pointer on the position in the line
+ * @return char * or NULL if an error occurs
  */
-static size_t	expand_variable(t_data *data, size_t i)
+static char	*expand_variable(char *line, size_t *i)
 {
 	size_t	len;
 	char	*td;
 	char	*tr;
 
 	len = 1;
-	while (data->line[i + len] && ft_isalnum(data->line[i + len]))
+	while (line[*i + len] && !ft_strchr(CH_SPCL, line[*i + len]))
 		len++;
-	td = ft_substr(data->line, i, len);
+	td = ft_substr(line, *i, len);
 	if (!td)
-		(clean_memory(data, NULL), exit(error(C_MEM, "ft_substr", M_MEM)));
+		return (error(C_MEM, "ft_substr", M_MEM), NULL);
 	tr = getenv(td + 1);
 	if (!tr)
 	{
 		len = -1;
-		data->line = ft_fstrrplc(data->line, td, "");
+		line = ft_fstrrplc(line, td, "");
 	}
 	else
 	{
 		len = ft_strlen(tr) - 1;
-		data->line = ft_fstrrplc(data->line, td, tr);
+		line = ft_fstrrplc(line, td, tr);
 	}
-	if (!data->line)
-		(clean_memory(data, td), exit(error(C_MEM, "ft_fstrrplc", M_MEM)));
-	return (free(td), i + len);
+	if (!line)
+		return (free(td), error(C_MEM, "ft_fstrrplc", M_MEM), NULL);
+	return (free(td), *i += len, line);
 }
 
 /**
  * @brief Expand the path to the home of the current user
  *
- * @param data data of the program, contains the line parsed
- * @param i position in the line
- * @return size_t new position in the line
+ * @param line line to parse
+ * @param i pointer on the position in the line
+ * @return char * or NULL if an error occurs
  */
-static size_t	expand_home(t_data *data, size_t i)
+static char	*expand_home(char *line, size_t *i)
 {
 	size_t	len;
 	char	*td;
 	char	*tr;
 
-	td = ft_substr(data->line, i, 1);
+	td = ft_substr(line, *i, 1);
 	if (!td)
-		(clean_memory(data, NULL), exit(error(C_MEM, "ft_substr", M_MEM)));
+		return (error(C_MEM, "ft_substr", M_MEM), NULL);
 	tr = getenv("HOME");
 	if (!tr)
 	{
 		len = -1;
-		data->line = ft_fstrrplc(data->line, td, "");
+		line = ft_fstrrplc(line, td, "");
 	}
 	else
 	{
 		len = ft_strlen(tr) - 1;
-		data->line = ft_fstrrplc(data->line, td, tr);
+		line = ft_fstrrplc(line, td, tr);
 	}
-	if (!data->line)
-		(clean_memory(data, td), exit(error(C_MEM, "ft_fstrrplc", M_MEM)));
-	return (free(td), i + len);
+	if (!line)
+		return (free(td), error(C_MEM, "ft_fstrrplc", M_MEM), NULL);
+	return (free(td), *i += len, line);
 }
 
 /**
  * @brief Expand the status code of the last command
  *
- * @param data data of the program, contains the line parsed
- * @param i position in the line
- * @return size_t new position in the line
+ * @param line line to parse
+ * @param i pointer on the position in the line
+ * @return char * or NULL if an error occurs
  */
-static size_t	expand_status(t_data *data, size_t i)
+static char	*expand_status(char *line, int status, size_t *i)
 {
 	size_t	len;
 	char	*tr;
 
-	tr = ft_itoa(data->status);
+	tr = ft_itoa(status);
 	if (!tr)
-		(clean_memory(data, NULL), exit(error(C_MEM, "ft_itoa", M_MEM)));
+		return (error(C_MEM, "ft_itoa", M_MEM), NULL);
 	len = ft_strlen(tr) - 1;
-	data->line = ft_fstrrplc(data->line, "$?", tr);
-	if (!data->line)
-		(clean_memory(data, tr), exit(error(C_MEM, "ft_fstrrplc", M_MEM)));
-	return (free(tr), i + len);
+	line = ft_fstrrplc(line, "$?", tr);
+	if (!line)
+		return (free (tr), error(C_MEM, "ft_fstrrplc", M_MEM), NULL);
+	return (free(tr), *i += len, line);
 }
 
 /**
- * @brief Expand the variable found in the line
+ * @brief Expand all variables in the line
  *
- * @param data data of the program, contains the line parsed
- * @param i position in the line
- * @return size_t new position in the line
+ * @param line line to parse
+ * @param status status code of the last command
+ * @return char * or NULL if an error occurs
  */
-size_t	expand_variables(t_data *data, size_t i)
+char	*expand_variables(char *line, int status)
 {
-	if (data->line[i] == '~' && (data->line[i + 1] == ' '
-			|| ft_strchr(CH_SPCL, data->line[i + 1])))
-		i = expand_home(data, i);
-	else if (data->line[i] == '$')
+	size_t	i;
+
+	i = -1;
+	while (line[++i])
 	{
-		if (data->line[i + 1] == '?')
-			i = expand_status(data, i);
-		else
-			i = expand_variable(data, i);
+		if (line[i] == '~'
+			&& (line[i + 1] == ' ' || ft_strchr(CH_SPCL, line[i + 1])))
+		{
+			line = expand_home(line, &i);
+			if (!line)
+				return (NULL);
+		}
+		else if (line[i] == '$' && line[i + 1] && line[i + 1] != ' ')
+		{
+			if (line[i + 1] == '?')
+				line = expand_status(line, status, &i);
+			else
+				line = expand_variable(line, &i);
+			if (!line)
+				return (NULL);
+		}
 	}
-	return (i);
+	return (line);
 }

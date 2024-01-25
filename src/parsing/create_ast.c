@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 17:09:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:15:49 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_code	create_ast(t_data *data)
 	t_ast	ast;
 
 	if (o_init_cmd(&(data->cmd)))
-		(clean_memory(data, NULL), exit(C_MEM));
+		(clean_data(data), exit(C_MEM));
 	ast.j_args = NULL;
 	ast.i = 0;
 	ast.target = data->cmd;
@@ -78,12 +78,12 @@ t_code	create_ast(t_data *data)
 		if (ft_strchr(CH_OPE, data->line[ast.i]))
 		{
 			if (split_args(&ast) == C_MEM || add_ope(&ast, data->line))
-				(clean_memory(data, NULL), exit(C_MEM));
+				(clean_data(data), exit(C_MEM));
 		}
 		else if (join_args(&ast, data->line))
-			(clean_memory(data, NULL), exit(C_MEM));
+			(clean_data(data), exit(C_MEM));
 	}
 	if (split_args(&ast) == C_MEM)
-		(clean_memory(data, NULL), exit(C_MEM));
+		(clean_data(data), exit(C_MEM));
 	return (C_SUCCESS);
 }
