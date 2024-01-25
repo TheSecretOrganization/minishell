@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 09:18:49 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 09:28:50 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ typedef struct s_element
 typedef struct s_infile
 {
 	char		*filename;
-	t_outtype	outtype;
+	t_intype	intype;
 }	t_infile;
 
 typedef struct s_outfile
 {
 	char		*filename;
-	t_intype	intype;
+	t_outtype	outtype;
 }	t_outfile;
 
 typedef struct s_cmd
