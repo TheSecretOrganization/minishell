@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 09:15:49 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:07:18 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static t_code	o_init_cmd(t_cmd **cmd)
 		return (error(C_MEM, "ft_calloc", M_MEM));
 	(*cmd)->args = NULL;
 	(*cmd)->elements = ft_calloc(1, sizeof(t_element *));
-	if (!*cmd)
-		return (free(*cmd), error(C_MEM, "ft_calloc", M_MEM));
+	if (!(*cmd)->elements)
+		return (free(*cmd), *cmd = NULL, error(C_MEM, "ft_calloc", M_MEM));
 	return (C_SUCCESS);
 }
 
@@ -44,6 +44,8 @@ static t_code	add_ope(t_ast *ast, char *line)
 	tmp = NULL;
 	type = T_PIPE;
 	same = B_FALSE;
+	if (split_args(&ast) == C_MEM)
+		return (C_MEM);
 	if (line[ast->i] == line[ast->i + 1])
 		same = B_TRUE;
 	if (same && line[ast->i] == '&')
@@ -56,6 +58,20 @@ static t_code	add_ope(t_ast *ast, char *line)
 		return (free(tmp), error(C_MEM, "addback_cmd", M_MEM));
 	ast->i += 1 + same;
 	return (ast->target = tmp, C_SUCCESS);
+}
+
+/**
+ * @brief Add a new direction to the command
+ *
+ * @param ast pointer on the control structure
+ * @param line line parsed
+ * @return t_code C_SUCCESS or an error
+ */
+static t_code	add_dir(t_ast *ast, char *line)
+{
+	(void)ast;
+	(void)line;
+	return (C_SUCCESS);
 }
 
 /**
@@ -75,15 +91,17 @@ t_code	create_ast(t_data *data)
 	while (data->line[ast.i] && data->line[ast.i + 1])
 	{
 		ast.next = find_next_sep(&(data->line[ast.i + 1]));
-		if (ft_strchr(CH_OPE, data->line[ast.i]))
-		{
-			if (split_args(&ast) == C_MEM || add_ope(&ast, data->line))
-				(clean_data(data), exit(C_MEM));
-		}
-		else if (join_args(&ast, data->line))
-			(clean_data(data), exit(C_MEM));
+		ast.status = 0;
+		if (ft_strchr(CH_OPE, data->line[ast.i]) && ++(ast.status)
+			&& add_ope(&ast, data->line))
+			return (C_MEM);
+		if (ft_strchr(CH_DIR, data->line[ast.i]) && ++(ast.status)
+			&& add_dir(&ast, data->line))
+			return (free(ast.j_args), C_MEM);
+		if (!ast.status && join_args(&ast, data->line))
+			return (C_MEM);
 	}
 	if (split_args(&ast) == C_MEM)
-		(clean_data(data), exit(C_MEM));
+		return (C_MEM);
 	return (C_SUCCESS);
 }

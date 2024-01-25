@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 09:13:50 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:43:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 typedef struct s_ast
 {
+	int 	status;
 	char	*j_args;
 	char	*next;
 	t_cmd	*target;
