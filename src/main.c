@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 09:18:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 11:12:24 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	(init_data(&data, envp), register_signals());
 	while (prompt(&data))
 	{
+		g_signal = 0;
 		if (!*(data.line))
 		{
 			data.status = 0;
