@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 09:28:50 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 10:18:59 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,17 @@ typedef enum e_type
 	T_PIPE_OR = 6
 }	t_type;
 
-typedef enum e_intype
-{
-	TRUNCATE = 1,
-	APPEND
-}	t_intype;
-
 typedef enum e_outtype
 {
-	INFILE = 1,
-	HERE_DOC
+	OT_TRUNCATE = 1,
+	OT_APPEND
 }	t_outtype;
+
+typedef enum e_intype
+{
+	IT_INFILE = 1,
+	IT_HERE_DOC
+}	t_intype;
 
 typedef struct s_element
 {
