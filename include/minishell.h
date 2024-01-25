@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 11:10:24 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 10:18:59 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,17 @@ typedef enum e_type
 	T_PIPE_OR = 6
 }	t_type;
 
-typedef enum e_open_type
+typedef enum e_outtype
 {
-	TRUNCATE = 1,
-	APPEND
-}	t_open_type;
+	OT_TRUNCATE = 1,
+	OT_APPEND
+}	t_outtype;
+
+typedef enum e_intype
+{
+	IT_INFILE = 1,
+	IT_HERE_DOC
+}	t_intype;
 
 typedef struct s_element
 {
@@ -71,11 +77,17 @@ typedef struct s_element
 	void	*value;
 }	t_element;
 
-typedef struct s_redirect
+typedef struct s_infile
 {
 	char		*filename;
-	t_open_type	otype;
-}	t_redirect;
+	t_intype	intype;
+}	t_infile;
+
+typedef struct s_outfile
+{
+	char		*filename;
+	t_outtype	outtype;
+}	t_outfile;
 
 typedef struct s_cmd
 {
@@ -83,12 +95,26 @@ typedef struct s_cmd
 	t_element	**elements;
 }	t_cmd;
 
+typedef struct s_data
+{
+	char	**envp;
+	char	*line;
+	t_cmd	*cmd;
+	char	**path;
+	int		status;
+}	t_data;
+
+extern int	g_signal;
+
 t_code		error(t_code code, char *el, char *message);
+void		clean_data(t_data *data);
 void		free_cmd(t_cmd *cmd);
-char		*prompt(char **line, int status);
+char		*prompt(t_data *data);
 void		register_signals(void);
 
 t_code		addback_cmd(t_cmd *cmd, t_element *el);
 t_element	*new_element(t_type type, void *value);
+
+int			here_doc(char *delimiter);
 
 #endif

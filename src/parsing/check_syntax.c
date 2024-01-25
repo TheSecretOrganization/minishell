@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 09:41:58 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 13:55:23 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,82 +37,47 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 }
 
 /**
- * @brief check if the line contains only chars from a set
+ * @brief Check if all quotes are closed in the line
  *
- * @param line current position in line parsed
- * @param start start of line parsed
- * @param set set of special chars to check
- * @return t_bool
+ * @param line line to parse
+ * @return t_code C_SUCCESS or an error
  */
-static t_bool	check_only_set(char *line, char *start, char *set)
-{
-	t_bool	checks[2];
-	size_t	i;
-
-	checks[0] = B_TRUE;
-	checks[1] = B_TRUE;
-	i = -1;
-	while (line[++i] && checks[0] == B_TRUE)
-		if (!ft_strchr(set, line[i]))
-			checks[0] = B_FALSE;
-	if (start)
-	{
-		while (start != line && checks[1] == B_TRUE)
-			if (!ft_strchr(set, *(line++)))
-				checks[1] = B_FALSE;
-		if (checks[0] == B_FALSE && checks[1] == B_FALSE)
-			return (B_FALSE);
-		else
-			return (B_TRUE);
-	}
-	return (checks[0]);
-}
-
-/**
- * @brief Check bash special chars syntax
- *
- * @param line pointer on the current position in the line parsed
- * @param start start of the line parsed
- * @return t_code C_SUCCES or an error
- */
-static t_code	check_special_chars(char **line, char *start)
-{
-	if (ft_strchr(CH_DIR, **line) && check_dir(line))
-		return (C_BAD_USE);
-	else if (ft_strchr(CH_OPE, **line) && check_ope(line, start))
-		return (C_BAD_USE);
-	return (C_SUCCESS);
-}
-
-/**
- * Check bash syntax in one line
- * @param line line to check
- * @return t_code C_SUCCESS or C_BAD_USE
-*/
-t_code	check_syntax(char *line)
+t_code	check_quotes(char *line)
 {
 	size_t	nq;
 	size_t	nd;
-	char	*start;
+	size_t	i;
 
 	nq = 0;
 	nd = 0;
-	start = line;
-	while (line && *line)
+	i = -1;
+	while (line[++i])
 	{
-		if (*line == '\'' && !(nd % 2))
+		if (line[i] == '\'' && !(nd % 2))
 			nq++;
-		if (*line == '\"' && !(nq % 2))
+		if (line[i] == '\"' && !(nq % 2))
 			nd++;
-		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, *line))
-			return (error_syntax(C_BAD_USE, line, 1));
-		if (check_special_chars(&line, start))
-			return (C_BAD_USE);
-		line++;
+		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, line[i]))
+			return (error_syntax(C_BAD_USE, &(line[i]), 1));
 	}
 	if (nq % 2)
 		return (error_syntax(C_BAD_USE, "\'", 1));
 	else if (nd % 2)
 		return (error_syntax(C_BAD_USE, "\"", 1));
+	return (C_SUCCESS);
+}
+
+/**
+ * Check bash syntax in one line
+ * @param data pointer on where the data is stored
+ * @return t_code C_SUCCESS or C_BAD_USE
+*/
+t_code	check_syntax(t_data *data)
+{
+	if (check_quotes(data->line))
+		return (C_BAD_USE);
+	data->line = expand_variables(data->line, data->status);
+	if (!data->line)
+		return (C_MEM);
 	return (C_SUCCESS);
 }

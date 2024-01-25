@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:50:14 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 11:06:40 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 11:22:15 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 
 /**
  * Send a prompt to the user
- * @param line pointer on where to store the inout
- * @param status status code return by the last command
+ * @param data pointer on where the data is stored
  * @return user's input or NULL if EOT
 */
-char	*prompt(char **line, int status)
+char	*prompt(t_data *data)
 {
-	if (*line)
-		free(*line);
-	if (status)
-		*line = readline(PROMPT_ERR" "RED"❯ "DEFAULT);
+	if (data->line)
+		free(data->line);
+	if (data->status)
+		data->line = readline("\r\033[K"PROMPT_ERR" "RED"❯ "DEFAULT);
 	else
-		*line = readline(PROMPT_HEAD" "GREEN"❯ "DEFAULT);
-	add_history(*line);
-	return (*line);
+		data->line = readline("\r\033[K"PROMPT_HEAD" "GREEN"❯ "DEFAULT);
+	add_history(data->line);
+	return (data->line);
 }

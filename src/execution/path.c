@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:42:17 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 11:44:48 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/24 10:14:36 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**get_path(void)
 		{
 			temp = ft_strjoin(result[i], "/");
 			if (!temp)
-				return (ft_fsplit(result), NULL);
+				(ft_fsplit(result), exit(C_MEM));
 			(free(result[i]), result[i] = temp);
 		}
 	}

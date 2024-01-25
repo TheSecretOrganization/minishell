@@ -55,11 +55,15 @@ define SRC 	:=
 		utils.c
 	)
 	$(addprefix $(PARSING_DIR)/, \
+		add_dir.c \
+		add_ope.c \
 		check_syntax.c \
 		create_ast.c \
+		expand_variables.c \
 		parse_line.c \
 		utils.c
 	)
+	heredoc.c
 	main.c
 	prompt.c
 	signal.c

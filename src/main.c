@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:35:27 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 12:23:25 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,36 @@
 #include "execution.h"
 #include "parsing.h"
 
+int	g_signal = 0;
+
+void	init_data(t_data *data, char **envp)
+{
+	data->envp = envp;
+	data->line = NULL;
+	data->cmd = NULL;
+	data->status = 0;
+	data->path = get_path();
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
-	t_cmd	*cmd;
-	char	**path;
-	int		status;
+	t_data	data;
 
 	((void)argc, (void)argv);
-	line = NULL;
-	cmd = NULL;
-	status = 0;
-	path = get_path();
-	if (!path)
-		return (C_GEN);
-	register_signals();
-	while (prompt(&line, status))
+	(init_data(&data, envp), register_signals());
+	while (prompt(&data))
 	{
-		status = parse_line(&cmd, line);
-		if (status == C_BAD_USE)
+		g_signal = 0;
+		if (!*(data.line))
+		{
+			data.status = 0;
 			continue ;
-		status = dispatch_cmd(cmd, path, envp);
+		}
+		data.status = parse_line(&data);
+		if (data.status == C_BAD_USE)
+			continue ;
+		data.status = dispatch_cmd(data.cmd, data.path, data.envp);
+		free_cmd(data.cmd);
 	}
-	(free_cmd(cmd), ft_fsplit(path));
-	return (C_SUCCESS);
+	return (ft_printf("exit\n"), ft_fsplit(data.path), C_SUCCESS);
 }
