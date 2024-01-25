@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 13:47:32 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/25 10:38:47 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,15 @@ int	here_doc(char *delimiter)
 	wfd = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	rfd = open("here_doc", O_RDONLY);
 	unlink("here_doc");
-	while (printf("heredoc > ") && oget_next_line(0, &line)
+	while (ft_printf("here_doc > ") && oget_next_line(0, &line)
 		&& g_signal != SIGINT)
 	{
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
 			break ;
 		(ft_putstr_fd(line, wfd), free(line));
 	}
+	if (g_signal == SIGINT)
+		return (-2);
 	close(wfd);
 	return (rfd);
 }
