@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/23 11:09:20 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 09:23:57 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,20 @@ void	free_cmd(t_cmd *cmd)
 		free(cmd->elements);
 	}
 	free(cmd);
+}
+
+/**
+ * Free the allocated memory
+ * @param data pointer on where the data is stored
+*/
+void	clean_data(t_data *data)
+{
+	if (data->cmd)
+		(free_cmd(data->cmd), data->cmd = NULL);
+	if (data->line)
+		(free(data->line), data->line = NULL);
+	if (data->path)
+		(free(data->path), data->path = NULL);
 }
 
 /**
