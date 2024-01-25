@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:53:46 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 17:39:06 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 17:42:18 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ t_code	check_pipe(char *line, size_t pos)
 		return (error_syntax(C_BAD_USE, line + pos, nb));
 	return (C_SUCCESS);
 }
-
 
 /**
  * @brief Check special chars syntax in line
