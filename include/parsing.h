@@ -40,6 +40,9 @@ t_code	check_pipe(char *line, size_t pos);
 t_code	check_ampersand(char *line, size_t pos);
 t_bool	check_for_alnum_chars(char *line, size_t pos, char c, t_bool prev);
 
+t_code	check_in(char *line, size_t pos);
+t_code	check_out(char *line, size_t pos);
+
 char	*expand_variables(char *line, int status);
 
 t_code	create_ast(t_data *data);

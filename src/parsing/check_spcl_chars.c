@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:53:46 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/27 13:28:05 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/27 13:33:02 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_bool	check_for_alnum_chars(char *line, size_t pos, char c, t_bool prev)
 		i++;
 	if ((line[i] && line[i] != c) || (i == pos + 1 && line[i] == c))
 		front = B_TRUE;
+	printf("%u\n", front);
 	if (prev)
 	{
 		prev = B_FALSE;
@@ -124,6 +125,10 @@ t_code	check_spcl_chars(char *line)
 		if (line[i] == '|' && check_pipe(line, i))
 			return (C_BAD_USE);
 		if (line[i] == '&' && check_ampersand(line, i))
+			return (C_BAD_USE);
+		if (line[i] == '<' && check_in(line, i))
+			return (C_BAD_USE);
+		if (line[i] == '>' && check_out(line, i))
 			return (C_BAD_USE);
 	}
 	return (C_SUCCESS);

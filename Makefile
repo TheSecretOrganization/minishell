@@ -57,6 +57,7 @@ define SRC 	:=
 	$(addprefix $(PARSING_DIR)/, \
 		add_dir.c \
 		add_ope.c \
+		check_dir.c \
 		check_spcl_chars.c \
 		check_syntax.c \
 		create_ast.c \
