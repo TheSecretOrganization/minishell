@@ -37,4 +37,6 @@ void	*find_element(t_cmd cmd, t_type type);
 void	init_exec(t_exec *exec);
 int		wait_children(int pid);
 
+int		exec_builtin(t_exec *exec);
+
 #endif
