@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:33:41 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/29 09:54:18 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,19 @@ int	is_builtin(t_cmd cmd, t_exec *exec)
 	char	*name;
 
 	name = cmd.args[0];
-	if (cmp_cmd(name, "echo"))
+	if (!cmp_cmd(name, "echo"))
 		set_cmd(exec, cmd_echo);
-	if (cmp_cmd(name, "cd"))
+	if (!cmp_cmd(name, "cd"))
 		set_cmd(exec, cmd_cd);
-	if (cmp_cmd(name, "pwd"))
+	if (!cmp_cmd(name, "pwd"))
 		set_cmd(exec, cmd_pwd);
-	if (cmp_cmd(name, "export"))
+	if (!cmp_cmd(name, "export"))
 		set_cmd(exec, cmd_export);
-	if (cmp_cmd(name, "unset"))
+	if (!cmp_cmd(name, "unset"))
 		set_cmd(exec, cmd_unset);
-	if (cmp_cmd(name, "env"))
+	if (!cmp_cmd(name, "env"))
 		set_cmd(exec, cmd_env);
-	if (cmp_cmd(name, "exit"))
+	if (!cmp_cmd(name, "exit"))
 		set_cmd(exec, cmd_exit);
 	return (exec->is_builtin);
 }
