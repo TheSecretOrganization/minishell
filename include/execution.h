@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:24:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/29 09:26:40 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ void	init_exec(t_exec *exec);
 int		wait_children(int pid);
 
 int		exec_builtin(t_exec *exec);
-int		is_builtin(t_cmd *cmd, t_exec *exec);
+int		is_builtin(t_cmd cmd, t_exec *exec);
 
 #endif

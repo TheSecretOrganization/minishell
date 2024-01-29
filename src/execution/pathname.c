@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:14:17 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/29 09:26:32 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static	set_cmd(t_exec *exec, int (*f)(t_exec *))
 	exec->builtin = f;
 }
 
-int	is_builtin(t_cmd *cmd, t_exec *exec)
+int	is_builtin(t_cmd cmd, t_exec *exec)
 {
 	char	*name;
 
-	name = cmd->args[0];
+	name = cmd.args[0];
 	if (cmp_cmd(name, "echo"))
 		set_cmd(exec, cmd_echo);
 	if (cmp_cmd(name, "cd"))
