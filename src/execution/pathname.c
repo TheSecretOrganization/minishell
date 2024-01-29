@@ -6,19 +6,19 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:26:32 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/29 09:33:41 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 #include "builtin.h"
 
-static	cmp_cmd(char *name, char *cmd)
+static int	cmp_cmd(char *name, char *cmd)
 {
 	return (ft_strncmp(name, cmd, ft_strlen(name) + 1));
 }
 
-static	set_cmd(t_exec *exec, int (*f)(t_exec *))
+static void	set_cmd(t_exec *exec, int (*f)(t_exec *))
 {
 	exec->is_builtin = 1;
 	exec->builtin = f;
