@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 14:57:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/29 09:00:36 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	init_exec(t_exec *exec)
 	exec->outfile = -1;
 	exec->pipes[0] = -1;
 	exec->pipes[1] = -1;
+	exec->is_builtin = 0;
+	exec->builtin = NULL;
 }
 
 /**
@@ -35,6 +37,8 @@ void	init_exec(t_exec *exec)
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
+	exec->is_builtin = 0;
+	exec->builtin = NULL;
 	exec->args = cmd.args;
 	if (exec->pathname)
 		free(exec->pathname);
