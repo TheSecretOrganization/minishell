@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:21:37 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/29 08:46:12 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct s_exec
 	int		pipes[2];
 	int		infile;
 	int		outfile;
+	int		is_builtin;
+	int 	(*builtin)(t_exec *);
 }	t_exec;
 
 int		dispatch_cmd(t_cmd *cmd, char **path, char **envp);
