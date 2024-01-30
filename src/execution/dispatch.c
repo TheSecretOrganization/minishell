@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:29:40 by averin           ###   ########.fr       */
+/*   Updated: 2024/01/30 09:10:48 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,5 +137,7 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 			exec.infile = exec.pipes[0];
 	}
 	free(exec.pathname);
+	if (exec.is_builtin)
+		return (pid);
 	return (wait_children(pid));
 }
