@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:53:46 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/31 22:28:05 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/31 22:52:11 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@ t_code	check_ampersand(char *line, size_t *pos)
 		nb++;
 	if (!*pos || nb == 1)
 		return (error_syntax(C_BAD_USE, line + *pos, nb));
-	i = *pos;
-	while (--i > 0)
-		if (ft_strchr(CH_SPCL, line[i]) || line[i] != ' ')
-			break ;
+	i = *pos - 1;
+	while (i > 0 && !ft_strchr(CH_SPCL, line[i]) && line[i] == ' ')
+		i--;
 	if (!ft_strchr(CH_SPCL, line[i]) && line[i] != ' ')
 	{
 		if (line[*pos + nb] == '|')
@@ -62,10 +61,9 @@ t_code	check_pipe(char *line, size_t *pos, t_bool forced_err)
 		nb++;
 	if (forced_err || !*pos)
 		return (error_syntax(C_BAD_USE, line + *pos, nb));
-	i = *pos;
-	while (--i > 0)
-		if (ft_strchr(CH_SPCL, line[i]) || line[i] != ' ')
-			break ;
+	i = *pos - 1;
+	while (i > 0 && !ft_strchr(CH_SPCL, line[i]) && line[i] == ' ')
+		i--;
 	if (!ft_strchr(CH_SPCL, line[i]) && line[i] != ' ')
 		return (*pos += nb - 1, C_SUCCESS);
 	return (error_syntax(C_BAD_USE, line + *pos, nb));
@@ -90,15 +88,14 @@ t_code	check_in(char *line, size_t *pos, t_bool force_err)
 	if (force_err)
 		return (error_syntax(C_BAD_USE, line + *pos, nb));
 	i = *pos + nb;
-	while (line[++i])
-	{
-		if (ft_strchr(CH_DIR, line[i]))
-			break ;
-		if (line[i] != ' ')
-			return (*pos += nb - 1, C_SUCCESS);
-	}
-	if (line[i])
-		return (check_in(line, &i, B_TRUE));
+	while (line[i] && !ft_strchr(CH_DIR, line[i]) && line[i] == ' ')
+		i++;
+	if (line[i] == '<')
+		return (*pos = i, check_in(line, pos, B_TRUE));
+	else if (line[i] == '>')
+		return (*pos = i, check_out(line, pos, B_TRUE));
+	else if (line[i] && line[i] != ' ')
+		return (*pos += nb - 1, C_SUCCESS);
 	return (error_syntax(C_BAD_USE, line + *pos, nb));
 }
 
@@ -121,15 +118,14 @@ t_code	check_out(char *line, size_t *pos, t_bool force_err)
 	if (force_err)
 		return (error_syntax(C_BAD_USE, line + *pos, nb));
 	i = *pos + nb;
-	while (line[++i])
-	{
-		if (ft_strchr(CH_DIR, line[i]))
-			break ;
-		if (line[i] != ' ')
-			return (*pos += nb - 1, C_SUCCESS);
-	}
-	if (line[i])
-		return (check_out(line, &i, B_TRUE));
+	while (line[i] && !ft_strchr(CH_DIR, line[i]) && line[i] == ' ')
+		i++;
+	if (line[i] == '<')
+		return (*pos = i, check_in(line, pos, B_TRUE));
+	else if (line[i] == '>')
+		return (*pos = i, check_out(line, pos, B_TRUE));
+	else if (line[i] && line[i] != ' ')
+		return (*pos += nb - 1, C_SUCCESS);
 	return (error_syntax(C_BAD_USE, line + *pos, nb));
 }
 
