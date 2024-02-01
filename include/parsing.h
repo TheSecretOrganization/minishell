@@ -49,8 +49,9 @@ t_code	o_init_cmd(t_cmd **cmd);
 
 t_code	add_dir(t_ast *ast, char *line);
 
-char	*find_next_sep(char *line);
 t_code	join_args(t_ast *ast, char *line);
 t_code	split_args(t_ast *ast);
+char	*find_next_sep(char *line);
+char	*find_next_arg(char *line, char **end);
 
 #endif
