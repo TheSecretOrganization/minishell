@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 12:23:26 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:28:30 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,9 @@ static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 
 	if (init_pipe(cmd, exec) == C_GEN)
 		return (124);
-	if (cmd->args[0] != NULL)
-	{
-		err = fill_exec(exec, *cmd, path);
-		if (err != C_SUCCESS)
-			return (err);
-	}
+	err = fill_exec(exec, *cmd, path);
+	if (err != C_SUCCESS)
+		return (err);
 	err = init_infile(cmd, exec);
 	if (err == C_BAD_USE)
 		return (130);
