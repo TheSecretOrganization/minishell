@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 14:09:18 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 11:23:57 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * @param cmd relative path
  * @return freeable path or NULL
 */
-char	*find_relative_exec(char *cmd)
+static char	*find_relative_exec(char *cmd)
 {
 	if (access(cmd, F_OK) == -1)
 		return (errno = C_NOFILE, NULL);
@@ -35,7 +35,7 @@ char	*find_relative_exec(char *cmd)
  * @param path list of path entries
  * @return path or NULL
 */
-char	*find_path_exec(char *cmd, char **path)
+static char	*find_path_exec(char *cmd, char **path)
 {
 	char	*exec;
 	size_t	i;
@@ -56,4 +56,20 @@ char	*find_path_exec(char *cmd, char **path)
 		return (exec);
 	}
 	return (errno = C_NOFILE, NULL);
+}
+
+/**
+ * @brief Find executable pathname
+ * 
+ * @param exec current execution
+ * @param path env's path
+ * @return char* the pathname or NULL, errno is set
+ */
+char	*find_pathname(t_exec *exec, char **path)
+{
+	if (path == NULL || ft_strchr(exec->args[0], '/'))
+		exec->pathname = find_relative_exec(exec->args[0]);
+	else
+		exec->pathname = find_path_exec(exec->args[0], path);
+	return (exec->pathname);
 }
