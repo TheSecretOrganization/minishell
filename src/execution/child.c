@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:22:06 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:08:02 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,21 @@ int	do_exec(t_exec *exec, char **envp)
 {
 	int	pid;
 
-	pid = fork();
-	if (pid == -1)
-		return (perror("fork"), -1);
-	else if (pid == 0)
+	pid = -1;
+	if (exec->args[0] != NULL)
 	{
-		if (duplicate_fds(*exec))
-			(perror("redirect error"), close_fds(exec), free_exec(*exec), \
-			exit(254));
-		close_fds(exec);
-		if (execve(exec->pathname, exec->args, envp) == -1)
-			(perror("execution error"), free_exec(*exec), exit(253));
+		pid = fork();
+		if (pid == -1)
+			return (perror("fork"), -1);
+		else if (pid == 0)
+		{
+			if (duplicate_fds(*exec))
+				(perror("redirect error"), close_fds(exec), free_exec(*exec), \
+				exit(254));
+			close_fds(exec);
+			if (execve(exec->pathname, exec->args, envp) == -1)
+				(perror("execution error"), free_exec(*exec), exit(253));
+		}
 	}
 	if (exec->infile != -1)
 		(close(exec->infile), exec->infile = -1);
