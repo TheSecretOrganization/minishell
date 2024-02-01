@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:27:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 22:40:27 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 /**
  * @brief Initialize exec with default values
- * 
+ *
  * @param exec pointer to exec to init
+ * @param data data of the program
  */
-void	init_exec(t_exec *exec)
+void	init_exec(t_exec *exec, t_data *data)
 {
 	exec->pathname = NULL;
 	exec->infile = -1;
@@ -26,6 +27,9 @@ void	init_exec(t_exec *exec)
 	exec->pipes[1] = -1;
 	exec->is_builtin = 0;
 	exec->builtin = NULL;
+	exec->is_pipe = 0;
+	exec->data = data;
+	exec->target = data->cmd;
 }
 
 /**
@@ -33,7 +37,7 @@ void	init_exec(t_exec *exec)
  * @param exec structure to init
  * @param cmd cmd to init from
  * @param path the path
- * @return SUCCESS 
+ * @return SUCCESS
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
@@ -41,7 +45,7 @@ int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 	exec->builtin = NULL;
 	exec->args = cmd.args;
 	if (exec->pathname)
-		free(exec->pathname);
+		(free(exec->pathname), exec->pathname = NULL);
 	if (is_builtin(cmd, exec))
 		return (C_SUCCESS);
 	if (ft_strchr(exec->args[0], '/') || path == NULL)
