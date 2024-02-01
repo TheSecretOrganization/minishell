@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/01/23 12:21:37 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:20:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ typedef struct s_exec
 }	t_exec;
 
 int		dispatch_cmd(t_cmd *cmd, char **path, char **envp);
-int		do_exec(t_exec *exec, char **envp);
-char	*find_relative_exec(char *cmd);
-char	*find_path_exec(char *cmd, char **path);
+void	do_exec(t_exec *exec, char **envp, int *pid);
+char	*find_pathname(t_exec *exec, char **path);
 char	**get_path(void);
 int		fill_exec(t_exec *exec, t_cmd cmd, char **path);
 void	*find_element(t_cmd cmd, t_type type);

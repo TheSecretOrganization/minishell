@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 14:57:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:28:26 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,21 @@ void	init_exec(t_exec *exec)
  * @param exec structure to init
  * @param cmd cmd to init from
  * @param path the path
- * @return SUCCESS 
+ * @return SUCCESS or corresponding exit code 
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
 	exec->args = cmd.args;
 	if (exec->pathname)
 		free(exec->pathname);
-	if (ft_strchr(exec->args[0], '/') || path == NULL)
-		exec->pathname = find_relative_exec(exec->args[0]);
-	else
-		exec->pathname = find_path_exec(exec->args[0], path);
-	if (!exec->pathname)
-		return (C_GEN);
+	exec->pathname = NULL;
+	if (cmd.args[0] != NULL && !find_pathname(exec, path))
+	{
+		if (errno == C_NOEXEC)
+			return (printf("%s: No permission\n", exec->args[0]), 127);
+		else if (errno == C_NOFILE)
+			return (printf("%s: Not found\n", exec->args[0]), 126);
+	}
 	return (C_SUCCESS);
 }
 
