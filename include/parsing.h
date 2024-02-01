@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/31 22:07:43 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/01 19:52:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 typedef struct s_ast
 {
-	int		status;
 	char	*j_args;
 	char	*next;
 	t_cmd	*target;
@@ -50,8 +49,9 @@ t_code	o_init_cmd(t_cmd **cmd);
 
 t_code	add_dir(t_ast *ast, char *line);
 
-char	*find_next_sep(char *line);
 t_code	join_args(t_ast *ast, char *line);
 t_code	split_args(t_ast *ast);
+char	*find_next_sep(char *line);
+char	*find_next_arg(char *line, char **end);
 
 #endif
