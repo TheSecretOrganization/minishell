@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 22:40:27 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/01 22:58:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	init_exec(t_exec *exec, t_data *data)
 	exec->pipes[1] = -1;
 	exec->is_builtin = 0;
 	exec->builtin = NULL;
-	exec->is_pipe = 0;
 	exec->data = data;
 	exec->target = data->cmd;
+	exec->is_pipe = find_element(*(exec->target), T_PIPE) != NULL;
 }
 
 /**

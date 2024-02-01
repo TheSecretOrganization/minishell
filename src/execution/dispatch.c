@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 22:41:19 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/01 22:58:28 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,6 @@ int	dispatch_cmd(t_data *data)
 	int		err;
 
 	init_exec(&exec, data);
-	if (find_element(*(exec.target), T_PIPE))
-		exec.is_pipe = 1;
 	while (exec.target)
 	{
 		err = manage_redirection(exec.target, &exec, data->path);
