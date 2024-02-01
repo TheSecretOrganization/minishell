@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/11 15:17:10 by averin            #+#    #+#             */
-/*   Updated: 2023/11/07 11:10:01 by antoine          ###   ########.fr       */
+/*   Updated: 2024/01/31 15:27:53 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,12 @@ char	*ft_strtrim(const char *s1, const char *set)
 			len = i + 1;
 	}
 	return (ft_substr(s1, start, len));
+}
+
+char	*ft_fstrtrim(const char *s1, const char *set)
+{
+	char	*new;
+
+	new = ft_strtrim(s1, set);
+	return (free((char *)s1), new);
 }
