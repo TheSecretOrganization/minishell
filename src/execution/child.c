@@ -64,7 +64,7 @@ static int	duplicate_fds(t_exec exec)
  * Execute the command with the args and the env, redirect input and output
  * @param exec current execution informations
  * @param envp envp
- * @return execution's pid or -1
+ * @param int* where store the pid of the created child
 */
 void	do_exec(t_exec *exec, char **envp, int *pid)
 {
