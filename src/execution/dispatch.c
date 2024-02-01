@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 12:14:31 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 12:23:26 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,14 @@ int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
 	int		pid;
 	int		err;
 
+	pid = -1;
 	init_exec(&exec);
 	while (cmd)
 	{
 		err = prepare_exec(cmd, &exec, path);
 		if (err != C_SUCCESS)
 			return (free(exec.pathname), err);
-		pid = do_exec(&exec, envp);
+		do_exec(&exec, envp, &pid);
 		cmd = find_element(*cmd, T_PIPE);
 		if (cmd)
 			exec.infile = exec.pipes[0];
