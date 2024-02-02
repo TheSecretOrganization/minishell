@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:29:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:31:39 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,13 @@ t_code	ft_setenv(t_data *data, char *item, char *value)
 	return (ft_putenv(data, item, value));
 }
 
+/**
+ * @brief Remove an item from the env
+ * 
+ * @param data shell's data
+ * @param item item to remove
+ * @return t_code C_SUCCESS or C_MEM
+ */
 t_code	ft_unenv(t_data *data, char *item)
 {
 	char	**nenv;
@@ -125,6 +132,13 @@ t_code	ft_unenv(t_data *data, char *item)
 	return (free(item), free(data->envp), data->envp = nenv, C_SUCCESS);
 }
 
+/**
+ * @brief Copy the envp toa full malloced array
+ * 
+ * @param data shell's data
+ * @param envp env to copy in `data`
+ * @return t_code C_SUCCESS or C_MEM
+ */
 t_code	cpy_envp(t_data *data, char **envp)
 {
 	size_t	len;
