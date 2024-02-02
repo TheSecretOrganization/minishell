@@ -61,3 +61,26 @@ t_code	ft_unenv(t_data *data, char *item)
 	nenv[i - 1] = NULL;
 	return (free(item), free(data->envp), data->envp = nenv, C_SUCCESS);
 }
+
+t_code	cpy_envp(t_data *data, char **envp)
+{
+	size_t	len;
+	size_t	i;
+
+	len = -1;
+	while (envp[++len])
+		;
+	data->envp = ft_calloc(len + 1, sizeof(char *));
+	if(!data->envp)
+		return (C_MEM);
+	i = -1;
+	while (envp[++i])
+	{
+		data->envp[i] = ft_calloc(ft_strlen(envp[i]) + 1, sizeof(char));
+		if (!data->envp[i])
+			return (ft_fsplit(data->envp), C_MEM);
+		ft_memcpy(data->envp[i], envp[i], ft_strlen(envp[i]));
+	}
+	data->envp[i] = NULL;
+	return (C_SUCCESS);
+}

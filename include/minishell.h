@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 13:51:10 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 14:44:48 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ int			here_doc(char *delimiter);
 char		*ft_getenv(t_data data, char *item);
 t_code		ft_setenv(t_data *data, char *item, char *value);
 t_code		ft_unenv(t_data *data, char *item);
+t_code		cpy_envp(t_data *data, char **envp);
 
 #endif
