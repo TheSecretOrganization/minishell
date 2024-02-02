@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/31 15:31:59 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/02 16:05:24 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	g_signal = 0;
 
 void	init_data(t_data *data, char **envp)
 {
-	data->envp = envp;
+	cpy_envp(data, envp);
 	data->line = NULL;
 	data->cmd = NULL;
 	data->status = 0;
@@ -48,5 +48,6 @@ int	main(int argc, char **argv, char **envp)
 		data.status = dispatch_cmd(data.cmd, data.path, data.envp);
 		free_cmd(data.cmd);
 	}
-	return (ft_printf("exit\n"), ft_fsplit(data.path), C_SUCCESS);
+	return (ft_printf("exit\n"), ft_fsplit(data.path), ft_fsplit(data.envp),
+		C_SUCCESS);
 }
