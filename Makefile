@@ -68,11 +68,12 @@ define SRC 	:=
 	$(addprefix $(PARSING_DIR)/, \
 		add_dir.c \
 		add_ope.c \
+		check_spcl_chars.c \
 		check_syntax.c \
+		create_ast_utils.c \
 		create_ast.c \
 		expand_variables.c \
-		parse_line.c \
-		utils.c
+		parse_line.c
 	)
 	heredoc.c
 	main.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 22:31:57 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:08:11 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	main(int argc, char **argv, char **envp)
 	while (prompt(&data))
 	{
 		g_signal = 0;
+		data.line = ft_fstrtrim(data.line, " ");
+		if (!data.line)
+			(clean_data(&data), exit(C_MEM));
 		if (!*(data.line))
 		{
 			data.status = 0;

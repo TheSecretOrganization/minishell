@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 20:07:04 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/01/25 16:56:26 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ t_code	check_quotes(char *line)
 t_code	check_syntax(t_data *data)
 {
 	if (check_quotes(data->line))
+		return (C_BAD_USE);
+	if (check_spcl_chars(data->line))
 		return (C_BAD_USE);
 	data->line = expand_variables(data->line, data->status);
 	if (!data->line)

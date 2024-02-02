@@ -6,52 +6,18 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/01/29 09:54:18 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 13:11:45 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-#include "builtin.h"
-
-static int	cmp_cmd(char *name, char *cmd)
-{
-	return (ft_strncmp(name, cmd, ft_strlen(name) + 1));
-}
-
-static void	set_cmd(t_exec *exec, int (*f)(t_exec *))
-{
-	exec->is_builtin = 1;
-	exec->builtin = f;
-}
-
-int	is_builtin(t_cmd cmd, t_exec *exec)
-{
-	char	*name;
-
-	name = cmd.args[0];
-	if (!cmp_cmd(name, "echo"))
-		set_cmd(exec, cmd_echo);
-	if (!cmp_cmd(name, "cd"))
-		set_cmd(exec, cmd_cd);
-	if (!cmp_cmd(name, "pwd"))
-		set_cmd(exec, cmd_pwd);
-	if (!cmp_cmd(name, "export"))
-		set_cmd(exec, cmd_export);
-	if (!cmp_cmd(name, "unset"))
-		set_cmd(exec, cmd_unset);
-	if (!cmp_cmd(name, "env"))
-		set_cmd(exec, cmd_env);
-	if (!cmp_cmd(name, "exit"))
-		set_cmd(exec, cmd_exit);
-	return (exec->is_builtin);
-}
 
 /**
  * Find an executable with a relative path, errno is set in case of error
  * @param cmd relative path
  * @return freeable path or NULL
 */
-char	*find_relative_exec(char *cmd)
+static char	*find_relative_exec(char *cmd)
 {
 	if (access(cmd, F_OK) == -1)
 		return (errno = C_NOFILE, NULL);
@@ -69,7 +35,7 @@ char	*find_relative_exec(char *cmd)
  * @param path list of path entries
  * @return path or NULL
 */
-char	*find_path_exec(char *cmd, char **path)
+static char	*find_path_exec(char *cmd, char **path)
 {
 	char	*exec;
 	size_t	i;
@@ -90,4 +56,20 @@ char	*find_path_exec(char *cmd, char **path)
 		return (exec);
 	}
 	return (errno = C_NOFILE, NULL);
+}
+
+/**
+ * @brief Find executable pathname
+ * 
+ * @param exec current execution
+ * @param path env's path
+ * @return char* the pathname or NULL, errno is set
+ */
+char	*find_pathname(t_exec *exec, char **path)
+{
+	if (path == NULL || ft_strchr(exec->args[0], '/'))
+		exec->pathname = find_relative_exec(exec->args[0]);
+	else
+		exec->pathname = find_path_exec(exec->args[0], path);
+	return (exec->pathname);
 }

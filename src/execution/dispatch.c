@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 22:58:28 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:08:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,19 +88,15 @@ static int	init_pipe(t_cmd *cmd, t_exec *exec)
  * @param exec current execution
  * @return int `C_SUCCESS` or an exit code
  */
-static int	manage_redirection(t_cmd *cmd, t_exec *exec, char **path)
+static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 {
-	t_code	err;
+	int	err;
 
 	if (init_pipe(cmd, exec) == C_GEN)
 		return (124);
-	if (fill_exec(exec, *cmd, path) == C_GEN)
-	{
-		if (errno == C_NOEXEC)
-			return (printf("%s: No permission\n", cmd->args[0]), 127);
-		else if (errno == C_NOFILE)
-			return (printf("%s: Not found\n", cmd->args[0]), 126);
-	}
+	err = fill_exec(exec, *cmd, path);
+	if (err != C_SUCCESS)
+		return (err);
 	err = init_infile(cmd, exec);
 	if (err == C_BAD_USE)
 		return (130);
@@ -120,16 +116,17 @@ int	dispatch_cmd(t_data *data)
 	int		pid;
 	int		err;
 
+	pid = -1;
 	init_exec(&exec, data);
 	while (exec.target)
 	{
-		err = manage_redirection(exec.target, &exec, data->path);
+		err = prepare_exec(exec.target, &exec, data->path);
 		if (err != C_SUCCESS)
 			return (free(exec.pathname), err);
 		if (exec.is_builtin)
 			pid = exec_builtin(&exec);
 		else
-			pid = do_exec(&exec, data->envp);
+			do_exec(&exec, data->envp, &pid);
 		exec.target = find_element(*(exec.target), T_PIPE);
 		if (exec.target)
 			exec.infile = exec.pipes[0];
