@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		data.status = parse_line(&data);
 		if (data.status == C_BAD_USE)
 			continue ;
-		data.status = dispatch_cmd(data.cmd, data.path, data.envp);
+		data.status = dispatch_cmd(&data);
 		free_cmd(data.cmd);
 	}
 	return (ft_printf("exit\n"), ft_fsplit(data.path), ft_fsplit(data.envp),

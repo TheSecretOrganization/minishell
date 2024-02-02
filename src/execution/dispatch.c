@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 12:28:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 13:08:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	init_infile(t_cmd *cmd, t_exec *exec)
 }
 
 /**
- * If the command have a pipe create it and store it in exec and close if 
+ * If the command have a pipe create it and store it in exec and close if
  * another pipe is already open
  * @param cmd Where search for pipe
  * @param exec Where store thie pipe
@@ -83,7 +83,7 @@ static int	init_pipe(t_cmd *cmd, t_exec *exec)
 
 /**
  * @brief Call redirections function and manage errors
- * 
+ *
  * @param cmd command to execute
  * @param exec current execution
  * @return int `C_SUCCESS` or an exit code
@@ -107,29 +107,32 @@ static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 
 /**
  * Execute a command
- * @param cmd command to execute
- * @param path environment's path
- * @param envp current environment
+ * @param data data of the program
  * @return exit code
 */
-int	dispatch_cmd(t_cmd *cmd, char **path, char **envp)
+int	dispatch_cmd(t_data *data)
 {
 	t_exec	exec;
 	int		pid;
 	int		err;
 
 	pid = -1;
-	init_exec(&exec);
-	while (cmd)
+	init_exec(&exec, data);
+	while (exec.target)
 	{
-		err = prepare_exec(cmd, &exec, path);
+		err = prepare_exec(exec.target, &exec, data->path);
 		if (err != C_SUCCESS)
 			return (free(exec.pathname), err);
-		do_exec(&exec, envp, &pid);
-		cmd = find_element(*cmd, T_PIPE);
-		if (cmd)
+		if (exec.is_builtin)
+			pid = exec_builtin(&exec);
+		else
+			do_exec(&exec, data->envp, &pid);
+		exec.target = find_element(*(exec.target), T_PIPE);
+		if (exec.target)
 			exec.infile = exec.pipes[0];
 	}
 	free(exec.pathname);
+	if (exec.is_builtin)
+		return (pid);
 	return (wait_children(pid));
 }
