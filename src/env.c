@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:31:39 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:35:05 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static t_code	ft_putenv(t_data *data, char *item, char *value)
 t_code	ft_setenv(t_data *data, char *item, char *value)
 {
 	size_t	i;
-	char	content;
+	char	*content;
 
 	i = -1;
 	while (data->envp[++i] && ft_strncmp(data->envp[i], item, ft_strlen(item)))
