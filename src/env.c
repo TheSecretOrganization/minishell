@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:38:21 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 23:09:14 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*ft_getenv(t_data data, char *item)
 
 /**
  * @brief Put a new `item` in env with the `value`
- * 
+ *
  * @param data shell's data
  * @param item value's key
  * @param value value to put
@@ -54,20 +54,23 @@ static t_code	ft_putenv(t_data *data, char *item, char *value)
 	item = ft_strjoin(item, "=");
 	if (!item)
 		return (C_MEM);
-	content = ft_strjoin(item, value);
-	if (!value)
+	if (value)
+		content = ft_strjoin(item, value);
+	else
+		content = ft_substr(item, 0, ft_strlen(item) - 1);
+	if (!content)
 		return (free(item), C_MEM);
 	i = -1;
 	while (data->envp[++i])
 		;
-	nenv = ft_calloc(i + 1, sizeof(char *));
+	nenv = ft_calloc(i + 2, sizeof(char *));
 	if (!nenv)
 		return (free(item), free(content), C_MEM);
 	i = -1;
 	while (data->envp[++i])
 		nenv[i] = data->envp[i];
 	nenv[i] = content;
-	nenv[i + 1] = NULL;
+	(ft_fsplit(data->envp), data->envp = nenv);
 	return (free(item), C_SUCCESS);
 }
 
@@ -85,24 +88,28 @@ t_code	ft_setenv(t_data *data, char *item, char *value)
 	char	*content;
 
 	i = -1;
-	while (data->envp[++i] && ft_strncmp(data->envp[i], item, ft_strlen(item)))
+	while (data->envp[++i])
 	{
+		if (ft_strncmp(data->envp[i], item, ft_strlen(item)))
+			continue ;
 		item = ft_strjoin(item, "=");
 		if (!item)
 			return (C_MEM);
-		content = ft_strjoin(item, value);
+		if (value)
+			content = ft_strjoin(item, value);
+		else
+			content = ft_substr(item, 0, ft_strlen(item) - 1);
 		if (!content)
 			return (free(item), C_MEM);
-		free(data->envp[i]);
-		data->envp[i] = content;
-		return (free(content), free(item), C_SUCCESS);
+		(free(data->envp[i]), data->envp[i] = content);
+		return (free(item), C_SUCCESS);
 	}
 	return (ft_putenv(data, item, value));
 }
 
 /**
  * @brief Remove an item from the env
- * 
+ *
  * @param data shell's data
  * @param item item to remove
  * @return t_code C_SUCCESS or C_MEM
@@ -134,7 +141,7 @@ t_code	ft_unenv(t_data *data, char *item)
 
 /**
  * @brief Copy the envp toa full malloced array
- * 
+ *
  * @param data shell's data
  * @param envp env to copy in `data`
  * @return t_code C_SUCCESS or C_MEM
