@@ -29,6 +29,7 @@ OBJS_DIR 	:= objs
 LIBFT_DIR 	:= libft
 EXEC_DIR	:= execution
 PARSING_DIR	:= parsing
+BUILTIN_DIR	:= builtin
 
 ### FILES ###
 define INCLUDES	:=
@@ -47,7 +48,17 @@ endef
 LIB 		:= $(strip $(LIB))
 
 define SRC 	:=
+	$(addprefix $(BUILTIN_DIR)/, \
+		cd.c \
+		echo.c \
+		env.c \
+		exit.c \
+		export.c \
+		pwd.c \
+		unset.c
+	)
 	$(addprefix $(EXEC_DIR)/, \
+		builtin.c \
 		child.c \
 		dispatch.c \
 		path.c \
@@ -91,6 +102,7 @@ $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	@mkdir -p $(OBJS_DIR)/$(EXEC_DIR)
 	@mkdir -p $(OBJS_DIR)/$(PARSING_DIR)
+	@mkdir -p $(OBJS_DIR)/$(BUILTIN_DIR)
 	@$(CC) $(DEP_FLAGS) $(CFLAGS) $(INCLD_FLAG) -c $< -o $@
 
 .PHONY: clean

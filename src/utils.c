@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:44:23 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 13:28:55 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/01 22:37:09 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	clean_data(t_data *data)
 	if (data->line)
 		(free(data->line), data->line = NULL);
 	if (data->path)
-		(free(data->path), data->path = NULL);
+		(ft_fsplit(data->path), data->path = NULL);
 }
 
 /**
