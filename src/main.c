@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 13:08:11 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:42:30 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,25 @@
 
 int	g_signal = 0;
 
-void	init_data(t_data *data, char **envp)
+static t_code	init_data(t_data *data, char **envp)
 {
-	data->envp = envp;
+	cpy_envp(data, envp);
+	if (!data->envp)
+		return (C_MEM);
 	data->line = NULL;
 	data->cmd = NULL;
 	data->status = 0;
 	data->path = get_path();
+	return (C_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
-	((void)argc, (void)argv);
-	(init_data(&data, envp), register_signals());
+	((void)argc, (void)argv, register_signals());
+	if (init_data(&data, envp) != C_SUCCESS)
+		return (1);
 	while (prompt(&data))
 	{
 		g_signal = 0;
@@ -48,5 +52,6 @@ int	main(int argc, char **argv, char **envp)
 		data.status = dispatch_cmd(&data);
 		free_cmd(data.cmd);
 	}
-	return (ft_printf("exit\n"), ft_fsplit(data.path), C_SUCCESS);
+	return (ft_printf("exit\n"), ft_fsplit(data.path), ft_fsplit(data.envp),
+		C_SUCCESS);
 }
