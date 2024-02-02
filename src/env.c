@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:01:24 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:20:40 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,43 @@ char	*ft_getenv(t_data data, char *item)
 					ft_strlen(data.envp[i])));
 	}
 	return (free(item), NULL);
+}
+
+static t_code	ft_putenv(t_data *data, char *item, char *value)
+{
+	(void)data;
+	(void)item;
+	(void)value;
+	return (C_SUCCESS);
+}
+
+/**
+ * @brief Set or put a `value` to the env at `item` index
+ *
+ * @param data shell's data
+ * @param item value's key
+ * @param value value to set
+ * @return t_code C_SUCCESS or C_MEM
+ */
+t_code	ft_setenv(t_data *data, char *item, char *value)
+{
+	size_t	i;
+	char	content;
+
+	i = -1;
+	while (data->envp[++i] && ft_strncmp(data->envp[i], item, ft_strlen(item)))
+	{
+		item = ft_strjoin(item, "=");
+		if (!item)
+			return (C_MEM);
+		content = ft_strjoin(item, value);
+		if (!content)
+			return (free(item), C_MEM);
+		free(data->envp[i]);
+		data->envp[i] = content;
+		return (free(content), free(item), C_SUCCESS);
+	}
+	return (ft_putenv(data, item, value));
 }
 
 t_code	ft_unenv(t_data *data, char *item)
