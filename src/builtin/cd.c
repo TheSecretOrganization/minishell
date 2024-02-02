@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/01/31 10:21:35 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/01 23:07:13 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	cmd_cd(t_exec *exec)
 {
+	if (exec->is_pipe)
+		return (C_SUCCESS);
 	if (exec->args[1] == NULL)
 		return (C_BAD_USE);
 	if (chdir(exec->args[1]) == -1)
