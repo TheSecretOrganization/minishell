@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/01/31 15:31:59 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/02 13:08:11 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	main(int argc, char **argv, char **envp)
 		data.status = parse_line(&data);
 		if (data.status == C_BAD_USE)
 			continue ;
-		data.status = dispatch_cmd(data.cmd, data.path, data.envp);
+		data.status = dispatch_cmd(&data);
 		free_cmd(data.cmd);
 	}
 	return (ft_printf("exit\n"), ft_fsplit(data.path), C_SUCCESS);
