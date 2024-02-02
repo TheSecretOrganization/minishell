@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:35:05 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:36:00 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_code	cpy_envp(t_data *data, char **envp)
 	while (envp[++len])
 		;
 	data->envp = ft_calloc(len + 1, sizeof(char *));
-	if(!data->envp)
+	if (!data->envp)
 		return (C_MEM);
 	i = -1;
 	while (envp[++i])
