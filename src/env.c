@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:36:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:38:21 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ t_code	cpy_envp(t_data *data, char **envp)
 	size_t	len;
 	size_t	i;
 
+	if (envp == NULL)
+		return (C_SUCCESS);
 	len = -1;
 	while (envp[++len])
 		;
