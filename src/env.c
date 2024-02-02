@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:20:40 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 16:29:38 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,38 @@ char	*ft_getenv(t_data data, char *item)
 	return (free(item), NULL);
 }
 
+/**
+ * @brief Put a new `item` in env with the `value`
+ * 
+ * @param data shell's data
+ * @param item value's key
+ * @param value value to put
+ * @return t_code C_SUCCESS or C_MEM
+ */
 static t_code	ft_putenv(t_data *data, char *item, char *value)
 {
-	(void)data;
-	(void)item;
-	(void)value;
-	return (C_SUCCESS);
+	size_t	i;
+	char	**nenv;
+	char	*content;
+
+	item = ft_strjoin(item, "=");
+	if (!item)
+		return (C_MEM);
+	content = ft_strjoin(item, value);
+	if (!value)
+		return (free(item), C_MEM);
+	i = -1;
+	while (data->envp[++i])
+		;
+	nenv = ft_calloc(i + 1, sizeof(char *));
+	if (!nenv)
+		return (free(item), free(content), C_MEM);
+	i = -1;
+	while (data->envp[++i])
+		nenv[i] = data->envp[i];
+	nenv[i] = content;
+	nenv[i + 1] = NULL;
+	return (free(item), C_SUCCESS);
 }
 
 /**
