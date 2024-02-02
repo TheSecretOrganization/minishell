@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 10:18:59 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/02 12:51:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,5 +116,9 @@ t_code		addback_cmd(t_cmd *cmd, t_element *el);
 t_element	*new_element(t_type type, void *value);
 
 int			here_doc(char *delimiter);
+
+char		*ft_getenv(t_data data, char *item);
+t_code		*ft_setenv(t_data *data, char *item, char *value);
+t_code		*ft_unenv(t_data *data, char *item);
 
 #endif
