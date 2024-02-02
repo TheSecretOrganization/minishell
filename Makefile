@@ -75,6 +75,7 @@ define SRC 	:=
 		expand_variables.c \
 		parse_line.c
 	)
+	env.c
 	heredoc.c
 	main.c
 	prompt.c
