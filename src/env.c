@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 23:09:14 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/03 21:57:06 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static t_code	ft_putenv(t_data *data, char *item, char *value)
 	while (data->envp[++i])
 		nenv[i] = data->envp[i];
 	nenv[i] = content;
-	(ft_fsplit(data->envp), data->envp = nenv);
+	(free(data->envp), data->envp = nenv);
 	return (free(item), C_SUCCESS);
 }
 
@@ -85,12 +85,14 @@ static t_code	ft_putenv(t_data *data, char *item, char *value)
 t_code	ft_setenv(t_data *data, char *item, char *value)
 {
 	size_t	i;
+	size_t	len_item;
 	char	*content;
 
 	i = -1;
+	len_item = ft_strlen(item);
 	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], item, ft_strlen(item)))
+		if (ft_strncmp(data->envp[i], item, len_item ))
 			continue ;
 		item = ft_strjoin(item, "=");
 		if (!item)
@@ -162,10 +164,11 @@ t_code	cpy_envp(t_data *data, char **envp)
 	i = -1;
 	while (envp[++i])
 	{
-		data->envp[i] = ft_calloc(ft_strlen(envp[i]) + 1, sizeof(char));
+		len = ft_strlen(envp[i]);
+		data->envp[i] = ft_calloc(len + 1, sizeof(char));
 		if (!data->envp[i])
 			return (ft_fsplit(data->envp), C_MEM);
-		ft_memcpy(data->envp[i], envp[i], ft_strlen(envp[i]));
+		ft_memcpy(data->envp[i], envp[i], len);
 	}
 	data->envp[i] = NULL;
 	return (C_SUCCESS);
