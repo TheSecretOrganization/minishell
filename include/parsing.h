@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/01 19:52:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:11:13 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-# define CH_ERR "`#()\\[]{};!"
+# define CH_ERR "`#()[]{};!"
 # define CH_SPCL "&|<>"
 # define CH_OPE "&|"
 # define CH_DIR "<>"
