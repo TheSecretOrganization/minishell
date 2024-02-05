@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:39 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/01 20:39:46 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:41:49 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_code	add_dir(t_ast *ast, char *line)
 		else if (line[ast->i + 1] == '>')
 		{
 			tmp = ++(ast->i);
-			if (add_in(ast, line, IT_HERE_DOC))
+			if (add_in(ast, line, IT_INFILE))
 				return (C_MEM);
 			return (ast->i = tmp, add_out(ast, line, OT_TRUNCATE));
 		}
