@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 13:47:32 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 14:05:55 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	*find_element(t_cmd cmd, t_type type)
 	return (NULL);
 }
 
-void	for_elements(t_cmd cmd, t_type type, t_exec *exec,
+int	for_elements(t_cmd cmd, t_type type, t_exec *exec,
 	int (*f)(void *, t_exec *))
 {
 	size_t	i;
@@ -77,7 +77,8 @@ void	for_elements(t_cmd cmd, t_type type, t_exec *exec,
 		if (cmd.elements[i]->type == type)
 		{
 			if (!f(cmd.elements[i]->value, exec))
-				return ;
+				return (C_GEN);
 		}
 	}
+	return (C_SUCCESS);
 }

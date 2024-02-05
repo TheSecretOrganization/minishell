@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 13:56:58 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/05 14:06:26 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static int	open_infile(void *element, t_exec *exec)
 */
 int	init_infile(t_cmd cmd, t_exec *exec)
 {
-	for_elements(cmd, T_INFILE, exec, &open_infile);
-	if (exec->infile == -1)
+	if (for_elements(cmd, T_INFILE, exec, &open_infile) != C_SUCCESS)
 		return (C_GEN);
 	return (C_SUCCESS);
 }
@@ -82,8 +81,7 @@ static int	open_outfile(void *element, t_exec *exec)
 */
 int	init_outfile(t_cmd cmd, t_exec *exec)
 {
-	for_elements(cmd, T_OUTFILE, exec, &open_outfile);
-	if (exec->outfile == -1)
+	if (for_elements(cmd, T_OUTFILE, exec, &open_outfile) != C_SUCCESS)
 		return (C_GEN);
 	return (C_SUCCESS);
 }
