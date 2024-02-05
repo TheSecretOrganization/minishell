@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/31 22:07:43 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:29:57 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 # include "minishell.h"
 
-# define CH_ERR "`#()\\[]{};!"
+# define CH_ERR "`#()[]{};!"
 # define CH_SPCL "&|<>"
 # define CH_OPE "&|"
 # define CH_DIR "<>"
 
 typedef struct s_ast
 {
-	int		status;
 	char	*j_args;
 	char	*next;
 	t_cmd	*target;
@@ -31,7 +30,7 @@ typedef struct s_ast
 
 t_code	parse_line(t_data *data);
 
-t_code	check_quotes(char *line);
+t_code	check_quotes(t_data *data);
 t_code	check_syntax(t_data *data);
 t_code	error_syntax(t_code code, char *el, size_t n);
 
@@ -41,7 +40,7 @@ t_code	check_in(char *line, size_t *pos, t_bool force_err);
 t_code	check_out(char *line, size_t *pos, t_bool force_err);
 t_code	check_spcl_chars(char *line);
 
-char	*expand_variables(char *line, int status);
+t_code	expand_variables(char **line, size_t *i, int status, size_t nd);
 
 t_code	create_ast(t_data *data);
 
@@ -50,8 +49,9 @@ t_code	o_init_cmd(t_cmd **cmd);
 
 t_code	add_dir(t_ast *ast, char *line);
 
-char	*find_next_sep(char *line);
 t_code	join_args(t_ast *ast, char *line);
 t_code	split_args(t_ast *ast);
+char	*find_next_sep(char *line);
+char	*find_next_arg(char *line, char **end);
 
 #endif

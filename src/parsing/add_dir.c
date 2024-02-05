@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:39 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/25 13:02:56 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:41:49 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,14 @@
 static char	*get_next_substr(t_ast *ast, char *line)
 {
 	char	*sub;
-	char	*new_next;
+	char	*start;
+	char	*end;
 
-	new_next = find_next_sep(ast->next + 1);
-	while (new_next - ast->next == 1)
-	{
-		ast->next = new_next;
-		new_next = find_next_sep(ast->next + 1);
-	}
-	sub = ft_substr(line, (ast->next + 1) - \
-	&(line[0]), new_next - (ast->next + 1));
+	start = find_next_arg(line + ast->i + 1, &end);
+	sub = ft_substr(line, start - line, end - start);
 	if (!sub)
 		return (error(C_MEM, "ft_substr", M_MEM), NULL);
-	return (ast->next = new_next, sub);
+	return (ast->next = end, sub);
 }
 
 /**
@@ -96,17 +91,26 @@ static t_code	add_out(t_ast *ast, char *line, t_outtype type)
  */
 t_code	add_dir(t_ast *ast, char *line)
 {
+	size_t	tmp;
+
 	if (line[ast->i] == '<')
 	{
 		if (line[ast->i + 1] == '<')
-			return (add_in(ast, line, IT_HERE_DOC));
+			return (ast->i++, add_in(ast, line, IT_HERE_DOC));
+		else if (line[ast->i + 1] == '>')
+		{
+			tmp = ++(ast->i);
+			if (add_in(ast, line, IT_INFILE))
+				return (C_MEM);
+			return (ast->i = tmp, add_out(ast, line, OT_TRUNCATE));
+		}
 		else
 			return (add_in(ast, line, IT_INFILE));
 	}
 	else
 	{
 		if (line[ast->i + 1] == '>')
-			return (add_out(ast, line, OT_APPEND));
+			return (ast->i++, add_out(ast, line, OT_APPEND));
 		else
 			return (add_out(ast, line, OT_TRUNCATE));
 	}

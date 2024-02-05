@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 14:12:35 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/05 14:18:16 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,20 @@
  * @brief Initialize exec with default values
  *
  * @param exec pointer to exec to init
+ * @param data data of the program
  */
-void	init_exec(t_exec *exec)
+void	init_exec(t_exec *exec, t_data *data)
 {
 	exec->pathname = NULL;
 	exec->infile = -1;
 	exec->outfile = -1;
 	exec->pipes[0] = -1;
 	exec->pipes[1] = -1;
+	exec->is_builtin = 0;
+	exec->builtin = NULL;
+	exec->data = data;
+	exec->target = data->cmd;
+	exec->is_pipe = find_element(*(exec->target), T_PIPE) != NULL;
 }
 
 /**
@@ -31,17 +37,25 @@ void	init_exec(t_exec *exec)
  * @param exec structure to init
  * @param cmd cmd to init from
  * @param path the path
- * @return SUCCESS
+ * @return SUCCESS or corresponding exit code 
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
+	exec->is_builtin = 0;
+	exec->builtin = NULL;
 	exec->args = cmd.args;
 	if (exec->pathname)
 		free(exec->pathname);
-	if (ft_strchr(exec->args[0], '/') || path == NULL)
-		exec->pathname = find_relative_exec(exec->args[0]);
-	else
-		exec->pathname = find_path_exec(exec->args[0], path);
+	exec->pathname = NULL;
+	if (is_builtin(cmd, exec))
+		return (C_SUCCESS);
+	if (cmd.args[0] != NULL && !find_pathname(exec, path))
+	{
+		if (errno == C_NOEXEC)
+			return (printf("%s: No permission\n", exec->args[0]), 127);
+		else if (errno == C_NOFILE)
+			return (printf("%s: Not found\n", exec->args[0]), 126);
+	}
 	if (!exec->pathname)
 		return (C_GEN);
 	return (C_SUCCESS);
