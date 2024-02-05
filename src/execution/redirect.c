@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 10:39:57 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/05 13:48:41 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief Open a single infile and set his fd
  * Close the current fd if one is already open
- * 
+ *
  * @param element t_infile * info
  * @param exec current exec
  * @return int if file has been opened
@@ -32,10 +32,7 @@ static int	open_infile(void *element, t_exec *exec)
 	else if (el->intype == IT_HERE_DOC)
 		exec->infile = here_doc(el->filename);
 	if (exec->infile == -1)
-	{
-		printf("%s\n", el->filename);
 		perror(el->filename);
-	}
 	return (exec->infile != -1);
 }
 
@@ -56,7 +53,7 @@ int	init_infile(t_cmd cmd, t_exec *exec)
 /**
  * @brief Open a single outfile and set his fd
  * Close the current fd if one is already open
- * 
+ *
  * @param element t_outfile * info
  * @param exec current exec
  * @return int if file has been opened
@@ -95,7 +92,7 @@ int	init_outfile(t_cmd cmd, t_exec *exec)
 }
 
 /**
- * If the command have a pipe create it and store it in exec and close if 
+ * If the command have a pipe create it and store it in exec and close if
  * another pipe is already open
  * @param cmd Where search for pipe
  * @param exec Where store thie pipe
