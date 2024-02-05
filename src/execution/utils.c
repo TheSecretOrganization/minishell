@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 10:30:49 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/05 13:47:32 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief Initialize exec with default values
- * 
+ *
  * @param exec pointer to exec to init
  */
 void	init_exec(t_exec *exec)
@@ -31,7 +31,7 @@ void	init_exec(t_exec *exec)
  * @param exec structure to init
  * @param cmd cmd to init from
  * @param path the path
- * @return SUCCESS 
+ * @return SUCCESS
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
@@ -76,7 +76,7 @@ void	for_elements(t_cmd cmd, t_type type, t_exec *exec,
 	{
 		if (cmd.elements[i]->type == type)
 		{
-			if (!f(cmd.elements[i], exec))
+			if (!f(cmd.elements[i]->value, exec))
 				return ;
 		}
 	}
