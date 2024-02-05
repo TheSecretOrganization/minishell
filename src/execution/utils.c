@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/01/24 14:57:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/05 10:30:49 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,20 @@ void	*find_element(t_cmd cmd, t_type type)
 			return (cmd.elements[i]->value);
 	}
 	return (NULL);
+}
+
+void	for_elements(t_cmd cmd, t_type type, t_exec *exec,
+	int (*f)(void *, t_exec *))
+{
+	size_t	i;
+
+	i = -1;
+	while (cmd.elements[++i])
+	{
+		if (cmd.elements[i]->type == type)
+		{
+			if (!f(cmd.elements[i], exec))
+				return ;
+		}
+	}
 }
