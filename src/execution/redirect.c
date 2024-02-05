@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 13:48:41 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 13:56:58 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,7 @@ static int	open_outfile(void *element, t_exec *exec)
 	else if (el->outtype == OT_APPEND)
 		exec->outfile = open(el->filename, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (exec->outfile == -1)
-	{
-		printf("%s\n", el->filename);
 		perror(el->filename);
-	}
 	return (exec->outfile != -1);
 }
 
