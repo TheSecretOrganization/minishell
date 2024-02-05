@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/05 10:51:57 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:06:00 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_code	check_in(char *line, size_t *pos, t_bool force_err);
 t_code	check_out(char *line, size_t *pos, t_bool force_err);
 t_code	check_spcl_chars(char *line);
 
-t_code	expand_variables(char **line, size_t i, int status, size_t nd);
+t_code	expand_variables(char **line, size_t *i, int status, size_t nd);
 
 t_code	create_ast(t_data *data);
 

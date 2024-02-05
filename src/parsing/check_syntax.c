@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/05 10:52:59 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:06:19 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_code	check_quotes(t_data *data)
 		if (!(nq % 2) && !(nd % 2) && ft_strchr(CH_ERR, data->line[i]))
 			return (error_syntax(C_BAD_USE, &(data->line[i]), 1));
 		if (!(nq % 2) && ((data->line[i]) == '~' || data->line[i] == '$'))
-			if (expand_variables(&data->line, i, data->status, nd))
+			if (expand_variables(&data->line, &i, data->status, nd))
 				return (C_MEM);
 		if (data->line[i] == '\'' && !(nd % 2))
 			nq++;

@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:07:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/05 10:53:23 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 11:06:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,27 @@
  * @brief Expand a variable if it is found in the env
  *
  * @param line line to parse
- * @param i position in the line
+ * @param i pointer on the position in the line
  * @return char * or NULL if an error occurs
  */
-static char	*expand_variable(char *line, size_t i)
+static char	*expand_variable(char *line, size_t *i)
 {
 	size_t	len;
 	char	*td;
 	char	*tr;
 
 	len = 1;
-	while (line[i + len] == '$' || ft_isalnum(line[i + len]))
+	while (ft_isalnum(line[*i + len]))
 		len++;
-	td = ft_substr(line, i, len);
+	td = ft_substr(line, *i, len);
 	if (!td)
 		return (error(C_MEM, "ft_substr", M_MEM), NULL);
 	tr = getenv(td + 1);
 	if (!tr)
+	{
 		line = ft_fstrrplc(line, td, "");
+		(*i)--;
+	}
 	else
 		line = ft_fstrrplc(line, td, tr);
 	if (!line)
@@ -45,20 +48,23 @@ static char	*expand_variable(char *line, size_t i)
  * @brief Expand the path to the home of the current user
  *
  * @param line line to parse
- * @param i position in the line
+ * @param i pointer on the position in the line
  * @return char * or NULL if an error occurs
  */
-static char	*expand_home(char *line, size_t i)
+static char	*expand_home(char *line, size_t *i)
 {
 	char	*td;
 	char	*tr;
 
-	td = ft_substr(line, i, 1);
+	td = ft_substr(line, *i, 1);
 	if (!td)
 		return (error(C_MEM, "ft_substr", M_MEM), NULL);
 	tr = getenv("HOME");
 	if (!tr)
+	{
 		line = ft_fstrrplc(line, td, "");
+		(*i)--;
+	}
 	else
 		line = ft_fstrrplc(line, td, tr);
 	if (!line)
@@ -90,23 +96,23 @@ static char	*expand_status(char *line, int status)
  * @brief Expand all variables in the line
  *
  * @param line pointer on the line to parse
- * @param i position in line
+ * @param i pointer on the position in line
  * @param status status code of the last command
  * @param nd number of double quotes parsed
  * @return char * or NULL if an error occurs
  */
-t_code	expand_variables(char **line, size_t i, int status, size_t nd)
+t_code	expand_variables(char **line, size_t *i, int status, size_t nd)
 {
-	if ((*line)[i] == '~' && !(nd % 2)
-		&& ((*line)[i + 1] == ' ' || ft_strchr(CH_SPCL, (*line)[i + 1])))
+	if ((*line)[*i] == '~' && !(nd % 2)
+		&& ((*line)[*i + 1] == ' ' || ft_strchr(CH_SPCL, (*line)[*i + 1])))
 	{
 		(*line) = expand_home((*line), i);
 		if (!(*line))
 			return (C_MEM);
 	}
-	else if ((*line)[i] == '$' && (*line)[i + 1] && (*line)[i + 1] != ' ')
+	else if ((*line)[*i] == '$' && (*line)[*i + 1] && (*line)[*i + 1] != ' ')
 	{
-		if ((*line)[i + 1] == '?')
+		if ((*line)[*i + 1] == '?')
 			(*line) = expand_status((*line), status);
 		else
 			(*line) = expand_variable((*line), i);
