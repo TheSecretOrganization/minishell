@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 14:07:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/05 11:06:33 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/05 12:28:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static char	*expand_home(char *line, size_t *i)
  * @brief Expand the status code of the last command
  *
  * @param line line to parse
- * @param i position in the line
+ * @param status status of the last command
  * @return char * or NULL if an error occurs
  */
 static char	*expand_status(char *line, int status)
