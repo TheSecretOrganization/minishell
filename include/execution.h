@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 14:19:46 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:47:47 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	*find_element(t_cmd cmd, t_type type);
 int		for_elements(t_cmd cmd, t_type type, t_exec *exec,
 			int (*f)(void *, t_exec *));
 void	init_exec(t_exec *exec, t_data *data);
+void	reset_exec(t_exec *exec);
 int		wait_children(int pid);
 
 int		init_pipe(t_cmd *cmd, t_exec *exec);

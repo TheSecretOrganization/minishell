@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 14:18:16 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:50:30 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,34 @@ void	init_exec(t_exec *exec, t_data *data)
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
-	exec->is_builtin = 0;
-	exec->builtin = NULL;
 	exec->args = cmd.args;
-	if (exec->pathname)
-		free(exec->pathname);
-	exec->pathname = NULL;
 	if (is_builtin(cmd, exec))
 		return (C_SUCCESS);
-	if (cmd.args[0] != NULL && !find_pathname(exec, path))
+	if (cmd.args != NULL && !find_pathname(exec, path))
 	{
 		if (errno == C_NOEXEC)
 			return (printf("%s: No permission\n", exec->args[0]), 127);
 		else if (errno == C_NOFILE)
 			return (printf("%s: Not found\n", exec->args[0]), 126);
 	}
-	if (!exec->pathname)
+	if (cmd.args != NULL && !exec->pathname)
 		return (C_GEN);
 	return (C_SUCCESS);
+}
+
+/**
+ * @brief Reset current execution
+ * 
+ * @param exec current execution
+ */
+void	reset_exec(t_exec *exec)
+{
+	exec->is_builtin = FALSE;
+	exec->builtin = NULL;
+	exec->args = NULL;
+	if (exec->pathname != NULL)
+		free(exec->pathname);
+	exec->pathname = NULL;
 }
 
 /**
