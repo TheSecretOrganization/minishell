@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 10:40:13 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 14:50:40 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ int	main(int argc, char **argv, char **envp)
 		free_cmd(data.cmd);
 	}
 	return (ft_printf("exit\n"), ft_fsplit(data.path), ft_fsplit(data.envp),
-		C_SUCCESS);
+		clear_history(), C_SUCCESS);
 }
