@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:04 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 13:32:41 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:47:25 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	cmd_unset(t_exec *exec)
 	while (exec->args[++i])
 	{
 		el = ft_getenv(*(exec->data), exec->args[i]);
-		if (el)
-			return (free(el), ft_unenv(exec->data, exec->args[i]));
+		if (el && ft_unenv(exec->data, exec->args[i]))
+			return (free(el), C_MEM);
 		free(el);
 	}
 	return (C_SUCCESS);

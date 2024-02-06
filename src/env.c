@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 15:26:07 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:47:34 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,10 +135,12 @@ t_code	ft_unenv(t_data *data, char *item)
 	{
 		if ((data->envp[i][len_item] == '=' || data->envp[i][len_item] == '\0')
 			&& ft_strncmp(data->envp[i], item, len_item) == 0)
-			free(data->envp[i]);
-		else
-			nenv[i] = data->envp[i];
+			break ;
+		nenv[i] = data->envp[i];
 	}
+	free(data->envp[i]);
+	while (data->envp[++i])
+		nenv[i - 1] = data->envp[i];
 	return (free(data->envp), data->envp = nenv, C_SUCCESS);
 }
 
