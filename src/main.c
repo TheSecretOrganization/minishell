@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 16:42:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 10:31:40 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!data.line)
 			(clean_data(&data), exit(C_MEM));
 		if (!*(data.line))
-		{
-			data.status = 0;
 			continue ;
-		}
 		data.status = parse_line(&data);
 		if (data.status == C_BAD_USE)
 			continue ;
