@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:50:14 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 11:22:15 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 10:43:50 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ char	*prompt(t_data *data)
 {
 	if (data->line)
 		free(data->line);
-	if (data->status)
-		data->line = readline("\r\033[K"PROMPT_ERR" "RED"❯ "DEFAULT);
-	else
-		data->line = readline("\r\033[K"PROMPT_HEAD" "GREEN"❯ "DEFAULT);
-	add_history(data->line);
+	data->line = readline("\r\033[K"PROMPT_HEAD" "WHITE"❯ "DEFAULT);
+	if (ft_strncmp(data->line, "", 1) != 0)
+		add_history(data->line);
 	return (data->line);
 }
