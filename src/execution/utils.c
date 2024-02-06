@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 08:59:51 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:47:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,30 @@ void	*find_element(t_cmd cmd, t_type type)
 			return (cmd.elements[i]->value);
 	}
 	return (NULL);
+}
+
+/**
+ * @brief Call `f` for each elements of type `type` in `cmd`
+ * 
+ * @param cmd Command in wich search
+ * @param type Type to filter by
+ * @param exec Argument passed to `f`
+ * @param f Function called on each `type`
+ * @return int return value of the first not `C_SUCCESS` or `C_SUCCESS`
+ */
+int	for_elements(t_cmd cmd, t_type type, t_exec *exec,
+	int (*f)(void *, t_exec *))
+{
+	size_t	i;
+
+	i = -1;
+	while (cmd.elements[++i])
+	{
+		if (cmd.elements[i]->type == type)
+		{
+			if (!f(cmd.elements[i]->value, exec))
+				return (C_GEN);
+		}
+	}
+	return (C_SUCCESS);
 }
