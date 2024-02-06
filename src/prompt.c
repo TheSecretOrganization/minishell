@@ -22,10 +22,7 @@ char	*prompt(t_data *data)
 {
 	if (data->line)
 		free(data->line);
-	if (data->status)
-		data->line = readline("\r\033[K"PROMPT_ERR" "RED"❯ "DEFAULT);
-	else
-		data->line = readline("\r\033[K"PROMPT_HEAD" "GREEN"❯ "DEFAULT);
+	data->line = readline("\r\033[K"PROMPT_HEAD" "WHITE"❯ "DEFAULT);
 	if (ft_strncmp(data->line, "", 1) != 0)
 		add_history(data->line);
 	return (data->line);
