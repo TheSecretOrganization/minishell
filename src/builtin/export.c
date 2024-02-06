@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 11:08:09 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:07:11 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	cmd_export(t_exec *exec)
 	t_data	cpy;
 
 	i = 0;
-	if (exec->args[0] == NULL)
+	if (exec->is_pipe || exec->args[0] == NULL)
 		return (C_SUCCESS);
 	else if (exec->args[1] == NULL)
 	{
