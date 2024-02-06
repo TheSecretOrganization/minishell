@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/05 15:23:17 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 10:14:18 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ t_code	remove_quotes(t_data *data)
 	while (data->line[++i])
 	{
 		if (data->line[i] == '\'' && !(nd % 2) && ++nq)
-			ft_memcpy(&(data->line[i]), &(data->line[i + 1]), \
-			ft_strlen(data->line) - i);
+			(ft_memcpy(&(data->line[i]), &(data->line[i + 1]), \
+			ft_strlen(data->line) - i), i--);
 		if (data->line[i] == '\"' && !(nq % 2) && ++nd)
-			ft_memcpy(&(data->line[i]), &(data->line[i + 1]), \
-			ft_strlen(data->line) - i);
+			(ft_memcpy(&(data->line[i]), &(data->line[i + 1]), \
+			ft_strlen(data->line) - i), i--);
 	}
 	return (C_SUCCESS);
 }
