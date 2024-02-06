@@ -6,12 +6,18 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 16:07:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:45:32 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
+/**
+ * @brief Swap s1 and s2
+ *
+ * @param s1
+ * @param s2
+ */
 static void	swap(char **s1, char **s2)
 {
 	char	*tmp;
@@ -21,6 +27,12 @@ static void	swap(char **s1, char **s2)
 	*s2 = tmp;
 }
 
+/**
+ * @brief Quick sort the envp
+ *
+ * @param envp
+ * @param len
+ */
 static void	quicksort(char **envp, size_t len)
 {
 	size_t	i;
@@ -38,32 +50,49 @@ static void	quicksort(char **envp, size_t len)
 	quicksort(envp + piv, len - piv);
 }
 
-static void	print_export(char *arg)
+/**
+ * @brief Print the arg as export would
+ *
+ * @param arg
+ * @param outfile
+ */
+static void	print_export(char *arg, int outfile)
 {
 	t_bool	eql;
 	size_t	i;
 
 	eql = B_FALSE;
-	(ft_putstr_fd("export ", 1), i = -1);
+	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
+		return ;
+	(ft_putstr_fd("export ", outfile), i = -1);
 	while (arg[++i])
 	{
 		if (arg[i] == '=')
-			(ft_putstr_fd("=\"", 1), eql = B_TRUE);
+			(ft_putstr_fd("=\"", outfile), eql = B_TRUE);
 		else if (arg[i] == '\"')
-			(ft_putchar_fd('\\', 1), ft_putchar_fd(arg[i], 1));
+			(ft_putchar_fd('\\', outfile), ft_putchar_fd(arg[i], outfile));
 		else
-			ft_putchar_fd(arg[i], 1);
+			ft_putchar_fd(arg[i], outfile);
 	}
 	if (eql)
-		ft_putchar_fd('\"', 1);
-	ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\"', outfile);
+	ft_putchar_fd('\n', outfile);
 }
 
+/**
+ * @brief Process the arg to modify the envp
+ *
+ * @param arg
+ * @param data
+ * @return int
+ */
 static int	process_arg(char *arg, t_data *data)
 {
 	char	*value;
 	int		code;
 
+	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
+		return (C_SUCCESS);
 	value = ft_strchr(arg, '=');
 	if (value)
 		*(value++) = '\0';
@@ -73,6 +102,12 @@ static int	process_arg(char *arg, t_data *data)
 	return (code);
 }
 
+/**
+ * @brief Reproduce the behaviour of export builtin
+ *
+ * @param exec data of the execution branch
+ * @return int
+ */
 int	cmd_export(t_exec *exec)
 {
 	size_t	i;
@@ -89,7 +124,7 @@ int	cmd_export(t_exec *exec)
 			i++;
 		(quicksort(cpy.envp, i), i = 0);
 		while (cpy.envp[i])
-			print_export(cpy.envp[i++]);
+			print_export(cpy.envp[i++], exec->outfile);
 		ft_fsplit(cpy.envp);
 	}
 	else
