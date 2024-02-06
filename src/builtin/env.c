@@ -6,12 +6,18 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:10 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 16:27:29 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:42:28 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
+/**
+ * @brief Reproduce the behaviour of env builtin
+ *
+ * @param exec data of the execution branch
+ * @return int
+ */
 int	cmd_env(t_exec *exec)
 {
 	size_t	i;
