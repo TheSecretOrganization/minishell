@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 15:53:52 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:57:27 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ char	*ft_getenv(t_data data, char *item)
 	len = ft_strlen(item);
 	while (data.envp[++i])
 	{
-		if (ft_strncmp(data.envp[i], item, len) == 0 &&
-		(data.envp[i][len] == '=' || data.envp[i][len] == '\0'))
+		if (ft_strncmp(data.envp[i], item, len) == 0
+			&& (data.envp[i][len] == '=' || data.envp[i][len] == '\0'))
 			return (ft_substr(data.envp[i],
 					ft_strchr(data.envp[i], '=') - data.envp[i] + 1,
 					ft_strlen(data.envp[i])));
@@ -133,8 +133,9 @@ t_code	ft_unenv(t_data *data, char *item)
 		return (C_MEM);
 	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], item, len_item) == 0 &&
-			(data->envp[i][len_item] == '=' || data->envp[i][len_item] == '\0'))
+		if (ft_strncmp(data->envp[i], item, len_item) == 0
+			&& (data->envp[i][len_item] == '='
+			|| data->envp[i][len_item] == '\0'))
 			break ;
 		nenv[i] = data->envp[i];
 	}
