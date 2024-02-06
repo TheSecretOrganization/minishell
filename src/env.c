@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 11:08:58 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 14:59:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@
 char	*ft_getenv(t_data data, char *item)
 {
 	size_t	i;
+	size_t	len;
 
 	i = -1;
-	item = ft_strjoin(item, "=");
-	if (!item)
-		return (NULL);
+	len = ft_strlen(item);
 	while (data.envp[++i])
 	{
-		if (ft_strncmp(data.envp[i], item, ft_strlen(item)) == 0)
-			return (free(item), ft_substr(data.envp[i],
+		if ((data.envp[i][len] == '=' || data.envp[i][len] == '\0')
+			&& ft_strncmp(data.envp[i], item, len) == 0)
+			return (ft_substr(data.envp[i],
 					ft_strchr(data.envp[i], '=') - data.envp[i] + 1,
 					ft_strlen(data.envp[i])));
 	}
-	return (free(item), NULL);
+	return (NULL);
 }
 
 /**
@@ -119,26 +119,27 @@ t_code	ft_setenv(t_data *data, char *item, char *value)
 t_code	ft_unenv(t_data *data, char *item)
 {
 	char	**nenv;
+	size_t	len_item;
 	size_t	len;
 	size_t	i;
 
-	item = ft_strjoin(item, "=");
-	if (!item)
-		return (C_MEM);
+	len_item = ft_strlen(item);
 	len = -1;
 	i = -1;
 	while (data->envp[++len])
 		;
 	nenv = ft_calloc(len, sizeof(char *));
 	if (!nenv)
-		return (free(item), C_MEM);
-	while (data->envp[++i] && ft_strncmp(data->envp[i], item, ft_strlen(item)))
-		nenv[i] = data->envp[i];
-	free(data->envp[i]);
+		return (C_MEM);
 	while (data->envp[++i])
-		nenv[i - 1] = data->envp[i];
-	nenv[i - 1] = NULL;
-	return (free(item), free(data->envp), data->envp = nenv, C_SUCCESS);
+	{
+		if ((data->envp[i][len_item] == '=' || data->envp[i][len_item] == '\0')
+			&& ft_strncmp(data->envp[i], item, len_item) == 0)
+			free(data->envp[i]);
+		else
+			nenv[i] = data->envp[i];
+	}
+	return (free(data->envp), data->envp = nenv, C_SUCCESS);
 }
 
 /**
