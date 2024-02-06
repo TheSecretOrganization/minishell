@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/03 21:57:06 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 11:08:58 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_code	ft_setenv(t_data *data, char *item, char *value)
 	len_item = ft_strlen(item);
 	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], item, len_item ))
+		if (ft_strncmp(data->envp[i], item, len_item))
 			continue ;
 		item = ft_strjoin(item, "=");
 		if (!item)
