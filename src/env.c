@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 14:59:29 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:26:07 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,27 @@ static t_code	ft_putenv(t_data *data, char *item, char *value)
 	char	**nenv;
 	char	*content;
 
-	item = ft_strjoin(item, "=");
-	if (!item)
-		return (C_MEM);
+	content = ft_substr(item, 0, ft_strlen(item));
 	if (value)
-		content = ft_strjoin(item, value);
-	else
-		content = ft_substr(item, 0, ft_strlen(item) - 1);
+	{
+		content = ft_fstrjoin(content, "=", 1);
+		if (!content)
+			return (C_MEM);
+		content = ft_fstrjoin(content, value, 1);
+	}
 	if (!content)
-		return (free(item), C_MEM);
+		return (C_MEM);
 	i = -1;
 	while (data->envp[++i])
 		;
 	nenv = ft_calloc(i + 2, sizeof(char *));
 	if (!nenv)
-		return (free(item), free(content), C_MEM);
+		return (free(content), C_MEM);
 	i = -1;
 	while (data->envp[++i])
 		nenv[i] = data->envp[i];
 	nenv[i] = content;
-	(free(data->envp), data->envp = nenv);
-	return (free(item), C_SUCCESS);
+	return (free(data->envp), data->envp = nenv, C_SUCCESS);
 }
 
 /**
