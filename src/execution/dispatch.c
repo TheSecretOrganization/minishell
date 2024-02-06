@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 14:19:06 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 09:50:46 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@ static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 
 	if (init_pipe(cmd, exec) == C_GEN)
 		return (124);
-	err = fill_exec(exec, *cmd, path);
-	if (err != C_SUCCESS)
-		return (err);
+	reset_exec(exec);
 	err = init_infile(*cmd, exec);
 	if (err == C_BAD_USE)
 		return (130);
 	else if (err == C_GEN || init_outfile(*cmd, exec) == C_GEN)
 		return (125);
+	err = fill_exec(exec, *cmd, path);
+	if (err != C_SUCCESS)
+		return (err);
 	return (C_SUCCESS);
 }
 
@@ -53,7 +54,7 @@ int	dispatch_cmd(t_data *data)
 	while (exec.target)
 	{
 		err = prepare_exec(exec.target, &exec, data->path);
-		if (err != C_SUCCESS)
+		if (exec.args == NULL || err != C_SUCCESS)
 			return (free(exec.pathname), err);
 		if (exec.is_builtin)
 			pid = exec_builtin(&exec);
