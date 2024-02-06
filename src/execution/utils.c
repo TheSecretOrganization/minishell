@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 13:07:59 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/06 08:59:51 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 	exec->pathname = NULL;
 	if (is_builtin(cmd, exec))
 		return (C_SUCCESS);
-	if (cmd.args[0] != NULL && !find_pathname(exec, path))
+	if (cmd.args != NULL && !find_pathname(exec, path))
 	{
 		if (errno == C_NOEXEC)
 			return (printf("%s: No permission\n", exec->args[0]), 127);
