@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:10 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 16:42:28 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/06 16:50:34 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int	cmd_env(t_exec *exec)
 {
 	size_t	i;
-	char	*_;
+	char	*underscore;
 
 	i = -1;
 	if (exec->args[0] == NULL || exec->args[1])
@@ -29,9 +29,9 @@ int	cmd_env(t_exec *exec)
 	while (exec->data->envp[++i])
 	{
 		if (exec->data->envp[i][0] == '_' && exec->data->envp[i][1] == '=')
-			_ = exec->data->envp[i];
+			underscore = exec->data->envp[i];
 		else
 			ft_putendl_fd(exec->data->envp[i], exec->outfile);
 	}
-	return (ft_putendl_fd(_, exec->outfile), C_SUCCESS);
+	return (ft_putendl_fd(underscore, exec->outfile), C_SUCCESS);
 }
