@@ -64,6 +64,7 @@ define SRC 	:=
 		dispatch.c \
 		path.c \
 		pathname.c \
+		redirect.c \
 		utils.c
 	)
 	$(addprefix $(PARSING_DIR)/, \

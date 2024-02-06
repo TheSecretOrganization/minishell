@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 13:08:28 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/05 14:19:46 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,14 @@ char	*find_pathname(t_exec *exec, char **path);
 char	**get_path(void);
 int		fill_exec(t_exec *exec, t_cmd cmd, char **path);
 void	*find_element(t_cmd cmd, t_type type);
+int		for_elements(t_cmd cmd, t_type type, t_exec *exec,
+			int (*f)(void *, t_exec *));
 void	init_exec(t_exec *exec, t_data *data);
 int		wait_children(int pid);
+
+int		init_pipe(t_cmd *cmd, t_exec *exec);
+int		init_outfile(t_cmd cmd, t_exec *exec);
+int		init_infile(t_cmd cmd, t_exec *exec);
 
 int		exec_builtin(t_exec *exec);
 int		is_builtin(t_cmd cmd, t_exec *exec);
