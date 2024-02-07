@@ -82,7 +82,7 @@ void	do_exec(t_exec *exec, char **envp, int *pid)
 				exit(254));
 			close_fds(exec);
 			if (execve(exec->pathname, exec->args, envp) == -1)
-				(perror("execution error"), free_exec(*exec), exit(253));
+				(perror(exec->args[0]), free_exec(*exec), exit(253));
 		}
 	}
 	if (exec->infile != -1)
