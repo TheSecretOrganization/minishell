@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 12:20:46 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/07 11:45:10 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 static void	free_exec(t_exec exec)
 {
 	free(exec.pathname);
-	ft_fsplit(exec.args);
+	clean_data(exec.data);
+	ft_fsplit(exec.data->path);
+	ft_fsplit(exec.data->envp);
 }
 
 /**
@@ -80,7 +82,7 @@ void	do_exec(t_exec *exec, char **envp, int *pid)
 				exit(254));
 			close_fds(exec);
 			if (execve(exec->pathname, exec->args, envp) == -1)
-				(perror("execution error"), free_exec(*exec), exit(253));
+				(perror(exec->args[0]), free_exec(*exec), exit(253));
 		}
 	}
 	if (exec->infile != -1)
