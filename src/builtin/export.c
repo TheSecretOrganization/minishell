@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 16:45:32 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:22:51 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,9 @@ static int	process_arg(char *arg, t_data *data)
 	code = ft_setenv(data, arg, value);
 	if (value)
 		*(--value) = '=';
+	if (!code && !ft_strncmp(arg, "PATH", 4)
+		&& (arg[4] == '\0' || arg[4] == '='))
+			return (get_path(data));
 	return (code);
 }
 
@@ -125,11 +128,10 @@ int	cmd_export(t_exec *exec)
 		(quicksort(cpy.envp, i), i = 0);
 		while (cpy.envp[i])
 			print_export(cpy.envp[i++], exec->outfile);
-		ft_fsplit(cpy.envp);
+		return (ft_fsplit(cpy.envp), C_SUCCESS);
 	}
-	else
-		while (exec->args[++i])
-			if (process_arg(exec->args[i], exec->data))
-				return (C_MEM);
+	while (exec->args[++i])
+		if (process_arg(exec->args[i], exec->data))
+			return (C_MEM);
 	return (C_SUCCESS);
 }
