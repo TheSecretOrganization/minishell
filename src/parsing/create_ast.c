@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/01 19:56:56 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/07 10:35:39 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_code	create_ast(t_data *data)
 	ast.j_args = NULL;
 	ast.i = 0;
 	ast.target = data->cmd;
-	while (data->line[ast.i] && data->line[ast.i + 1])
+	while (data->line[ast.i])
 		if (create_element(data, &ast))
 			return (C_MEM);
 	if (split_args(&ast) == C_MEM)

@@ -139,4 +139,4 @@ norm: ; @make -C $(LIBFT_DIR) norm $(MAKE_FLAG)
 ### VALGRIND ###
 .PHONY: valshell
 valshell: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline.supp ./$(NAME)
+	valgrind --track-origins=yes --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --suppressions=ignore_readline.supp ./$(NAME)

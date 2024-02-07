@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pathname.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 13:11:45 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/07 11:06:12 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static char	*find_path_exec(char *cmd, char **path)
 {
 	char	*exec;
 	size_t	i;
+	DIR		*dir;
 
 	i = -1;
 	while (path[++i])
@@ -46,11 +47,13 @@ static char	*find_path_exec(char *cmd, char **path)
 		exec = ft_strjoin(path[i], cmd);
 		if (!exec)
 			return (errno = C_MEM, NULL);
-		if (access(exec, F_OK) == -1)
+		dir = opendir(exec);
+		if (dir || errno == ENOENT)
 		{
-			free(exec);
+			(closedir(dir), free(exec));
 			continue ;
 		}
+		closedir(dir);
 		if (access(exec, F_OK | X_OK) == -1)
 			return (free(exec), errno = C_NOEXEC, NULL);
 		return (exec);
@@ -60,7 +63,7 @@ static char	*find_path_exec(char *cmd, char **path)
 
 /**
  * @brief Find executable pathname
- * 
+ *
  * @param exec current execution
  * @param path env's path
  * @return char* the pathname or NULL, errno is set
