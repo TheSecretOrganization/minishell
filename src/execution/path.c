@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:42:17 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:25:50 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:41:41 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_path(t_data *data)
 
 	temp = ft_getenv(*data, "PATH");
 	if (!temp)
-		return (C_SUCCESS);
+		return (ft_fsplit(data->path), data->path = NULL, C_SUCCESS);
 	result = ft_split(temp, ':');
 	(free(temp), i = -1);
 	if (!result)
