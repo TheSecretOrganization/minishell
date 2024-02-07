@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/02/02 14:44:48 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/07 09:53:23 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ typedef enum e_outtype
 typedef enum e_intype
 {
 	IT_INFILE = 1,
-	IT_HERE_DOC
+	IT_HERE_DOC,
+	IT_CREATE
 }	t_intype;
 
 typedef struct s_element
