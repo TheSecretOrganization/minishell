@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/05 14:06:26 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/07 10:03:48 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static int	open_infile(void *element, t_exec *exec)
 		exec->infile = open(el->filename, O_RDONLY);
 	else if (el->intype == IT_HERE_DOC)
 		exec->infile = here_doc(el->filename);
+	else if (el->intype == IT_CREATE)
+		exec->infile = open(el->filename, O_CREAT | O_WRONLY, 0644);
 	if (exec->infile == -1)
 		perror(el->filename);
 	return (exec->infile != -1);
