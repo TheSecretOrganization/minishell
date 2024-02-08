@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 12:38:00 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:42:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void read_here_doc(char *delimiter)
 {
 	char	*line;
 	size_t	len;
-	int		code;
 
 	line = readline("here_doc > ");
 	len = ft_strlen(delimiter);
@@ -81,7 +80,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 {
 
 	pid_t	pid;
-
+	int		code;
 
 	pid = fork();
 	code = C_SUCCESS;
@@ -96,7 +95,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 	else
 		wait(&code);
 	if (code == 1)
-		return (-2)
+		return (-2);
 	return (C_SUCCESS);
 }
 
