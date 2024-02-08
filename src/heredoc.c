@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 12:25:22 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/08 12:34:42 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,32 @@ static void read_here_doc(char *delimiter, int wfd)
 	len = ft_strlen(delimiter);
 	while (line && ft_strncmp(delimiter, line, len))
 	{
-		if (g_signal == SIGINT)
-			(free(line), exit(-2));
 		ft_putendl_fd(line, wfd);
 		(free(line), line = readline("here_doc > "));
 	}
 	(free(line), exit(C_SUCCESS));
 }
 
-static void	free_here_doc(t_exec *exec)
+static int	setup_here_doc(t_exec *exec, int wfd)
 {
+	struct sigaction	saction;
+	sigset_t			set;
+
+	sigemptyset(&set);
+	saction.sa_handler = handle_sigint;
+	saction.sa_mask = set;
+	saction.sa_flags = 0;
+	if (sigaction(SIGINT, &saction, &old) == -1)
+		return (perror("sigaction"), C_GEN);
 	(clean_data(exec.data), ft_fsplit(data.envp), clear_history());
+	// dup2
 }
 
 static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 {
 
 	pid_t	pid;
-	struct sigaction	saction;
-	sigset_t			set;
+
 
 	pid = fork();
 	code = C_SUCCESS;
@@ -84,13 +91,8 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 		return (C_GEN);
 	if (pid == 0)
 	{
-		free_here_doc(exec);
-		sigemptyset(&set);
-		saction.sa_handler = handle_sigint;
-		saction.sa_mask = set;
-		saction.sa_flags = 0;
-		if (sigaction(SIGINT, &saction, &old) == -1)
-			return (perror("sigaction"), NULL);
+		if (setup_here_doc(exec, wfd))
+			exit(C_GEN);
 		read_here_doc(delimiter, wfd);
 	}
 	else
