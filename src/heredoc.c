@@ -6,11 +6,40 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/01/25 11:54:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 09:35:01 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/**
+ * @brief Find a filename for here_doc
+ *
+ * @return char* file name or NULL
+ */
+static char	*find_heredoc_file(void)
+{
+	char	*file;
+	int		size;
+
+	size = 2;
+	file = NULL;
+	file = ft_calloc(size, sizeof(char));
+	if (!file)
+		return (NULL);
+	ft_memset(file, 'a', size - 1);
+	while (access(file, F_OK) != 0 && errno != ENOENT)
+	{
+		free(file);
+		if (++size < 0)
+			return (NULL);
+		file = ft_calloc(size, sizeof(char));
+		if (!file)
+			return (NULL);
+		ft_memset(file, 'a', size - 1);
+	}
+	return (file);
+}
 
 int	here_doc(char *delimiter)
 {
