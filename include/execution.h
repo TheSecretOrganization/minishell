@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
 /*   Updated: 2024/02/08 11:47:15 by averin           ###   ########.fr       */
@@ -33,7 +33,7 @@ typedef struct s_exec
 int		dispatch_cmd(t_data *data);
 void	do_exec(t_exec *exec, char **envp, int *pid);
 char	*find_pathname(t_exec *exec, char **path);
-char	**get_path(void);
+int		get_path(t_data *data);
 int		fill_exec(t_exec *exec, t_cmd cmd, char **path);
 void	*find_element(t_cmd cmd, t_type type);
 int		for_elements(t_cmd cmd, t_type type, t_exec *exec,

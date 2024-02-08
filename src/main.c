@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 14:50:40 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/07 14:24:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ static t_code	init_data(t_data *data, char **envp)
 	data->line = NULL;
 	data->cmd = NULL;
 	data->status = 0;
-	data->path = get_path();
+	data->path = NULL;
+	if (get_path(data))
+		return (ft_fsplit(data->envp), C_MEM);
 	return (C_SUCCESS);
 }
 
