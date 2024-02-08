@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:50:14 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 10:46:32 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 10:49:10 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ char	*prompt(t_data *data)
 	if (ft_strncmp(data->line, "", 1) != 0)
 		add_history(data->line);
 	if (sigaction(SIGINT, &old, NULL) == -1)
-		return (perror("sigaction"), free(line), NULL);
+		return (perror("sigaction"), free(data->line), NULL);
 	return (data->line);
 }
