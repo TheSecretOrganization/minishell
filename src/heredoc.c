@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 09:36:50 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 09:37:42 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,19 @@ int	here_doc(char *delimiter)
 {
 	int		wfd;
 	int		rfd;
-	char	*line;
+	char	*filename;
 
-	delimiter = ft_strjoin(delimiter, "\n");
-	if (!delimiter)
-		return (-1);
-	wfd = open("here_doc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	rfd = open("here_doc", O_RDONLY);
-	unlink("here_doc");
-	while (ft_printf("here_doc > ") && oget_next_line(0, &line)
-		&& g_signal == 0)
-	{
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter) + 1) == 0)
-			break ;
-		(ft_putstr_fd(line, wfd), free(line));
-	}
-	if (g_signal == SIGINT)
+	filename = find_heredoc_file();
+	if (!filename)
 		return (-2);
-	if (line == NULL)
-		ft_putstr_fd("\n", 1);
+	wfd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (wfd == -1)
+		return (free(filename), -1);
+	rfd = open(filename, O_RDONLY);
+	if (rfd == -1)
+		return (free(filename), close(wfd), -1);
+	unlink(filename);
+	here_doc_prompt(delimiter, wfd);
 	close(wfd);
 	return (rfd);
 }
