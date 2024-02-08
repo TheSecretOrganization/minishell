@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 11:48:28 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 12:30:26 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,19 @@ static char	*find_heredoc_file(void)
 
 static void	handle_sigint(int signal)
 {
+	int	fd;
+
 	(void)signal;
-	exit(1);
+	fd = open("/dev/null", O_RDONLY);
+	if (fd == -1)
+		return ;
+	if (dup2(fd, 0) == -1)
+		return ;
+	close(fd);
+	ft_putstr_fd("\n", 1);
 }
 
-static void read_here_doc(char *delimiter)
+static void read_here_doc(t_exec *exec, char *delimiter, int wfd)
 {
 	char	*line;
 	size_t	len;
@@ -57,11 +65,13 @@ static void read_here_doc(char *delimiter)
 	line = readline("here_doc > ");
 	len = ft_strlen(delimiter);
 	while (line && ft_strncmp(delimiter, line, len))
-		(ft_putendl_fd(line, 1), free(line), line = readline("here_doc > "));
-	(free(line), exit(C_SUCCESS));
+		(ft_putendl_fd(line, wfd), free(line), line = readline("here_doc > "));
+	close(wfd);
+	(clean_data(exec->data), ft_fsplit(exec->data->envp), ft_fsplit(exec->args),
+		free(line), exit(C_SUCCESS));
 }
 
-static int	setup_here_doc(t_exec *exec, int wfd)
+static int	setup_here_doc(t_exec *exec)
 {
 	struct sigaction	saction;
 	sigset_t			set;
@@ -70,22 +80,18 @@ static int	setup_here_doc(t_exec *exec, int wfd)
 	saction.sa_handler = handle_sigint;
 	saction.sa_mask = set;
 	saction.sa_flags = 0;
+	if (sigaction(SIGINT, &saction, NULL) == -1)
+		return (perror("sigaction"), C_GEN);
 	if (exec->pipes[0] != -1)
 		close(exec->pipes[0]);
 	if (exec->pipes[1] != -1)
 		close(exec->pipes[1]);
-	if (sigaction(SIGINT, &saction, NULL) == -1)
-		return (perror("sigaction"), C_GEN);
-	(clean_data(exec->data), ft_fsplit(exec->data->envp), ft_fsplit(exec->args),
-		clear_history());
-	if (dup2(wfd, 1) == -1)
-		return (perror("dup"), C_GEN);
+	clear_history();
 	return (C_SUCCESS);
 }
 
-static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
+static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 {
-
 	pid_t	pid;
 	int		code;
 
@@ -95,9 +101,10 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 		return (C_GEN);
 	if (pid == 0)
 	{
-		if (setup_here_doc(exec, wfd))
+		close(rfd);
+		if (setup_here_doc(exec))
 			exit(C_GEN);
-		read_here_doc(delimiter);
+		read_here_doc(exec, delimiter, wfd);
 	}
 	else
 		wait(&code);
@@ -122,7 +129,7 @@ int	here_doc(t_exec *exec, char *delimiter)
 	if (rfd == -1)
 		return (free(filename), close(wfd), -1);
 	(unlink(filename), free(filename));
-	if (here_doc_prompt(exec, delimiter, wfd) != C_SUCCESS)
+	if (here_doc_prompt(exec, delimiter, wfd, rfd) != C_SUCCESS)
 		return (close(wfd), close(rfd), -2);
 	return (close(wfd), rfd);
 }
