@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 10:32:45 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 10:08:23 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	init_infile(t_cmd cmd, t_exec *exec)
 {
 	if (for_elements(cmd, T_INFILE, exec, &open_infile) != C_SUCCESS)
 		return (C_GEN);
+	if (exec->infile == -2)
+		return (C_BAD_USE);
 	return (C_SUCCESS);
 }
 
