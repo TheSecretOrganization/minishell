@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 12:34:42 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/08 11:48:28 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "execution.h"
 #include <errno.h>
 
 /**
@@ -52,7 +53,6 @@ static void read_here_doc(char *delimiter, int wfd)
 {
 	char	*line;
 	size_t	len;
-	int		code;
 
 	line = readline("here_doc > ");
 	len = ft_strlen(delimiter);
@@ -73,17 +73,24 @@ static int	setup_here_doc(t_exec *exec, int wfd)
 	saction.sa_handler = handle_sigint;
 	saction.sa_mask = set;
 	saction.sa_flags = 0;
-	if (sigaction(SIGINT, &saction, &old) == -1)
+	if (exec->pipes[0] != -1)
+		close(exec->pipes[0]);
+	if (exec->pipes[1] != -1)
+		close(exec->pipes[1]);
+	if (sigaction(SIGINT, &saction, NULL) == -1)
 		return (perror("sigaction"), C_GEN);
-	(clean_data(exec.data), ft_fsplit(data.envp), clear_history());
-	// dup2
+	(clean_data(exec->data), ft_fsplit(exec->data->envp), ft_fsplit(exec->args),
+		clear_history());
+	if (dup2(wfd, 1) == -1)
+		return (perror("dup"), C_GEN);
+	return (C_SUCCESS);
 }
 
 static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 {
 
 	pid_t	pid;
-
+	int		code;
 
 	pid = fork();
 	code = C_SUCCESS;
@@ -98,7 +105,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 	else
 		wait(&code);
 	if (code == 1)
-		return (-2)
+		return (-2);
 	return (C_SUCCESS);
 }
 
