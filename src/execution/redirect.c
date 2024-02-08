@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 10:28:41 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 12:17:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	open_infile(void *element, t_exec *exec)
 	if (el->intype == IT_INFILE)
 		exec->infile = open(el->filename, O_RDONLY);
 	else if (el->intype == IT_HERE_DOC)
-		exec->infile = here_doc(el->filename);
+		exec->infile = here_doc(exec, el->filename);
 	else if (el->intype == IT_CREATE)
 		exec->infile = open(el->filename, O_CREAT | O_RDONLY, 0644);
 	if (exec->infile == -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 10:44:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 12:25:22 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,65 @@ static char	*find_heredoc_file(void)
 	return (file);
 }
 
-static int	here_doc_prompt(char *delimiter, int wfd)
+static void	handle_sigint(int signal)
 {
-	(void)delimiter;
-	(void)wfd;
+	(void)signal;
+	exit(1);
 }
 
-int	here_doc(char *delimiter)
+static void read_here_doc(char *delimiter, int wfd)
+{
+	char	*line;
+	size_t	len;
+	int		code;
+
+	line = readline("here_doc > ");
+	len = ft_strlen(delimiter);
+	while (line && ft_strncmp(delimiter, line, len))
+	{
+		if (g_signal == SIGINT)
+			(free(line), exit(-2));
+		ft_putendl_fd(line, wfd);
+		(free(line), line = readline("here_doc > "));
+	}
+	(free(line), exit(C_SUCCESS));
+}
+
+static void	free_here_doc(t_exec *exec)
+{
+	(clean_data(exec.data), ft_fsplit(data.envp), clear_history());
+}
+
+static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
+{
+
+	pid_t	pid;
+	struct sigaction	saction;
+	sigset_t			set;
+
+	pid = fork();
+	code = C_SUCCESS;
+	if (pid == -1)
+		return (C_GEN);
+	if (pid == 0)
+	{
+		free_here_doc(exec);
+		sigemptyset(&set);
+		saction.sa_handler = handle_sigint;
+		saction.sa_mask = set;
+		saction.sa_flags = 0;
+		if (sigaction(SIGINT, &saction, &old) == -1)
+			return (perror("sigaction"), NULL);
+		read_here_doc(delimiter, wfd);
+	}
+	else
+		wait(&code);
+	if (code == 1)
+		return (-2)
+	return (C_SUCCESS);
+}
+
+int	here_doc(t_exec *exec, char *delimiter)
 {
 	int		wfd;
 	int		rfd;
@@ -64,7 +116,7 @@ int	here_doc(char *delimiter)
 	if (rfd == -1)
 		return (free(filename), close(wfd), -1);
 	(unlink(filename), free(filename));
-	if (here_doc_prompt(delimiter, wfd) != C_SUCCESS)
+	if (here_doc_prompt(exec, delimiter, wfd) != C_SUCCESS)
 		return (close(wfd), close(rfd), -2);
 	return (close(wfd), rfd);
 }

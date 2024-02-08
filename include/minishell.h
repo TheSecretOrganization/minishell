@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 09:53:23 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 12:18:49 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void		register_signals(void);
 t_code		addback_cmd(t_cmd *cmd, t_element *el);
 t_element	*new_element(t_type type, void *value);
 
-int			here_doc(char *delimiter);
+int			here_doc(t_exec *exec, char *delimiter);
 
 char		*ft_getenv(t_data data, char *item);
 t_code		ft_setenv(t_data *data, char *item, char *value);
