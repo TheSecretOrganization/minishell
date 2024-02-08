@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:37:58 by averin            #+#    #+#             */
-/*   Updated: 2024/02/01 22:31:08 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/08 09:38:32 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,27 @@ static void	close_fds(t_exec *exec)
 
 int	cmd_exit(t_exec *exec)
 {
+	int		code;
+	char	*tmp;
+
+	code = C_SUCCESS;
+	if (!exec->is_pipe)
+		ft_putendl_fd("exit", STDOUT_FILENO);
+	if (exec->args[1] && exec->args[2])
+		return (printf("exit: too many arguments\n"), 1);
+	else if (exec->args[1])
+	{
+		code = ft_atoi(exec->args[1]);
+		tmp = ft_itoa(code);
+		if (!tmp)
+			return (C_MEM);
+		if (ft_strncmp(exec->args[1], tmp, ft_strlen(exec->args[1])))
+			(printf("exit: %s: numeric argument required\n", exec->args[1]), \
+			code = 2);
+		free(tmp);
+	}
 	if (exec->is_pipe)
-		return (C_SUCCESS);
-	(close_fds(exec), clean_data(exec->data));
-	(ft_putendl_fd("exit", STDOUT_FILENO), exit(C_SUCCESS));
+		return (code);
+	(close_fds(exec), ft_fsplit(exec->data->envp), clean_data(exec->data));
+	exit(code);
 }
