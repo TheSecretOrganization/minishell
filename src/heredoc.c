@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 10:06:17 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 10:44:01 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	here_doc(char *delimiter)
 	rfd = open(filename, O_RDONLY);
 	if (rfd == -1)
 		return (free(filename), close(wfd), -1);
-	unlink(filename);
+	(unlink(filename), free(filename));
 	if (here_doc_prompt(delimiter, wfd) != C_SUCCESS)
 		return (close(wfd), close(rfd), -2);
 	return (close(wfd), rfd);
