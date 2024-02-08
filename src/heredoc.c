@@ -49,7 +49,7 @@ static void	handle_sigint(int signal)
 	exit(1);
 }
 
-static void read_here_doc(char *delimiter, int wfd)
+static void read_here_doc(char *delimiter)
 {
 	char	*line;
 	size_t	len;
@@ -57,10 +57,7 @@ static void read_here_doc(char *delimiter, int wfd)
 	line = readline("here_doc > ");
 	len = ft_strlen(delimiter);
 	while (line && ft_strncmp(delimiter, line, len))
-	{
-		ft_putendl_fd(line, wfd);
-		(free(line), line = readline("here_doc > "));
-	}
+		(ft_putendl_fd(line, 1), free(line), line = readline("here_doc > "));
 	(free(line), exit(C_SUCCESS));
 }
 
@@ -100,7 +97,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd)
 	{
 		if (setup_here_doc(exec, wfd))
 			exit(C_GEN);
-		read_here_doc(delimiter, wfd);
+		read_here_doc(delimiter);
 	}
 	else
 		wait(&code);
