@@ -62,6 +62,7 @@ define SRC 	:=
 		child.c \
 		dispatch.c \
 		heredoc.c \
+		heredoc_utils.c \
 		path.c \
 		pathname.c \
 		redirect.c \
