@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 11:47:15 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 13:15:39 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ void	reset_exec(t_exec *exec);
 int		wait_children(int pid);
 
 int		here_doc(t_exec *exec, char *delimiter);
+char	*find_heredoc_file(void);
+int		setup_here_doc(t_exec *exec);
+
 int		init_pipe(t_cmd *cmd, t_exec *exec);
 int		init_outfile(t_cmd cmd, t_exec *exec);
 int		init_infile(t_cmd cmd, t_exec *exec);
