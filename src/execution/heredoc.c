@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 13:16:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 13:20:36 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@ static void read_here_doc(t_exec *exec, char *delimiter, int wfd)
 {
 	char	*line;
 	size_t	len;
+	int		db;
 
+	db = delimiter[0] == '"';
+	if (db)
+	[
+		delimiter = ft_strtrim(delimiter, "\"");
+		if (!delimiter)
+			return ;
+	]
 	line = readline("here_doc > ");
 	len = ft_strlen(delimiter);
 	while (line && ft_strncmp(delimiter, line, len))
