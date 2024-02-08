@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 10:28:41 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 11:07:01 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	open_infile(void *element, t_exec *exec)
 		exec->infile = open(el->filename, O_CREAT | O_RDONLY, 0644);
 	if (exec->infile == -1)
 		perror(el->filename);
-	return (exec->infile != -1);
+	return (exec->infile != -1 && exec->infile != -2);
 }
 
 /**
@@ -48,6 +48,7 @@ int	init_infile(t_cmd cmd, t_exec *exec)
 {
 	if (for_elements(cmd, T_INFILE, exec, &open_infile) != C_SUCCESS)
 	{
+		printf("infile not sucess: %d\n", exec->infile);
 		if (exec->infile == -2)
 			return (C_BAD_USE);
 		return (C_GEN);
