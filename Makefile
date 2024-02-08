@@ -73,7 +73,7 @@ define SRC 	:=
 		check_syntax.c \
 		create_ast_utils.c \
 		create_ast.c \
-		expand_variables.c \
+		expand_var.c \
 		parse_line.c
 	)
 	env.c

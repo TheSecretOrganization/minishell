@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/06 09:52:43 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/08 14:51:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_ast
 
 t_code	parse_line(t_data *data);
 
-t_code	remove_quotes(t_data *data);
+t_code	remove_quotes(t_data *data, int no_expand);
 t_code	check_quotes(t_data *data);
 t_code	check_syntax(t_data *data);
 t_code	error_syntax(t_code code, char *el, size_t n);
@@ -41,7 +41,7 @@ t_code	check_in(char *line, size_t *pos, t_bool force_err);
 t_code	check_out(char *line, size_t *pos, t_bool force_err);
 t_code	check_spcl_chars(char *line);
 
-t_code	expand_variables(char **line, size_t *i, int status, size_t nd);
+t_code	expand_var(char **line, size_t *i, int status, size_t nd);
 
 t_code	create_ast(t_data *data);
 
