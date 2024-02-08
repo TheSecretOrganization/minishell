@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 09:35:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/08 09:36:50 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ static char	*find_heredoc_file(void)
 		ft_memset(file, 'a', size - 1);
 	}
 	return (file);
+}
+
+static void	here_doc_prompt(char *delimiter, int wfd)
+{
+	(void)delimiter;
+	(void)wfd;
 }
 
 int	here_doc(char *delimiter)
