@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/08 15:17:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:07:24 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,5 @@ t_code	check_syntax(t_data *data)
 		return (C_BAD_USE);
 	if (remove_quotes(data, 0))
 		return (C_MEM);
-	printf("%s\n", data->line);
 	return (check_spcl_chars(data->line));
 }
