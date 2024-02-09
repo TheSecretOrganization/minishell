@@ -61,6 +61,8 @@ define SRC 	:=
 		builtin.c \
 		child.c \
 		dispatch.c \
+		heredoc.c \
+		heredoc_utils.c \
 		path.c \
 		pathname.c \
 		redirect.c \
@@ -77,7 +79,6 @@ define SRC 	:=
 		parse_line.c
 	)
 	env.c
-	heredoc.c
 	main.c
 	prompt.c
 	signal.c
