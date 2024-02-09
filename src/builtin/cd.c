@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 11:24:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/09 13:16:24 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	cmd_cd(t_exec *exec)
 	{
 		home = ft_getenv(*exec->data, "HOME");
 		if (!home)
-			return (C_MEM);
+			return (ft_dprintf(2, "HOME not set"), C_GEN);
 		if (chdir(home) == -1)
 			return (perror(home), free(home), C_GEN);
 		return (free(home), C_SUCCESS);
