@@ -19,7 +19,7 @@
  * @param i pointer on the position in the line
  * @return char * or NULL if an error occurs
  */
-static char	*expand_variable(char *line, size_t *i)
+char	*expand_variable(char *line, size_t *i)
 {
 	size_t	len;
 	char	*td;
@@ -79,7 +79,7 @@ static char	*expand_home(char *line, size_t *i)
  * @param status status of the last command
  * @return char * or NULL if an error occurs
  */
-static char	*expand_status(char *line, int status)
+char	*expand_status(char *line, int status)
 {
 	char	*tr;
 
