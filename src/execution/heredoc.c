@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/09 10:43:01 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/09 10:59:42 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include "parsing.h"
 #include <errno.h>
 
+/**
+ * @brief Expand vairables in line
+ *
+ * @param line pointer on the line red
+ * @param status status of the last command
+ * @return int
+ */
 static int	of_expand_here_doc(char **line, int status)
 {
 	size_t	i;
@@ -35,6 +42,14 @@ static int	of_expand_here_doc(char **line, int status)
 	return (C_SUCCESS);
 }
 
+/**
+ * @brief Free all the data of the child
+ *
+ * @param exec exec data
+ * @param delimiter delimiter of the here_doc
+ * @param line line red
+ * @param wfd unlinf file's fd
+ */
 static void	free_here_doc(t_exec *exec, char *delimiter, char *line, int wfd)
 {
 	(free(delimiter), delimiter = NULL);
@@ -45,6 +60,13 @@ static void	free_here_doc(t_exec *exec, char *delimiter, char *line, int wfd)
 	ft_fsplit(exec->args);
 }
 
+/**
+ * @brief Read user's input
+ *
+ * @param exec exec data
+ * @param delimiter delimiter of the here_doc
+ * @param wfd unlinf file's fd
+ */
 static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 {
 	char	*line;
@@ -74,6 +96,15 @@ static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 	(free_here_doc(exec, delimiter, line, wfd), exit(C_SUCCESS));
 }
 
+/**
+ * @brief Create the here_doc child
+ *
+ * @param exec exec data
+ * @param delimiter delimiter of the here_doc
+ * @param wfd unlinf file's fd
+ * @param rfd new infile fd
+ * @return int
+ */
 static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 {
 	pid_t	pid;
@@ -101,6 +132,13 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 	return (C_SUCCESS);
 }
 
+/**
+ * @brief Reproduce the here_doc behaviour of bash
+ *
+ * @param exec exec data
+ * @param delimiter delimiter of the here_doc
+ * @return int fd of the new infile or an error
+ */
 int	here_doc(t_exec *exec, char *delimiter)
 {
 	int		wfd;
