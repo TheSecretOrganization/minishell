@@ -12,6 +12,18 @@
 
 #include "builtin.h"
 
+static int	has_n_args(char *arg)
+{
+	size_t	i;
+
+	if (arg[0] != '-')
+		return (FALSE);
+	i = 0;
+	while (arg[++i] == 'n')
+		;
+	return (arg[i] == '\0');
+}
+
 int	cmd_echo(t_exec *exec)
 {
 	size_t	i;
@@ -21,7 +33,7 @@ int	cmd_echo(t_exec *exec)
 	first = 1;
 	if (exec->args[0] == NULL)
 		return (C_SUCCESS);
-	if (ft_strncmp("-n", exec->args[1], 3) == 0)
+	if (has_n_args(exec->args[1]))
 		i++;
 	while (exec->args[++i])
 	{
@@ -30,7 +42,7 @@ int	cmd_echo(t_exec *exec)
 		ft_putstr_fd(exec->args[i], exec->outfile);
 		first = 0;
 	}
-	if (ft_strncmp("-n", exec->args[1], 3) != 0)
+	if (!has_n_args(exec->args[1]))
 		ft_putstr_fd("\n", exec->outfile);
 	return (C_SUCCESS);
 }
