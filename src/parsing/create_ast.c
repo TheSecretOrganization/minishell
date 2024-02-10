@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/07 10:35:39 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:22:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,18 @@
  */
 static t_code	create_element(t_data *data, t_ast *ast)
 {
-	ast->next = find_next_sep(&(data->line[ast->i + 1]));
-	if (ft_strchr(CH_OPE, data->line[ast->i]))
+	ast->next = get_next_substr(ast, data->line);
+	if (!ast->next)
+		return (C_MEM);
+	if (ft_strchr(CH_OPE, ast->next[0]))
 	{
-		if (add_ope(ast, data->line))
-			return (C_MEM);
+		if (!ast->target->args[0])
+			(free(ast->target->args), ast->target->args = NULL);
+		return (add_ope(ast, data->line));
 	}
-	else if (ft_strchr(CH_DIR, data->line[ast->i]))
-	{
-		if (add_dir(ast, data->line))
-			return (free(ast->j_args), C_MEM);
-	}
-	else
-	{
-		if (join_args(ast, data->line))
-			return (C_MEM);
-	}
-	return (C_SUCCESS);
+	else if (ft_strchr(CH_DIR, ast->next[0]))
+		return (add_dir(ast, data->line));
+	return (add_arg(ast, data->line));
 }
 
 /**
@@ -51,13 +46,12 @@ t_code	create_ast(t_data *data)
 
 	if (o_init_cmd(&(data->cmd)))
 		(clean_data(data), exit(C_MEM));
-	ast.j_args = NULL;
 	ast.i = 0;
 	ast.target = data->cmd;
 	while (data->line[ast.i])
 		if (create_element(data, &ast))
 			return (C_MEM);
-	if (split_args(&ast) == C_MEM)
-		return (C_MEM);
+	if (!ast.target->args[0])
+		(free(ast.target->args), ast.target->args = NULL);
 	return (C_SUCCESS);
 }
