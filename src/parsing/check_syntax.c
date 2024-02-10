@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/09 23:45:05 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:54:14 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 	return (code);
 }
 
+/**
+ * @brief Check if the here_doc delimiter has quotes
+ *
+ * @param line line to parse
+ * @param i pointer on the position in line
+ * @return int B_TRUE
+ */
 static int	check_hd(char *line, size_t *i)
 {
 	*i += 2;
