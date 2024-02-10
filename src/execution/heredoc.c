@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/09 10:59:42 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 23:51:08 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,23 @@
  * @param status status of the last command
  * @return int
  */
-static int	of_expand_here_doc(char **line, int status)
+static int	expand_hd(char **line, int status, char **envp)
 {
 	size_t	i;
+	t_data	tmp;
 
 	i = -1;
+	tmp.line = *line;
+	tmp.status = status;
+	tmp.envp = envp;
 	while ((*line)[++i])
 	{
 		if ((*line)[i] == '$' && (*line)[i + 1] && (*line)[i + 1] != ' ')
 		{
 			if ((*line)[i + 1] == '?')
-				(*line) = expand_status((*line), status);
+				(*line) = expand_status(&tmp);
 			else
-				(*line) = expand_variable((*line), &i);
+				(*line) = expand_variable(&tmp, &i);
 			if (!(*line))
 				return (C_MEM);
 		}
@@ -89,7 +93,7 @@ static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 	len = ft_strlen(delimiter);
 	while (line && ft_strncmp(delimiter, line, len))
 	{
-		if (expand && of_expand_here_doc(&line, exec->data->status))
+		if (expand && expand_hd(&line, exec->data->status, exec->data->envp))
 			(free_here_doc(exec, delimiter, line, wfd), exit(C_MEM));
 		(ft_putendl_fd(line, wfd), free(line), line = readline("here_doc > "));
 	}
