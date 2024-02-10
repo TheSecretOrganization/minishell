@@ -6,11 +6,39 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:53:46 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/31 22:52:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/09 22:41:53 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+/**
+ * @brief Check pipe syntax in line
+ *
+ * @param line line to check
+ * @param pos position in line
+ * @param forced_err call the error syntax on purpose
+ * @return t_code C_SUCCESS or an error
+ */
+static t_code	check_pipe(char *line, size_t *pos, t_bool forced_err)
+{
+	size_t	nb;
+	size_t	i;
+
+	nb = 1;
+	if (line[*pos + 1] == '&')
+		return (error_syntax(C_BAD_USE, line + *pos, 2));
+	if (line[*pos + 1] == '|')
+		nb++;
+	if (forced_err || !*pos)
+		return (error_syntax(C_BAD_USE, line + *pos, nb));
+	i = *pos - 1;
+	while (i > 0 && !ft_strchr(CH_SPCL, line[i]) && line[i] == ' ')
+		i--;
+	if (!ft_strchr(CH_SPCL, line[i]) && line[i] != ' ')
+		return (*pos += nb - 1, C_SUCCESS);
+	return (error_syntax(C_BAD_USE, line + *pos, nb));
+}
 
 /**
  * @brief Check ampersand syntax in line
@@ -19,7 +47,7 @@
  * @param pos position in line
  * @return t_code C_SUCCESS or an error
  */
-t_code	check_ampersand(char *line, size_t *pos)
+static t_code	check_ampersand(char *line, size_t *pos)
 {
 	size_t	nb;
 	size_t	i;
@@ -38,34 +66,6 @@ t_code	check_ampersand(char *line, size_t *pos)
 			return (*pos += nb, check_pipe(line, pos, B_TRUE));
 		return (*pos += nb - 1, C_SUCCESS);
 	}
-	return (error_syntax(C_BAD_USE, line + *pos, nb));
-}
-
-/**
- * @brief Check pipe syntax in line
- *
- * @param line line to check
- * @param pos position in line
- * @param forced_err call the error syntax on purpose
- * @return t_code C_SUCCESS or an error
- */
-t_code	check_pipe(char *line, size_t *pos, t_bool forced_err)
-{
-	size_t	nb;
-	size_t	i;
-
-	nb = 1;
-	if (line[*pos + 1] == '&')
-		return (error_syntax(C_BAD_USE, line + *pos, 2));
-	if (line[*pos + 1] == '|')
-		nb++;
-	if (forced_err || !*pos)
-		return (error_syntax(C_BAD_USE, line + *pos, nb));
-	i = *pos - 1;
-	while (i > 0 && !ft_strchr(CH_SPCL, line[i]) && line[i] == ' ')
-		i--;
-	if (!ft_strchr(CH_SPCL, line[i]) && line[i] != ' ')
-		return (*pos += nb - 1, C_SUCCESS);
 	return (error_syntax(C_BAD_USE, line + *pos, nb));
 }
 
