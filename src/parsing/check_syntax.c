@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/09 10:07:24 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/09 23:45:05 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 	return (code);
 }
 
-static int	check_hd(char *line, size_t *i, int no_expand)
+static int	check_hd(char *line, size_t *i)
 {
 	*i += 2;
 	while (line[*i] && line[*i] == ' ')
 		(*i)++;
-	if (!no_expand && line[*i] != '\'' && line[*i] != '\"')
+	if (line[*i] != '\'' && line[*i] != '\"')
 		return (*i -= 1, B_TRUE);
 	while (line[*i] && line[*i] != ' ' && !ft_strchr(CH_SPCL, line[*i]))
 		(*i)++;
@@ -51,10 +51,9 @@ static int	check_hd(char *line, size_t *i, int no_expand)
  * @brief Remove outer quotes from a line
  *
  * @param data pointer on where the data is stored
- * @param no_expand force unexpansion of variables
  * @return t_code C_SUCCESS or an error
  */
-t_code	remove_quotes(t_data *data, int no_expand)
+t_code	expand(t_data *data)
 {
 	size_t	nq;
 	size_t	nd;
@@ -66,17 +65,15 @@ t_code	remove_quotes(t_data *data, int no_expand)
 	while (data->line[++i])
 	{
 		if (data->line[i] == '<' && data->line[i + 1] == '<'
-			&& check_hd(data->line, &i, no_expand))
+			&& check_hd(data->line, &i))
 			continue ;
 		if (!(nq % 2) && ((data->line[i]) == '~' || data->line[i] == '$'))
-			if (!no_expand && expand_var(&data->line, &i, data->status, nd))
+			if (expand_var(&data->line, &i, data->status, nd))
 				return (C_MEM);
-		if (data->line[i] == '\'' && !(nd % 2) && ++nq)
-			(ft_memcpy(&(data->line[i]), &(data->line[i + 1]), \
-			ft_strlen(data->line) - i), i--);
-		else if (data->line[i] == '\"' && !(nq % 2) && ++nd)
-			(ft_memcpy(&(data->line[i]), &(data->line[i + 1]), \
-			ft_strlen(data->line) - i), i--);
+		if (data->line[i] == '\'' && !(nd % 2))
+			nq++;
+		else if (data->line[i] == '\"' && !(nq % 2))
+			nd++;
 	}
 	return (C_SUCCESS);
 }
@@ -121,7 +118,7 @@ t_code	check_syntax(t_data *data)
 {
 	if (check_quotes(data))
 		return (C_BAD_USE);
-	if (remove_quotes(data, 0))
+	if (expand(data))
 		return (C_MEM);
 	return (check_spcl_chars(data->line));
 }
