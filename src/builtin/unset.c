@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:04 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:41:03 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 14:59:08 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	cmd_unset(t_exec *exec)
 		return (C_SUCCESS);
 	while (exec->args[++i])
 	{
+		if (exec->args[i][0] == '_')
+			continue ;
 		el = ft_getenv(*(exec->data), exec->args[i]);
 		if (!el)
 			continue ;
