@@ -28,6 +28,8 @@ int	cmd_env(t_exec *exec)
 		return (C_SUCCESS);
 	while (exec->data->envp[++i])
 	{
+		if (ft_strchr(exec->data->envp[i], '=')[1] == '\0')
+			continue ;
 		if (exec->data->envp[i][0] == '_' && exec->data->envp[i][1] == '=')
 			underscore = exec->data->envp[i];
 		else
