@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:54 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 12:16:08 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 16:52:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ t_code	add_ope(t_ast *ast, char *line)
 
 	tmp = NULL;
 	type = T_PIPE;
-	printf("%s\n", ast->next);
 	if (ast->next[0] == ast->next[1] && line[ast->i] == '&')
 		type = T_PIPE_AND;
 	else if (ast->next[0] == ast->next[1] && line[ast->i] == '|')
 		type = T_PIPE_OR;
 	(free(ast->next), ast->i = ast->new_i - line);
-	printf("%s\n", &(line[ast->i]));
 	if (o_init_cmd(&tmp))
 		return (C_MEM);
 	if (addback_cmd(ast->target, new_element(type, tmp)))
