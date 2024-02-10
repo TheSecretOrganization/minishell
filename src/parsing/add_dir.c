@@ -6,31 +6,11 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:39 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/07 10:04:15 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:03:36 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-/**
- * @brief Get the next substr object
- *
- * @param ast pointer on the top of the ast
- * @param line line parsed
- * @return char* or NULL
- */
-static char	*get_next_substr(t_ast *ast, char *line)
-{
-	char	*sub;
-	char	*start;
-	char	*end;
-
-	start = find_next_arg(line + ast->i + 1, &end);
-	sub = ft_substr(line, start - line, end - start);
-	if (!sub)
-		return (error(C_MEM, "ft_substr", M_MEM), NULL);
-	return (ast->next = end, sub);
-}
 
 /**
  * @brief Add a new infile element
@@ -44,6 +24,7 @@ static t_code	add_in(t_ast *ast, char *line, t_intype type)
 {
 	t_infile	*file;
 
+	(free(ast->next), ast->i = ast->new_i - line);
 	file = ft_calloc(1, sizeof(t_infile));
 	if (!file)
 		return (error(C_MEM, "ft_calloc", M_MEM));
@@ -51,10 +32,12 @@ static t_code	add_in(t_ast *ast, char *line, t_intype type)
 	file->filename = get_next_substr(ast, line);
 	if (!file->filename)
 		return (free(file), C_MEM);
+	if (type != IT_HERE_DOC)
+		remove_quotes(&file->filename);
 	if (addback_cmd(ast->target, new_element(T_INFILE, file)))
 		return (free(file->filename), free(file), \
 		error(C_MEM, "addback_cmd", M_MEM));
-	return (ast->i = ast->next - &(line[0]), C_SUCCESS);
+	return (ast->i = ast->new_i - line, C_SUCCESS);
 }
 
 /**
@@ -69,6 +52,7 @@ static t_code	add_out(t_ast *ast, char *line, t_outtype type)
 {
 	t_outfile	*file;
 
+	(free(ast->next), ast->i = ast->new_i - line);
 	file = ft_calloc(1, sizeof(t_outfile));
 	if (!file)
 		return (error(C_MEM, "ft_calloc", M_MEM));
@@ -76,10 +60,11 @@ static t_code	add_out(t_ast *ast, char *line, t_outtype type)
 	file->filename = get_next_substr(ast, line);
 	if (!file->filename)
 		return (free(file), C_MEM);
+	remove_quotes(&(file->filename));
 	if (addback_cmd(ast->target, new_element(T_OUTFILE, file)))
 		return (free(file->filename), free(file), \
 		error(C_MEM, "addback_cmd", M_MEM));
-	return (ast->i = ast->next - &(line[0]), C_SUCCESS);
+	return (ast->i = ast->new_i - line, C_SUCCESS);
 }
 
 /**
@@ -91,19 +76,19 @@ static t_code	add_out(t_ast *ast, char *line, t_outtype type)
  */
 t_code	add_dir(t_ast *ast, char *line)
 {
-	if (line[ast->i] == '<')
+	if (ast->next[0] == '<')
 	{
-		if (line[ast->i + 1] == '<')
-			return (ast->i++, add_in(ast, line, IT_HERE_DOC));
-		else if (line[ast->i + 1] == '>')
-			return (ast->i++, add_in(ast, line, IT_CREATE));
+		if (ast->next[1] == '<')
+			return (add_in(ast, line, IT_HERE_DOC));
+		else if (ast->next[1] == '>')
+			return (add_in(ast, line, IT_CREATE));
 		else
 			return (add_in(ast, line, IT_INFILE));
 	}
 	else
 	{
-		if (line[ast->i + 1] == '>')
-			return (ast->i++, add_out(ast, line, OT_APPEND));
+		if (ast->next[1] == '>')
+			return (add_out(ast, line, OT_APPEND));
 		else
 			return (add_out(ast, line, OT_TRUNCATE));
 	}
