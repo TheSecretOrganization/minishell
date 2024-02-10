@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 00:06:07 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:35:34 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_ast
 }	t_ast;
 
 t_code	parse_line(t_data *data);
-
 
 t_code	error_syntax(t_code code, char *el, size_t n);
 t_code	check_syntax(t_data *data);

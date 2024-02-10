@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 11:55:50 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 12:35:52 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	remove_quotes(char **s)
 */
 t_code	add_arg(t_ast *ast, char *line)
 {
-	char **new;
+	char	**new;
 	size_t	len;
 
 	remove_quotes(&(ast->next));
