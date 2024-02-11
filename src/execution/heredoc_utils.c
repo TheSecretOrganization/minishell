@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 13:13:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:40:53 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:18:10 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,12 @@ static void	handle_sigint(int signal)
 
 int	setup_here_doc(t_exec *exec)
 {
-	register_action(SIGINT, NULL, &handle_sigint);
 	if (exec->pipes[0] != -1)
 		close(exec->pipes[0]);
 	if (exec->pipes[1] != -1)
 		close(exec->pipes[1]);
+	if (register_action(SIGINT, NULL, &handle_sigint))
+		return (C_GEN);
 	clear_history();
 	return (C_SUCCESS);
 }
