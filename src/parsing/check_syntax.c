@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 12:54:14 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/10 13:11:25 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_code	expand(t_data *data)
 			&& check_hd(data->line, &i))
 			continue ;
 		if (!(nq % 2) && ((data->line[i]) == '~' || data->line[i] == '$'))
-			if (expand_var(&data->line, &i, data->status, nd))
+			if (expand_var(data, &i, nd))
 				return (C_MEM);
 		if (data->line[i] == '\'' && !(nd % 2))
 			nq++;
