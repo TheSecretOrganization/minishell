@@ -60,6 +60,7 @@ define SRC 	:=
 	$(addprefix $(EXEC_DIR)/, \
 		builtin.c \
 		child.c \
+		child_utils.c \
 		dispatch.c \
 		heredoc.c \
 		heredoc_utils.c \
