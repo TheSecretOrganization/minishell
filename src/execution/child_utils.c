@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:12:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:13:42 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 16:20:12 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	wait_children(int pid)
 				code = WEXITSTATUS(wstatus);
 			else
 				code = 128 + WTERMSIG(wstatus);
+			if (WIFSIGNALED(code) && WTERMSIG(code) == SIGQUIT)
+				printf("Quit\n");
 		}
 	}
 	return (code);
