@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 13:13:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 13:16:14 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:40:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	handle_sigint(int signal)
 {
 	int	fd;
 
-	(void)signal;
+	g_signal = signal;
 	fd = open("/dev/null", O_RDONLY);
 	if (fd == -1)
 		return ;
@@ -57,15 +57,7 @@ static void	handle_sigint(int signal)
 
 int	setup_here_doc(t_exec *exec)
 {
-	struct sigaction	saction;
-	sigset_t			set;
-
-	sigemptyset(&set);
-	saction.sa_handler = handle_sigint;
-	saction.sa_mask = set;
-	saction.sa_flags = 0;
-	if (sigaction(SIGINT, &saction, NULL) == -1)
-		return (perror("sigaction"), C_GEN);
+	register_action(SIGINT, NULL, &handle_sigint);
 	if (exec->pipes[0] != -1)
 		close(exec->pipes[0]);
 	if (exec->pipes[1] != -1)

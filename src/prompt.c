@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:50:14 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 11:12:45 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/11 15:05:29 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,8 @@ static void	handle_sigint(int signal)
 char	*prompt(t_data *data)
 {
 	struct sigaction	old;
-	struct sigaction	saction;
-	sigset_t			set;
 
-	sigemptyset(&set);
-	saction.sa_handler = handle_sigint;
-	saction.sa_mask = set;
-	saction.sa_flags = 0;
-	if (sigaction(SIGINT, &saction, &old) == -1)
-		return (perror("sigaction"), NULL);
+	register_action(SIGINT, &old, &handle_sigint);
 	if (data->line)
 		free(data->line);
 	data->line = readline(PROMPT_HEAD" "WHITE"❯ "DEFAULT);

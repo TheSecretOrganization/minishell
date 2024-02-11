@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 11:46:56 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:03:52 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,9 @@ t_code		error(t_code code, char *el, char *message);
 void		clean_data(t_data *data);
 void		free_cmd(t_cmd *cmd);
 char		*prompt(t_data *data);
+
+void		register_action(int signal, struct sigaction *old,
+				void (*handler)(int));
 void		register_signals(void);
 
 t_code		addback_cmd(t_cmd *cmd, t_element *el);
