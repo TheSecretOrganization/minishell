@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:34:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 10:46:02 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:06:43 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	handle_singint(int signal)
  * @param signal signal to bind
  * @param handler handler to call
 */
-static void	register_action(int signal, void (*handler)(int))
+void	register_action(int signal, struct sigaction *old, void (*handler)(int))
 {
 	struct sigaction	saction;
 	sigset_t			set;
@@ -31,7 +31,7 @@ static void	register_action(int signal, void (*handler)(int))
 	saction.sa_handler = handler;
 	saction.sa_mask = set;
 	saction.sa_flags = 0;
-	if (sigaction(signal, &saction, NULL) == -1)
+	if (sigaction(signal, &saction, old) == -1)
 		(perror("sigaction"), exit(EXIT_FAILURE));
 }
 
@@ -40,6 +40,6 @@ static void	register_action(int signal, void (*handler)(int))
 */
 void	register_signals(void)
 {
-	register_action(SIGINT, &handle_singint);
-	register_action(SIGQUIT, SIG_IGN);
+	register_action(SIGINT, NULL, &handle_singint);
+	register_action(SIGQUIT, NULL, SIG_IGN);
 }
