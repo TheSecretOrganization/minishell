@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:13:38 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:25:44 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,11 @@ static int	duplicate_fds(t_exec exec)
 		|| dup2(outfd, STDOUT_FILENO) == -1);
 }
 
+static void	handle_sigquit(int signal)
+{
+	(void)signal;
+}
+
 /**
  * Execute the command with the args and the env, redirect input and output
  * @param exec current execution informations
@@ -77,6 +82,8 @@ void	do_exec(t_exec *exec, char **envp, int *pid)
 			return (perror("fork"));
 		else if (*pid == 0)
 		{
+			if (register_action(SIGQUIT, NULL, &handle_sigquit))
+				(close_fds(exec), free_exec(*exec), exit(252));
 			if (duplicate_fds(*exec))
 				(perror("redirect error"), close_fds(exec), free_exec(*exec), \
 				exit(254));
