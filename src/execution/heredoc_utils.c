@@ -45,7 +45,7 @@ static void	handle_sigint(int signal)
 {
 	int	fd;
 
-	(void)signal;
+	g_signal = signal;
 	fd = open("/dev/null", O_RDONLY);
 	if (fd == -1)
 		return ;
