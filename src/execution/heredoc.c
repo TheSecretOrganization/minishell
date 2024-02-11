@@ -129,9 +129,11 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 			(free_here_doc(exec, NULL, NULL, wfd), exit(C_MEM));
 		read_here_doc(exec, cpy, wfd);
 	}
-	else
-		wait(&code);
-	if (code == 1)
+	register_action(SIGINT, NULL, SIG_IGN);
+	if (wait(&code) == -1)
+		return (perror("wait"), C_GEN);
+	register_signals();
+	if (WIFEXITED(code) && WEXITSTATUS(code) == SIGINT)
 		return (-2);
 	return (C_SUCCESS);
 }
