@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/10 23:51:08 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/11 16:09:07 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 			(free_here_doc(exec, delimiter, line, wfd), exit(C_MEM));
 		(ft_putendl_fd(line, wfd), free(line), line = readline("here_doc > "));
 	}
-	(free_here_doc(exec, delimiter, line, wfd), exit(C_SUCCESS));
+	(free_here_doc(exec, delimiter, line, wfd), exit(g_signal));
 }
 
 /**
