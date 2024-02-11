@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 13:13:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:09:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/11 15:40:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	handle_sigint(int signal)
 {
 	int	fd;
 
-	(void)signal;
+	g_signal = signal;
 	fd = open("/dev/null", O_RDONLY);
 	if (fd == -1)
 		return ;
