@@ -6,12 +6,19 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:55:50 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/12 10:06:23 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
+/**
+ * @brief Free cd commmand data
+ *
+ * @param oldpwd string to free
+ * @param pwd string to free
+ * @param fpwd boolean to free or not pwd
+ */
 static void	free_cd(char *oldpwd, char *pwd, int fpwd)
 {
 	free(oldpwd);
@@ -19,6 +26,12 @@ static void	free_cd(char *oldpwd, char *pwd, int fpwd)
 		free(pwd);
 }
 
+/**
+ * @brief Reproduce the behaviour of cd
+ *
+ * @param exec data of the program
+ * @return int C_SUCCES or an error
+ */
 int	cmd_cd(t_exec *exec)
 {
 	char	*oldpwd;
