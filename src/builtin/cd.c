@@ -3,31 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/08 11:24:01 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/12 10:06:23 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
+/**
+ * @brief Free cd commmand data
+ *
+ * @param oldpwd string to free
+ * @param pwd string to free
+ * @param fpwd boolean to free or not pwd
+ */
+static void	free_cd(char *oldpwd, char *pwd, int fpwd)
+{
+	free(oldpwd);
+	if (fpwd)
+		free(pwd);
+}
+
+/**
+ * @brief Reproduce the behaviour of cd
+ *
+ * @param exec data of the program
+ * @return int C_SUCCES or an error
+ */
 int	cmd_cd(t_exec *exec)
 {
-	char	*home;
+	char	*oldpwd;
+	char	*pwd;
+	int		code;
 
 	if (exec->is_pipe)
 		return (C_SUCCESS);
-	if (exec->args[1] == NULL)
+	code = ft_getcwd(&oldpwd);
+	if (code != C_SUCCESS)
+		return (code);
+	code = 0;
+	if (exec->args[1] == NULL && ++code)
 	{
-		home = ft_getenv(*exec->data, "HOME");
-		if (!home)
-			return (C_MEM);
-		if (chdir(home) == -1)
-			return (perror(home), free(home), C_GEN);
-		return (free(home), C_SUCCESS);
+		pwd = ft_getenv(*exec->data, "HOME");
+		if (!pwd)
+			return (ft_dprintf(2, "HOME not set"), free(oldpwd), C_GEN);
 	}
-	if (chdir(exec->args[1]) == -1)
-		return (perror(exec->args[1]), C_GEN);
-	return (C_SUCCESS);
+	else
+		pwd = exec->args[1];
+	if (chdir(pwd) == -1)
+		return (perror(pwd), free_cd(oldpwd, pwd, code), C_GEN);
+	if (ft_setenv(exec->data, "OLDPWD", oldpwd))
+		return (free_cd(oldpwd, pwd, code), C_MEM);
+	if (ft_setenv(exec->data, "PWD", pwd))
+		return (free_cd(oldpwd, pwd, code), C_MEM);
+	return (free_cd(oldpwd, pwd, code), C_SUCCESS);
 }
