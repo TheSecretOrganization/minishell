@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 09:46:32 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 16:09:29 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/12 09:44:01 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,6 @@ static int	open_infile(void *element, t_exec *exec)
 }
 
 /**
- * Open or create infile and set corresponding fd in exec
- * @param cmd Command in wich search infile
- * @param exec Where to store infile fd
- * @return `C_SUCCESS` or `C_GEN` when error
-*/
-int	init_infile(t_cmd cmd, t_exec *exec)
-{
-	if (for_elements(cmd, T_INFILE, exec, &open_infile) != C_SUCCESS)
-	{
-		if (exec->infile == -2)
-			return (C_BAD_USE);
-		return (C_GEN);
-	}
-	return (C_SUCCESS);
-}
-
-/**
  * @brief Open a single outfile and set his fd
  * Close the current fd if one is already open
  *
@@ -80,15 +63,20 @@ static int	open_outfile(void *element, t_exec *exec)
 }
 
 /**
- * Open outfiles and set corresponding fd in exec
- * @param cmd Command in wich search infile
- * @param exec Where to store infile fd
- * @return `C_SUCCESS` or `C_GEN` when error
-*/
-int	init_outfile(t_cmd cmd, t_exec *exec)
+ * @brief Init redirections
+ * 
+ * @param cmd current command
+ * @param exec current exec
+ * @return int `C_SUCCESS` or `C_GEN`
+ */
+int	init_redirections(t_cmd cmd, t_exec *exec)
 {
-	if (for_elements(cmd, T_OUTFILE, exec, &open_outfile) != C_SUCCESS)
+	if (for_redirections(cmd, exec, &open_infile, &open_outfile) != C_SUCCESS)
+	{
+		if (exec->infile == -2)
+			return (C_BAD_USE);
 		return (C_GEN);
+	}
 	return (C_SUCCESS);
 }
 
