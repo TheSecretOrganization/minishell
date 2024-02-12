@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 09:50:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/12 09:40:22 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,25 +91,30 @@ void	*find_element(t_cmd cmd, t_type type)
 }
 
 /**
- * @brief Call `f` for each elements of type `type` in `cmd`
+ * @brief Call `in` or ``out for each elements of type `INFILE` or `OUTFILE` in `cmd`
  * 
  * @param cmd Command in wich search
- * @param type Type to filter by
  * @param exec Argument passed to `f`
- * @param f Function called on each `type`
- * @return int return value of the first not `C_SUCCESS` or `C_SUCCESS`
+ * @param in Function called on each `INFILE`
+ * @param out Function called on each `OUTFILE`
+ * @return int return value of the first not `C_SUCCESS` or `C_GEN`
  */
-int	for_elements(t_cmd cmd, t_type type, t_exec *exec,
-	int (*f)(void *, t_exec *))
+int	for_redirections(t_cmd cmd, t_exec *exec, int (*in)(void *, t_exec *),
+	int (*out)(void *, t_exec *))
 {
 	size_t	i;
 
 	i = -1;
 	while (cmd.elements[++i])
 	{
-		if (cmd.elements[i]->type == type)
+		if (cmd.elements[i]->type == T_INFILE)
 		{
-			if (!f(cmd.elements[i]->value, exec))
+			if (!in(cmd.elements[i]->value, exec))
+				return (C_GEN);
+		}
+		else if (cmd.elements[i]->type == T_OUTFILE)
+		{
+			if (!out(cmd.elements[i]->value, exec))
 				return (C_GEN);
 		}
 	}
