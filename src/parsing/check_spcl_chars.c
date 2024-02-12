@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 16:53:46 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/09 22:41:53 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/12 09:16:07 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static t_code	check_pipe(char *line, size_t *pos, t_bool forced_err)
 	if (line[*pos + 1] == '&')
 		return (error_syntax(C_BAD_USE, line + *pos, 2));
 	if (line[*pos + 1] == '|')
-		nb++;
+		return (error_syntax(C_BAD_USE, line + *pos, 2));
 	if (forced_err || !*pos)
 		return (error_syntax(C_BAD_USE, line + *pos, nb));
 	i = *pos - 1;
@@ -55,7 +55,7 @@ static t_code	check_ampersand(char *line, size_t *pos)
 	nb = 1;
 	if (line[*pos + 1] == '&')
 		nb++;
-	if (!*pos || nb == 1)
+	if (!*pos || nb == 1 || nb == 2)
 		return (error_syntax(C_BAD_USE, line + *pos, nb));
 	i = *pos - 1;
 	while (i > 0 && !ft_strchr(CH_SPCL, line[i]) && line[i] == ' ')
