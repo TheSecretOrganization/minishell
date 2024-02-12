@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:40:22 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/12 09:49:22 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ void	*find_element(t_cmd cmd, t_type type)
 }
 
 /**
- * @brief Call `in` or ``out for each elements of type `INFILE` or `OUTFILE` in `cmd`
+ * @brief Call `in` or ``out for each elements of type `INFILE` or `OUTFILE` in
+ * `cmd`
  * 
  * @param cmd Command in wich search
  * @param exec Argument passed to `f`
