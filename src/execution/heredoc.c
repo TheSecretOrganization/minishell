@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 16:09:07 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/12 10:22:00 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 	int		db;
 	int		expand;
 
-	db = delimiter[0] == '"' || delimiter[0] == '\'';
+	db = (delimiter[0] == '"' || delimiter[0] == '\'');
 	expand = 1;
 	if (db)
 	{
