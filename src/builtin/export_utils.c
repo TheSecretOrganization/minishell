@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:44:33 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 13:53:45 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:15:10 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,13 @@ int	check_arg(char *arg, char **value)
 
 	i = -1;
 	*value = NULL;
-	while (arg[i] == ' ' || arg[i] == '\t')
-		i++;
-	if (!arg[i] || arg[i] == '=')
+	if (!arg[0] || arg[0] == '=')
 		return (ft_dprintf(2, \
 		"export: `%s': not a valid identifier\n", arg), C_GEN);
-	if (arg[i] == '_' && (arg[i + 1] == '=' || arg[i + 1] == '\0'))
+	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
 		return (-1);
 	while (arg[++i])
 	{
-		printf("%ctest\n", arg[i]);
 		if (arg[i] == '=')
 		{
 			*value = arg + i + 1;

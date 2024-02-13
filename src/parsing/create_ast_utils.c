@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 16:57:19 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:15:07 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,7 @@ t_code	add_arg(t_ast *ast, char *line)
 	char	**new;
 	size_t	len;
 
-	printf("before:%s\n", ast->next);
 	remove_quotes(&(ast->next));
-	printf("after:%s\n", ast->next);
 	len = 0;
 	while (ast->target->args[len])
 		len++;
@@ -81,7 +79,7 @@ static char	*find_next_arg(char *line, char **end)
 		line++;
 	if (!*line)
 		return (*end = line, line);
-	*end = line + 1;
+	*end = line;
 	if (**end != '\0' && ft_strchr(CH_SPCL, *line))
 		while (**end != '\0' && ft_strchr(CH_SPCL, **end))
 			(*end)++;
