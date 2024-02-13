@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 10:57:35 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 11:07:42 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 			(free_here_doc(exec, delimiter, line, wfd), exit(C_MEM));
 	}
 	line = readline("here_doc > ");
-	len = ft_strlen(delimiter);
+	len = ft_strlen(delimiter) + 1;
 	while (line && ft_strncmp(delimiter, line, len))
 	{
 		if (expand && expand_hd(&line, exec->data->status, exec->data->envp))
