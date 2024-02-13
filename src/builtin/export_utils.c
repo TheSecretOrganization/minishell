@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:44:33 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 17:15:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:21:56 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ void	print_export(char *arg, int outfile)
 	ft_putchar_fd('\n', outfile);
 }
 
+/**
+ * @brief Check argument for export
+ *
+ * @param arg argument to check
+ * @param value pointer on where to store the value
+ * @return int
+ */
 int	check_arg(char *arg, char **value)
 {
 	size_t	i;
