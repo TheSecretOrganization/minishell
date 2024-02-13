@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 10:25:35 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 12:22:20 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ static void	print_export(char *arg, int outfile)
 static int	process_arg(char *arg, t_data *data)
 {
 	char	*value;
-	int		i;
+	size_t	i;
+	int		code;
 
 	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
 		return (C_SUCCESS);
@@ -101,13 +102,13 @@ static int	process_arg(char *arg, t_data *data)
 	value = ft_strchr(arg, '=');
 	if (value)
 		*(value++) = '\0';
-	i = ft_setenv(data, arg, value);
+	code = ft_setenv(data, arg, value);
 	if (value)
 		*(--value) = '=';
-	if (!i && !ft_strncmp(arg, "PATH", 4)
+	if (!code && !ft_strncmp(arg, "PATH", 4)
 		&& (arg[4] == '\0' || arg[4] == '='))
 		return (get_path(data));
-	return (i);
+	return (code);
 }
 
 /**
