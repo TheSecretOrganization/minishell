@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:12:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 10:48:27 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 11:20:15 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	wait_children(int pid)
 {
 	int					wstatus;
 	int					code;
-	struct	sigaction	old;
+	struct sigaction	old;
 
 	register_action(SIGINT, &old, &handle_sigint);
 	while (errno != ECHILD)
