@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/11 00:03:42 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 09:20:58 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,6 @@ t_code	add_arg(t_ast *ast, char *line)
 	return (ast->i = ast->new_i - line, C_SUCCESS);
 }
 
-static void	find_end_quote(char **end, char c)
-{
-	(*end)++;
-	while (**end && **end != c)
-		(*end)++;
-	if (**end)
-		(*end)++;
-}
-
 /**
  * @brief Find the next argument in line
  *
@@ -86,20 +77,12 @@ static char	*find_next_arg(char *line, char **end)
 	if (!*line)
 		return (*end = line, line);
 	*end = line + 1;
-	if (*line == '\"' || *line == '\'')
-		return (find_end_quote(end, *line), line);
-	else if (ft_strchr(CH_SPCL, *line))
-		while (**end && ft_strchr(CH_SPCL, **end))
+	if (**end != '\0' && ft_strchr(CH_SPCL, *line))
+		while (**end != '\0' && ft_strchr(CH_SPCL, **end))
 			(*end)++;
 	else
-	{
-		while (**end && **end != ' ')
-		{
-			if (**end == '\'' || **end == '\"')
-				return (find_end_quote(end, **end), line);
+		while (**end != '\0' && **end != ' ')
 			(*end)++;
-		}
-	}
 	return (line);
 }
 
