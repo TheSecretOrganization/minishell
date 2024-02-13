@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:24:33 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 08:59:39 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		if (g_signal == SIGINT)
 			data.status = 130;
 		g_signal = 0;
-		data.line = ft_fstrtrim(data.line, " ");
+		data.line = ft_fstrtrim(data.line, " \t");
 		if (!data.line)
 			(clean_data(&data), exit(C_MEM));
 		if (!*(data.line))
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 		data.status = parse_line(&data);
 		if (data.status == C_BAD_USE)
 			continue ;
-		data.status = dispatch_cmd(&data);
+		data.status = dispatch_cmd(&data) % 255;
 		free_cmd(data.cmd);
 	}
 	return (ft_printf("exit\n"), ft_fsplit(data.path), ft_fsplit(data.envp),
