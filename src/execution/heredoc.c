@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:07:42 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	read_here_doc(t_exec *exec, char *delimiter, int wfd)
 			(free_here_doc(exec, delimiter, line, wfd), exit(C_MEM));
 	}
 	line = readline("here_doc > ");
-	len = ft_strlen(delimiter);
+	len = ft_strlen(delimiter) + 1;
 	while (line && ft_strncmp(delimiter, line, len))
 	{
 		if (expand && expand_hd(&line, exec->data->status, exec->data->envp))
@@ -129,7 +129,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 			(free_here_doc(exec, NULL, NULL, wfd), exit(C_MEM));
 		read_here_doc(exec, cpy, wfd);
 	}
-	register_action(SIGINT, NULL, SIG_IGN);
+	(close(wfd), register_action(SIGINT, NULL, SIG_IGN));
 	if (wait(&code) == -1)
 		return (perror("wait"), C_GEN);
 	register_signals();
@@ -162,6 +162,6 @@ int	here_doc(t_exec *exec, char *delimiter)
 		return (free(filename), close(wfd), -1);
 	(unlink(filename), free(filename));
 	if (here_doc_prompt(exec, delimiter, wfd, rfd) != C_SUCCESS)
-		return (close(wfd), close(rfd), -2);
-	return (close(wfd), rfd);
+		return (close(rfd), -2);
+	return (rfd);
 }
