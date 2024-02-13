@@ -6,11 +6,16 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/01/24 19:56:10 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	ft_is_space(char c)
+{
+	return (c == ' ' || c == '\t');
+}
 
 /**
  * Parse user's input, exit the program if error occurs

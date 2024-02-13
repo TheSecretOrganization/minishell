@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/12 11:09:22 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_ast
 }	t_ast;
 
 t_code	parse_line(t_data *data);
+int		ft_is_space(char c);
 
 t_code	error_syntax(t_code code, char *el, size_t n);
 t_code	check_syntax(t_data *data);

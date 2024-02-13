@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:43:19 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 10:25:35 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,25 @@ static void	print_export(char *arg, int outfile)
 static int	process_arg(char *arg, t_data *data)
 {
 	char	*value;
-	int		code;
+	int		i;
 
 	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
 		return (C_SUCCESS);
+	i = 0;
+	while (arg[i] && arg[i] != '=')
+		if (!ft_isalnum(arg[i++]))
+			return (ft_dprintf(2, \
+			"export: `%s': not a valid identifier\n", arg), C_GEN);
 	value = ft_strchr(arg, '=');
 	if (value)
 		*(value++) = '\0';
-	code = ft_setenv(data, arg, value);
+	i = ft_setenv(data, arg, value);
 	if (value)
 		*(--value) = '=';
-	if (!code && !ft_strncmp(arg, "PATH", 4)
+	if (!i && !ft_strncmp(arg, "PATH", 4)
 		&& (arg[4] == '\0' || arg[4] == '='))
 		return (get_path(data));
-	return (code);
+	return (i);
 }
 
 /**
