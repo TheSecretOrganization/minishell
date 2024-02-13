@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:29 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:37:11 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:48:46 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	cmd_export(t_exec *exec);
 int	cmd_unset(t_exec *exec);
 int	cmd_env(t_exec *exec);
 int	cmd_exit(t_exec *exec);
-int	ft_getcwd(char **cwd);
+
+void	print_export(char *arg, int outfile);
+int		ft_getcwd(char **cwd);
+int		check_arg(char *arg, char **value);
 
 #endif
