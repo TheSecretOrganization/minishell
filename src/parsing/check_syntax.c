@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 15:54:29 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 09:07:34 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ t_code	error_syntax(t_code code, char *el, size_t n)
 static int	check_hd(char *line, size_t *i)
 {
 	*i += 2;
-	while (line[*i] && line[*i] == ' ')
+	while (line[*i] && ft_is_space(line[*i]))
 		(*i)++;
 	if (line[*i] != '\'' && line[*i] != '\"')
 		return (*i -= 1, B_TRUE);
-	while (line[*i] && line[*i] != ' ' && !ft_strchr(CH_SPCL, line[*i]))
+	while (line[*i] && !ft_is_space(line[*i]) && !ft_strchr(CH_SPCL, line[*i]))
 		(*i)++;
 	return (*i -= 1, B_TRUE);
 }

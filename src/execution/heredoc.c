@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 10:22:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	expand_hd(char **line, int status, char **envp)
 	tmp.envp = envp;
 	while ((*line)[++i])
 	{
-		if ((*line)[i] == '$' && (*line)[i + 1] && (*line)[i + 1] != ' ')
+		if ((*line)[i] == '$' && (*line)[i + 1] && !ft_is_space((*line)[i + 1]))
 		{
 			if ((*line)[i + 1] == '?')
 				(*line) = expand_status(&tmp);
