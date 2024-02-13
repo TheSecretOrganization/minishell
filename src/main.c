@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 08:16:48 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 08:59:39 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	main(int argc, char **argv, char **envp)
 		data.status = parse_line(&data);
 		if (data.status == C_BAD_USE)
 			continue ;
-		data.status = dispatch_cmd(&data);
+		data.status = dispatch_cmd(&data) % 255;
 		free_cmd(data.cmd);
 	}
 	return (ft_printf("exit\n"), ft_fsplit(data.path), ft_fsplit(data.envp),
