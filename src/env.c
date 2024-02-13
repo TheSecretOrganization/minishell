@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 15:57:27 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:08:48 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,27 +86,28 @@ t_code	ft_setenv(t_data *data, char *item, char *value)
 {
 	size_t	i;
 	size_t	len_item;
+	char	*n_item;
 	char	*content;
 
 	i = -1;
-	len_item = ft_strlen(item);
+	n_item = ft_strjoin(item, "=");
+	if (!n_item)
+		return (C_MEM);
+	len_item = ft_strlen(n_item);
 	while (data->envp[++i])
 	{
-		if (ft_strncmp(data->envp[i], item, len_item))
+		if (ft_strncmp(data->envp[i], n_item, len_item))
 			continue ;
-		item = ft_strjoin(item, "=");
-		if (!item)
-			return (C_MEM);
 		if (value)
-			content = ft_strjoin(item, value);
+			content = ft_strjoin(n_item, value);
 		else
-			content = ft_substr(item, 0, ft_strlen(item) - 1);
+			content = ft_substr(n_item, 0, ft_strlen(n_item) - 1);
 		if (!content)
-			return (free(item), C_MEM);
+			return (free(n_item), C_MEM);
 		(free(data->envp[i]), data->envp[i] = content);
-		return (free(item), C_SUCCESS);
+		return (free(n_item), C_SUCCESS);
 	}
-	return (ft_putenv(data, item, value));
+	return (free(n_item), ft_putenv(data, item, value));
 }
 
 /**

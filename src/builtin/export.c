@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 12:22:20 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 13:54:07 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,35 +51,6 @@ static void	quicksort(char **envp, size_t len)
 }
 
 /**
- * @brief Print the arg as export would
- *
- * @param arg
- * @param outfile
- */
-static void	print_export(char *arg, int outfile)
-{
-	t_bool	eql;
-	size_t	i;
-
-	eql = B_FALSE;
-	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
-		return ;
-	(ft_putstr_fd("export ", outfile), i = -1);
-	while (arg[++i])
-	{
-		if (arg[i] == '=')
-			(ft_putstr_fd("=\"", outfile), eql = B_TRUE);
-		else if (arg[i] == '\"')
-			(ft_putchar_fd('\\', outfile), ft_putchar_fd(arg[i], outfile));
-		else
-			ft_putchar_fd(arg[i], outfile);
-	}
-	if (eql)
-		ft_putchar_fd('\"', outfile);
-	ft_putchar_fd('\n', outfile);
-}
-
-/**
  * @brief Process the arg to modify the envp
  *
  * @param arg
@@ -89,19 +60,13 @@ static void	print_export(char *arg, int outfile)
 static int	process_arg(char *arg, t_data *data)
 {
 	char	*value;
-	size_t	i;
 	int		code;
 
-	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
+	code = check_arg(arg, &value);
+	if (code == -1)
 		return (C_SUCCESS);
-	i = 0;
-	while (arg[i] && arg[i] != '=')
-		if (!ft_isalnum(arg[i++]))
-			return (ft_dprintf(2, \
-			"export: `%s': not a valid identifier\n", arg), C_GEN);
-	value = ft_strchr(arg, '=');
-	if (value)
-		*(value++) = '\0';
+	else if (code)
+		return (code);
 	code = ft_setenv(data, arg, value);
 	if (value)
 		*(--value) = '=';
