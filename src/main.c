@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 14:24:33 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 08:16:48 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 		if (g_signal == SIGINT)
 			data.status = 130;
 		g_signal = 0;
-		data.line = ft_fstrtrim(data.line, " ");
+		data.line = ft_fstrtrim(data.line, " \t");
 		if (!data.line)
 			(clean_data(&data), exit(C_MEM));
 		if (!*(data.line))
