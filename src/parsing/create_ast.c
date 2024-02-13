@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 12:22:17 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 08:53:33 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ static t_code	create_element(t_data *data, t_ast *ast)
 	ast->next = get_next_substr(ast, data->line);
 	if (!ast->next)
 		return (C_MEM);
-	if (ft_strchr(CH_OPE, ast->next[0]))
+	if (ast->next[0] != '\0' && ft_strchr(CH_OPE, ast->next[0]))
 	{
 		if (!ast->target->args[0])
 			(free(ast->target->args), ast->target->args = NULL);
 		return (add_ope(ast, data->line));
 	}
-	else if (ft_strchr(CH_DIR, ast->next[0]))
+	else if (ast->next[0] != '\0' && ft_strchr(CH_DIR, ast->next[0]))
 		return (add_dir(ast, data->line));
 	return (add_arg(ast, data->line));
 }
