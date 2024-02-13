@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 14:56:48 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 09:16:07 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ int	cmd_echo(t_exec *exec)
 	first = 1;
 	if (exec->args[1] == NULL)
 		return (ft_putstr_fd("\n", exec->outfile), C_SUCCESS);
-	if (has_n_args(exec->args[1]))
-		i++;
+	while (exec->args[++i] && has_n_args(exec->args[i]))
+		;
+	i--;
 	while (exec->args[++i])
 	{
 		if (!first)
