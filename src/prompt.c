@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 10:50:14 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:17:41 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 08:59:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*prompt(t_data *data)
 		free(data->line);
 	if (register_action(SIGINT, &old, &handle_sigint))
 		return (NULL);
-	data->line = readline(PROMPT_HEAD" "WHITE"❯ "DEFAULT);
+	data->line = readline(PROMPT_HEAD);
 	if (ft_strncmp(data->line, "", 1) != 0)
 		add_history(data->line);
 	if (sigaction(SIGINT, &old, NULL) == -1)

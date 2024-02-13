@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:16:30 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 09:02:43 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@
 # include <unistd.h>
 # include "libft.h"
 
-# define PROMPT_HEAD "🦖"
-# define PROMPT_ERR "☄️"
+# define PROMPT_HEAD "jurassicshell: "
 
 # define M_ERROR "error"
 # define M_MEM "memory allocation failled"
