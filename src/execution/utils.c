@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:49:22 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/13 08:49:23 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 	if (cmd.args != NULL && !find_pathname(exec, path))
 	{
 		if (errno == C_NOEXEC)
-			return (printf("%s: No permission\n", exec->args[0]), 127);
+			return (printf("%s: No permission\n", exec->args[0]), 126);
 		else if (errno == C_NOFILE)
-			return (printf("%s: Not found\n", exec->args[0]), 126);
+			return (printf("%s: Not found\n", exec->args[0]), 127);
 	}
 	if (cmd.args != NULL && !exec->pathname)
 		return (C_GEN);
