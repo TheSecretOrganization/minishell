@@ -107,7 +107,7 @@ char	*expand_status(t_data *data)
  */
 t_code	expand_var(t_data *data, size_t *i, size_t nd)
 {
-	if (data->line[*i] == '~' && !(nd % 2) && (data->line[*i + 1] == ' '
+	if (data->line[*i] == '~' && !(nd % 2) && (ft_is_space(data->line[*i + 1])
 			|| ft_strchr(CH_SPCL, data->line[*i + 1])))
 	{
 		if (!expand_home(data, i))
