@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 13:17:22 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/12 11:09:22 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-# define CH_ERR "`#()[]{};!\\"
+# define CH_ERR "`#()[]{};!\\*"
 # define CH_SPCL "&|<>"
 # define CH_OPE "&|"
 # define CH_DIR "<>"
