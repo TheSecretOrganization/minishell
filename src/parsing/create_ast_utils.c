@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 17:15:07 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:19:52 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_code	add_arg(t_ast *ast, char *line)
  */
 static char	*find_next_arg(char *line, char **end)
 {
-	char c;
+	char	c;
 
 	c = '\0';
 	while (*line && ft_is_space(*line))
@@ -84,6 +84,7 @@ static char	*find_next_arg(char *line, char **end)
 		while (**end != '\0' && ft_strchr(CH_SPCL, **end))
 			(*end)++;
 	else
+	{
 		while (**end != '\0')
 		{
 			if (!c && (**end == '\'' || **end == '\"'))
@@ -94,6 +95,7 @@ static char	*find_next_arg(char *line, char **end)
 				break ;
 			(*end)++;
 		}
+	}
 	return (line);
 }
 
