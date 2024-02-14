@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:39 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 12:03:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:16:53 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,4 @@ t_code	add_dir(t_ast *ast, char *line)
 		else
 			return (add_out(ast, line, OT_TRUNCATE));
 	}
-	return (C_SUCCESS);
 }
