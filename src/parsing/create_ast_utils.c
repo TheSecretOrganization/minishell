@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 17:19:52 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:08:38 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,51 +16,36 @@
  * @brief Remove outer quotes from a line
  *
  * @param s pointer on the string to trim
+ * @param d of the program, nullable
+ * @param expand boolean to expand or not
  */
-void	remove_quotes(char **s)
+int	remove_quotes(char **s, t_data *d, int expand)
 {
 	size_t	nq;
 	size_t	nd;
 	size_t	i;
 
-	nq = 0;
 	nd = 0;
+	nq = 0;
 	i = -1;
 	while ((*s)[++i])
 	{
-		if ((*s)[i] == '\'' && !(nd % 2) && ++nq)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), \
-			ft_strlen((*s)) - i), i--);
-		else if ((*s)[i] == '\"' && !(nq % 2) && ++nd)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), \
-			ft_strlen((*s)) - i), i--);
+		if ((!(nq % 2) && !(nd % 2) && ft_is_space((*s)[i]))
+			|| (nq % 2 && (*s)[i] == '\'') || (nd % 2 && (*s)[i] == '\"'))
+			expand = 0;
+		if (d && !(nq % 2) && ((d->line[i]) == '~' || d->line[i] == '$'))
+		{
+			if (++expand && expand_var(d, i, nd))
+				return (C_MEM);
+			i--;
+			continue ;
+		}
+		if (!expand && (*s)[i] == '\'' && !(nd % 2) && ++nq)
+			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), ft_strlen((*s)) - i), i--);
+		else if (!expand && (*s)[i] == '\"' && !(nq % 2) && ++nd)
+			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), ft_strlen((*s)) - i), i--);
 	}
-}
-
-/**
- * Join the new argument argument with the joined ones
- * @param ast pointer on the control structure
- * @param line line parsed
- * @return t_code C_SUCCES or an error
-*/
-t_code	add_arg(t_ast *ast, char *line)
-{
-	char	**new;
-	size_t	len;
-
-	remove_quotes(&(ast->next));
-	len = 0;
-	while (ast->target->args[len])
-		len++;
-	new = ft_calloc(len + 2, sizeof(char *));
-	if (!new)
-		return (ft_fsplit(ast->target->args), free(ast->next), C_MEM);
-	len = -1;
-	while (ast->target->args[++len])
-		new[len] = ast->target->args[len];
-	new[len] = ast->next;
-	(free(ast->target->args), ast->target->args = new);
-	return (ast->i = ast->new_i - line, C_SUCCESS);
+	return (C_SUCCESS);
 }
 
 /**
@@ -85,7 +70,7 @@ static char	*find_next_arg(char *line, char **end)
 			(*end)++;
 	else
 	{
-		while (**end != '\0')
+		while (**end != '\0' && !ft_strchr(CH_SPCL, **end))
 		{
 			if (!c && (**end == '\'' || **end == '\"'))
 				c = **end;

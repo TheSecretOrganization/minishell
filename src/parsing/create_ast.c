@@ -6,11 +6,43 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 08:53:33 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:54:04 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+/**
+ * Join the new argument argument with the joined ones
+ * @param ast pointer on the control structure
+ * @param data data of the program
+ * @return t_code C_SUCCES or an error
+*/
+static t_code	add_arg(t_ast *ast, t_data *data)
+{
+	char	**new;
+	size_t	len;
+	t_data	cpy;
+
+	cpy.status = data->status;
+	cpy.envp = data->envp;
+	cpy.line = ast->next;
+	if (remove_quotes(&(cpy.line), &cpy, 0))
+		return (C_MEM);
+	ast->next = cpy.line;
+	len = 0;
+	while (ast->target->args[len])
+		len++;
+	new = ft_calloc(len + 2, sizeof(char *));
+	if (!new)
+		return (free(ast->next), C_MEM);
+	len = -1;
+	while (ast->target->args[++len])
+		new[len] = ast->target->args[len];
+	new[len] = ast->next;
+	(free(ast->target->args), ast->target->args = new);
+	return (ast->i = ast->new_i - data->line, C_SUCCESS);
+}
 
 /**
  * @brief Create a new element according to it's type
@@ -32,7 +64,7 @@ static t_code	create_element(t_data *data, t_ast *ast)
 	}
 	else if (ast->next[0] != '\0' && ft_strchr(CH_DIR, ast->next[0]))
 		return (add_dir(ast, data->line));
-	return (add_arg(ast, data->line));
+	return (add_arg(ast, data));
 }
 
 /**
@@ -45,7 +77,7 @@ t_code	create_ast(t_data *data)
 	t_ast	ast;
 
 	if (o_init_cmd(&(data->cmd)))
-		(clean_data(data), exit(C_MEM));
+		return (C_MEM);
 	ast.i = 0;
 	ast.target = data->cmd;
 	while (data->line[ast.i])
