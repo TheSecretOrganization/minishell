@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:30 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 09:02:43 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:32:27 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,7 @@ char		*ft_getenv(t_data data, char *item);
 t_code		ft_setenv(t_data *data, char *item, char *value);
 t_code		ft_unenv(t_data *data, char *item);
 t_code		cpy_envp(t_data *data, char **envp);
+
+int			ft_getcwd(char **cwd);
 
 #endif
