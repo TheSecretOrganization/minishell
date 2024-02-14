@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:10 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 12:27:00 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 14:40:49 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	cmd_env(t_exec *exec)
 	while (exec->data->envp[++i])
 	{
 		del = ft_strchr(exec->data->envp[i], '=');
-		if (del && del[1] == '\0')
+		if (!del || del[1] == '\0')
 			continue ;
 		if (exec->data->envp[i][0] == '_' && exec->data->envp[i][1] == '=')
 			underscore = exec->data->envp[i];
