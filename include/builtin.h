@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:29 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 17:20:47 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:32:18 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 int		cmd_echo(t_exec *exec);
 int		cmd_cd(t_exec *exec);
 int		cmd_pwd(t_exec *exec);
-int		ft_getcwd(char **cwd);
 int		cmd_export(t_exec *exec);
 int		check_arg(char *arg, char **value);
 void	print_export(char *arg, int outfile);
