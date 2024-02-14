@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 22:10:57 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 22:29:48 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 
 static void	close_pipe(t_exec *exec)
 {
-	if (exec->infile != -1)
+	if (exec->infile != -1 && exec->infile != STDIN_FILENO)
 		(close(exec->infile), exec->infile = -1);
-	if (exec->outfile != -1)
+	if (exec->outfile != -1 && exec->outfile != STDOUT_FILENO)
 		(close(exec->outfile), exec->outfile = -1);
 }
 
