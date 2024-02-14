@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 08:59:39 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 12:34:16 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	g_signal = 0;
 
 static t_code	init_data(t_data *data, char **envp)
 {
+	char	*cwd;
+
 	cpy_envp(data, envp);
 	if (!data->envp)
 		return (C_MEM);
@@ -27,7 +29,12 @@ static t_code	init_data(t_data *data, char **envp)
 	data->path = NULL;
 	if (get_path(data))
 		return (ft_fsplit(data->envp), C_MEM);
-	return (C_SUCCESS);
+	ft_getcwd(&cwd);
+	if (cwd)
+		if (ft_setenv(data, "PWD", cwd))
+			return (free(cwd), ft_fsplit(data->envp), ft_fsplit(data->path),
+				C_MEM);
+	return (free(cwd), C_SUCCESS);
 }
 
 int	main(int argc, char **argv, char **envp)
