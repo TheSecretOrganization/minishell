@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/14 16:58:25 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:20:00 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ int	remove_quotes(char **s, t_data *data)
 		if (data && !(nq % 2)
 			&& ((data->line[i]) == '~' || data->line[i] == '$'))
 		{
-			if (expand_var(data, &i, nd))
+			if (expand_var(data, i, nd))
 				return (C_MEM);
+			i--;
 			continue ;
 		}
 		if ((*s)[i] == '\'' && !(nd % 2) && ++nq)
