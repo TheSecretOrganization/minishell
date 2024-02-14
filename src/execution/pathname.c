@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 16:17:27 by averin            #+#    #+#             */
-/*   Updated: 2024/02/07 11:06:12 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:16:20 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,11 @@ static char	*find_path_exec(char *cmd, char **path)
 		dir = opendir(exec);
 		if (dir || errno == ENOENT)
 		{
-			(closedir(dir), free(exec));
+			if (dir)
+				closedir(dir);
+			free(exec);
 			continue ;
 		}
-		closedir(dir);
 		if (access(exec, F_OK | X_OK) == -1)
 			return (free(exec), errno = C_NOEXEC, NULL);
 		return (exec);

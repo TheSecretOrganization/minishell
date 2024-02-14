@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:54 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/10 16:52:31 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 13:18:23 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_code	o_init_cmd(t_cmd **cmd)
 		return (free(*cmd), *cmd = NULL, error(C_MEM, "ft_calloc", M_MEM));
 	(*cmd)->elements = ft_calloc(1, sizeof(t_element *));
 	if (!(*cmd)->elements)
-		return (free(*cmd), free((*cmd)->args),
+		return (free((*cmd)->args), free(*cmd),
 			*cmd = NULL, error(C_MEM, "ft_calloc", M_MEM));
 	return (C_SUCCESS);
 }
