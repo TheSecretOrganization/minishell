@@ -6,23 +6,37 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 18:27:06 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 10:55:50 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	ft_setpwd(char **pwd, char *arg, t_data data)
+static int	getenv_pwd(char **pwd, char *arg, t_data data)
 {
-	int		code;
-
-	code = C_SUCCESS;
 	if (arg == NULL)
 	{
 		*pwd = ft_getenv(data, "HOME");
 		if (!*pwd)
 			return (ft_dprintf(2, "HOME not set\n"), C_GEN);
 	}
+	else
+	{
+		*pwd = ft_getenv(data, "OLDPWD");
+		if (!*pwd)
+			return (ft_dprintf(2, "OLDPWD not set\n"), C_GEN);
+		printf("%s\n", *pwd);
+	}
+	return (C_SUCCESS);
+}
+
+static int	ft_setpwd(char **pwd, char *arg, t_data data)
+{
+	int		code;
+
+	code = C_SUCCESS;
+	if (arg == NULL || !ft_strncmp("-\0", arg, 2))
+		return (getenv_pwd(pwd, arg, data));
 	else if (arg[0] != '/')
 	{
 		code = ft_getcwd(pwd);
