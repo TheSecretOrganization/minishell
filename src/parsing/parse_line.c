@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:08:16 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:24:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ t_code	parse_line(t_data *data)
 	if (code == C_BAD_USE)
 		return (free(data->line), data->line = NULL, C_BAD_USE);
 	else if (code == C_MEM)
-		(clean_data(data), exit(C_MEM));
+		(ft_fsplit(data->envp), clean_data(data), exit(C_MEM));
 	code = create_ast(data);
 	if (code == C_BAD_USE)
 		return (free(data->line), data->line = NULL, C_BAD_USE);
 	else if (code == C_MEM)
-		(clean_data(data), exit(C_MEM));
+		(ft_fsplit(data->envp), clean_data(data), exit(C_MEM));
 	return (free(data->line), data->line = NULL, C_SUCCESS);
 }
