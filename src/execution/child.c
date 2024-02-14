@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/15 10:26:42 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:25:44 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 22:11:02 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,4 @@ void	do_exec(t_exec *exec, char **envp, int *pid)
 				(perror(exec->args[0]), free_exec(*exec), exit(253));
 		}
 	}
-	if (exec->infile != -1)
-		(close(exec->infile), exec->infile = -1);
-	if (exec->outfile != -1)
-		(close(exec->outfile), exec->outfile = -1);
 }
