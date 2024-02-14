@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 10:55:50 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:27:01 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ static int	check_dir(char *pwd)
 	DIR		*dir;
 
 	dir = opendir(pwd);
-	if (dir)
-		return (closedir(dir), free(pwd), C_SUCCESS);
-	return (chdir(pwd), perror(pwd), free(pwd), C_GEN);
+	if (!dir)
+		return (perror(pwd), free(pwd), C_GEN);
+	return (closedir(dir), free(pwd), C_SUCCESS);
 }
 
 /**
