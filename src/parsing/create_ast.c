@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/14 17:13:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:54:04 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_code	add_arg(t_ast *ast, t_data *data)
 	cpy.status = data->status;
 	cpy.envp = data->envp;
 	cpy.line = ast->next;
-	if (remove_quotes(&(cpy.line), &cpy))
+	if (remove_quotes(&(cpy.line), &cpy, 0))
 		return (C_MEM);
 	ast->next = cpy.line;
 	len = 0;

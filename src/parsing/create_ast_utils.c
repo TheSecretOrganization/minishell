@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/14 17:20:00 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 18:08:38 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,34 @@
  * @brief Remove outer quotes from a line
  *
  * @param s pointer on the string to trim
- * @param data of the program, nullable
+ * @param d of the program, nullable
+ * @param expand boolean to expand or not
  */
-int	remove_quotes(char **s, t_data *data)
+int	remove_quotes(char **s, t_data *d, int expand)
 {
 	size_t	nq;
 	size_t	nd;
 	size_t	i;
 
-	nq = 0;
 	nd = 0;
+	nq = 0;
 	i = -1;
 	while ((*s)[++i])
 	{
-		if (data && !(nq % 2)
-			&& ((data->line[i]) == '~' || data->line[i] == '$'))
+		if ((!(nq % 2) && !(nd % 2) && ft_is_space((*s)[i]))
+			|| (nq % 2 && (*s)[i] == '\'') || (nd % 2 && (*s)[i] == '\"'))
+			expand = 0;
+		if (d && !(nq % 2) && ((d->line[i]) == '~' || d->line[i] == '$'))
 		{
-			if (expand_var(data, i, nd))
+			if (++expand && expand_var(d, i, nd))
 				return (C_MEM);
 			i--;
 			continue ;
 		}
-		if ((*s)[i] == '\'' && !(nd % 2) && ++nq)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), \
-			ft_strlen((*s)) - i), i--);
-		else if ((*s)[i] == '\"' && !(nq % 2) && ++nd)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), \
-			ft_strlen((*s)) - i), i--);
+		if (!expand && (*s)[i] == '\'' && !(nd % 2) && ++nq)
+			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), ft_strlen((*s)) - i), i--);
+		else if (!expand && (*s)[i] == '\"' && !(nq % 2) && ++nd)
+			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), ft_strlen((*s)) - i), i--);
 	}
 	return (C_SUCCESS);
 }

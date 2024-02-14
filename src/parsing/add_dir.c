@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:39 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/14 16:31:13 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:53:59 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static t_code	add_in(t_ast *ast, char *line, t_intype type)
 	if (!file->filename)
 		return (free(file), C_MEM);
 	if (type != IT_HERE_DOC)
-		remove_quotes(&(file->filename), NULL);
+		remove_quotes(&(file->filename), NULL, 0);
 	if (addback_cmd(ast->target, new_element(T_INFILE, file)))
 		return (free(file->filename), free(file), \
 		error(C_MEM, "addback_cmd", M_MEM));
@@ -60,7 +60,7 @@ static t_code	add_out(t_ast *ast, char *line, t_outtype type)
 	file->filename = get_next_substr(ast, line);
 	if (!file->filename)
 		return (free(file), C_MEM);
-	remove_quotes(&(file->filename), NULL);
+	remove_quotes(&(file->filename), NULL, 0);
 	if (addback_cmd(ast->target, new_element(T_OUTFILE, file)))
 		return (free(file->filename), free(file), \
 		error(C_MEM, "addback_cmd", M_MEM));
