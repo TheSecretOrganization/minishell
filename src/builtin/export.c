@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 13:54:07 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 15:49:58 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ int	cmd_export(t_exec *exec)
 	t_data	cpy;
 
 	i = 0;
-	if (exec->is_pipe || exec->args[0] == NULL)
-		return (C_SUCCESS);
-	else if (exec->args[1] == NULL)
+	if (exec->args[1] == NULL)
 	{
 		if (cpy_envp(&cpy, exec->data->envp))
 			return (C_MEM);
@@ -101,6 +99,8 @@ int	cmd_export(t_exec *exec)
 			print_export(cpy.envp[i++], exec->outfile);
 		return (ft_fsplit(cpy.envp), C_SUCCESS);
 	}
+	if (exec->is_pipe)
+		return (C_SUCCESS);
 	while (exec->args[++i])
 		if (process_arg(exec->args[i], exec->data))
 			return (C_MEM);
