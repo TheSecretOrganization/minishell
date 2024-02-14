@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:55:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 18:08:46 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:27:01 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ static int	ft_setpwd(char **pwd, char *arg, t_data data)
 	return (C_SUCCESS);
 }
 
+static int	check_dir(char *pwd)
+{
+	DIR		*dir;
+
+	dir = opendir(pwd);
+	if (!dir)
+		return (perror(pwd), free(pwd), C_GEN);
+	return (closedir(dir), free(pwd), C_SUCCESS);
+}
+
 /**
  * @brief Reproduce the behaviour of cd
  *
@@ -66,8 +76,6 @@ int	cmd_cd(t_exec *exec)
 	char	*pwd;
 	int		code;
 
-	if (exec->is_pipe)
-		return (C_SUCCESS);
 	if (exec->args[1] && exec->args[2])
 		return (ft_dprintf(2, "cd: too many arguments\n"), C_GEN);
 	oldpwd = ft_getenv(*exec->data, "PWD");
@@ -76,7 +84,9 @@ int	cmd_cd(t_exec *exec)
 	code = ft_setpwd(&pwd, exec->args[1], *(exec->data));
 	if (code)
 		return (free(oldpwd), code);
-	if (chdir(pwd) == -1)
+	if (exec->is_pipe)
+		return (free(oldpwd), check_dir(pwd));
+	else if (chdir(pwd) == -1)
 		return (perror(pwd), free(oldpwd), free(pwd), C_GEN);
 	(free(pwd), code = ft_getcwd(&pwd));
 	if (code)
