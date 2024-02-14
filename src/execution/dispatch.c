@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:47:05 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 22:08:21 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ int	dispatch_cmd(t_data *data)
 	{
 		err = prepare_exec(exec.target, &exec, data->path);
 		if (exec.args == NULL || err != C_SUCCESS)
-			return (free(exec.pathname), err);
-		if (exec.is_builtin)
+			pid = err;
+		else if (exec.is_builtin)
 			pid = exec_builtin(&exec);
 		else
 			do_exec(&exec, data->envp, &pid);
@@ -65,7 +65,7 @@ int	dispatch_cmd(t_data *data)
 			exec.infile = exec.pipes[0];
 	}
 	free(exec.pathname);
-	if (exec.is_builtin)
+	if (exec.is_builtin || err != C_SUCCESS)
 		return (pid);
 	return (wait_children(pid));
 }
