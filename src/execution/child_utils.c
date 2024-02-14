@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   child_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 15:12:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 11:20:15 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 13:14:58 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	wait_children(int pid)
 	int					code;
 	struct sigaction	old;
 
+	code = C_SUCCESS;
 	register_action(SIGINT, &old, &handle_sigint);
 	while (errno != ECHILD)
 	{
