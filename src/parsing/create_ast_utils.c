@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 17:19:52 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:02:14 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	*find_next_arg(char *line, char **end)
 			(*end)++;
 	else
 	{
-		while (**end != '\0')
+		while (**end != '\0' && !ft_strchr(CH_SPCL, **end))
 		{
 			if (!c && (**end == '\'' || **end == '\"'))
 				c = **end;
