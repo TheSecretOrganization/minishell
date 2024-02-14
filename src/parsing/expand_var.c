@@ -122,5 +122,5 @@ t_code	expand_var(t_data *data, size_t *i, size_t nd)
 		if (!data->line)
 			return (C_MEM);
 	}
-	return (C_SUCCESS);
+	return ((*i)--, C_SUCCESS);
 }

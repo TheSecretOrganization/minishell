@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 11:07:42 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 16:59:37 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ static int	expand_hd(char **line, int status, char **envp)
 				(*line) = expand_variable(&tmp, &i);
 			if (!(*line))
 				return (C_MEM);
+			i--;
 		}
 	}
 	return (C_SUCCESS);

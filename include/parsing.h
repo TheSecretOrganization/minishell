@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 11:00:17 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:30:44 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ t_code	o_init_cmd(t_cmd **cmd);
 t_code	add_ope(t_ast *ast, char *line);
 t_code	add_dir(t_ast *ast, char *line);
 char	*get_next_substr(t_ast *ast, char *line);
-t_code	add_arg(t_ast *ast, char *line);
-void	remove_quotes(char **s);
+int		remove_quotes(char **s, t_data *data);
 
 #endif
