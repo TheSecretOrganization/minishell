@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:10 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 08:41:28 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 12:27:00 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	cmd_env(t_exec *exec)
 	char	*del;
 
 	i = -1;
+	underscore = NULL;
 	if (exec->args[0] == NULL || exec->args[1])
 		return (C_SUCCESS);
 	while (exec->data->envp[++i])
@@ -37,5 +38,7 @@ int	cmd_env(t_exec *exec)
 		else
 			ft_putendl_fd(exec->data->envp[i], exec->outfile);
 	}
-	return (ft_putendl_fd(underscore, exec->outfile), C_SUCCESS);
+	if (underscore)
+		ft_putendl_fd(underscore, exec->outfile);
+	return (C_SUCCESS);
 }
