@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:17:31 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:44:35 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/15 23:31:02 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef struct s_exec
 	int		is_builtin;
 	int		(*builtin)(struct s_exec *);
 	int		is_pipe;
+	int		i;
 	t_data	*data;
 	t_cmd	*target;
 }	t_exec;
@@ -43,7 +44,7 @@ void	reset_exec(t_exec *exec);
 int		wait_children(int pid);
 
 int		here_doc(t_exec *exec, char *delimiter);
-char	*find_heredoc_file(void);
+char	*find_heredoc_file(char c);
 int		setup_here_doc(t_exec *exec);
 
 int		init_pipe(t_cmd *cmd, t_exec *exec);

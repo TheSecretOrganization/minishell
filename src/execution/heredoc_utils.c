@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 13:13:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/15 22:59:55 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/16 00:28:27 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 /**
  * @brief Find a filename for here_doc
  *
+ * @param c char fot the name of the here_doc
  * @return char* file name or NULL
  */
-char	*find_heredoc_file(void)
+char	*find_heredoc_file(char c)
 {
 	char	*file;
 	int		size;
@@ -27,7 +28,7 @@ char	*find_heredoc_file(void)
 	file = ft_calloc(size, sizeof(char));
 	if (!file)
 		return (NULL);
-	ft_memset(file, 'a', size - 1);
+	ft_memset(file, c, size - 1);
 	while (access(file, F_OK) == 0)
 	{
 		free(file);
@@ -36,7 +37,7 @@ char	*find_heredoc_file(void)
 		file = ft_calloc(size, sizeof(char));
 		if (!file)
 			return (NULL);
-		ft_memset(file, 'a', size - 1);
+		ft_memset(file, c, size - 1);
 	}
 	return (file);
 }

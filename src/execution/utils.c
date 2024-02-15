@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 15:03:13 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 08:49:23 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/15 23:27:47 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	init_exec(t_exec *exec, t_data *data)
 	exec->builtin = NULL;
 	exec->data = data;
 	exec->target = data->cmd;
+	exec->i = -1;
 	exec->is_pipe = find_element(*(exec->target), T_PIPE) != NULL;
 }
 
@@ -37,7 +38,7 @@ void	init_exec(t_exec *exec, t_data *data)
  * @param exec structure to init
  * @param cmd cmd to init from
  * @param path the path
- * @return SUCCESS or corresponding exit code 
+ * @return SUCCESS or corresponding exit code
 */
 int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 {
@@ -58,7 +59,7 @@ int	fill_exec(t_exec *exec, t_cmd cmd, char **path)
 
 /**
  * @brief Reset current execution
- * 
+ *
  * @param exec current execution
  */
 void	reset_exec(t_exec *exec)
@@ -93,7 +94,7 @@ void	*find_element(t_cmd cmd, t_type type)
 /**
  * @brief Call `in` or ``out for each elements of type `INFILE` or `OUTFILE` in
  * `cmd`
- * 
+ *
  * @param cmd Command in wich search
  * @param exec Argument passed to `f`
  * @param in Function called on each `INFILE`

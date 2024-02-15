@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/15 18:31:53 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/16 00:29:26 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int	here_doc(t_exec *exec, char *delimiter)
 	int		rfd;
 	char	*filename;
 
-	filename = find_heredoc_file();
+	filename = find_heredoc_file('a' + (exec->i % 26));
 	if (!filename)
 		return (-2);
 	wfd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);

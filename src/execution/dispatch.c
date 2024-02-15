@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dispatch.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 23:12:46 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/16 00:29:25 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 {
 	int	err;
 
+	exec->i++;
 	if (init_pipe(cmd, exec) == C_GEN)
 		return (124);
 	reset_exec(exec);
