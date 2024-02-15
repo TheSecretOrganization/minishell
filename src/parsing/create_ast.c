@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 10:38:41 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:16:09 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_code	add_arg(t_ast *ast)
 	size_t	len;
 
 	len = 0;
+	remove_quotes(ast->args[ast->i]);
 	while (ast->target->args[len])
 		len++;
 	new = ft_calloc(len + 2, sizeof(char *));

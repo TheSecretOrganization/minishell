@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 11:25:31 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:13:21 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*expand_status(t_data *data, int add_q);
 t_code	expand_var(t_data *data, size_t i, size_t nd);
 int		expand(t_data *d);
 char	*join_and_replace(char *line, char *td, char *tr, int add_q);
+
+int		remove_quotes(char *s);
 
 t_code	create_ast(t_data *data);
 t_code	o_init_cmd(t_cmd **cmd);
