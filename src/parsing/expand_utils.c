@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:48:40 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 11:28:46 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:56:31 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,29 +36,28 @@ char	*join_and_replace(char *line, char *td, char *tr, int add_q)
  */
 int	expand(t_data *d)
 {
-	size_t	nq;
-	size_t	nd;
+	t_quotes	q;
 	size_t	i;
 
-	nd = 0;
-	nq = 0;
+	q.nd = 0;
+	q.nq = 0;
 	i = -1;
 	while (d->line[++i])
 	{
-		if (!(nq % 2) && check_hd(d->line, i)
+		if (!(q.nq % 2) && !check_hd(d->line, i)
 			&& ((d->line[i] == '$' && d->line[i + 1])
-				|| (d->line[i] == '~' && !(nd % 2)
+				|| (d->line[i] == '~' && !(q.nd % 2)
 					&& ft_is_space(d->line[i + 1]))))
 		{
-			if (expand_var(d, i, nd))
+			if (expand_var(d, i, q.nd))
 				return (C_MEM);
 			i--;
 			continue ;
 		}
-		if (d->line[i] == '\'' && !(nd % 2))
-			++nq;
-		else if (d->line[i] == '\"' && !(nq % 2))
-			++nd;
+		if (d->line[i] == '\'' && !(q.nd % 2))
+			(q.nq)++;
+		else if (d->line[i] == '\"' && !(q.nq % 2))
+			(q.nd)++;
 	}
 	return (C_SUCCESS);
 }
