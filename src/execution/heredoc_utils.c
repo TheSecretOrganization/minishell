@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/08 13:13:45 by averin            #+#    #+#             */
-/*   Updated: 2024/02/11 15:18:10 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/15 22:59:55 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*find_heredoc_file(void)
 	if (!file)
 		return (NULL);
 	ft_memset(file, 'a', size - 1);
-	while (access(file, F_OK) != 0 && errno != ENOENT)
+	while (access(file, F_OK) == 0)
 	{
 		free(file);
 		if (++size < 0)
