@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 17:23:07 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:44:51 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ static int	expand_hd(char **line, int status, char **envp)
 		if ((*line)[i] == '$' && (*line)[i + 1] && !ft_is_space((*line)[i + 1]))
 		{
 			if ((*line)[i + 1] == '?')
-				(*line) = expand_status(&tmp);
+				(*line) = expand_status(&tmp, 0);
 			else
-				(*line) = expand_variable(&tmp, i);
+				(*line) = expand_variable(&tmp, i, 0);
 			if (!(*line))
 				return (C_MEM);
 			i--;

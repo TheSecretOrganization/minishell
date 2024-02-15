@@ -6,47 +6,11 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 09:10:04 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:38:41 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-/**
- * @brief Remove outer quotes from a line
- *
- * @param s pointer on the string to trim
- * @param d of the program, nullable
- * @param expand boolean to expand or not
- * @param remove boolean to remove or not
- */
-int	remove_and_expand(char **s, t_data *d, int expand, int remove)
-{
-	size_t	nq;
-	size_t	nd;
-	size_t	i;
-
-	nd = 0;
-	nq = 0;
-	i = -1;
-	while ((*s)[++i])
-	{
-		if (expand && !(nq % 2) && ((d->line[i] == '$' && d->line[i + 1])
-				|| (d->line[i] == '~' && !(nd % 2)
-					&& ft_is_space(d->line[i + 1]))))
-		{
-			if (expand_var(d, i, nd))
-				return (C_MEM);
-			i--;
-			continue ;
-		}
-		if (remove && (*s)[i] == '\'' && !(nd % 2) && ++nq)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), ft_strlen((*s)) - i), i--);
-		else if (remove && (*s)[i] == '\"' && !(nq % 2) && ++nd)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), ft_strlen((*s)) - i), i--);
-	}
-	return (C_SUCCESS);
-}
 
 /**
  * Join the new argument argument with the joined ones
@@ -57,14 +21,7 @@ static t_code	add_arg(t_ast *ast)
 {
 	char	**new;
 	size_t	len;
-	t_data	cpy;
 
-	cpy.status = ast->status;
-	cpy.envp = ast->envp;
-	cpy.line = ast->args[ast->i];
-	if (remove_and_expand(&(cpy.line), &cpy, 1, 1))
-		return (++(ast->i), free_args(ast), C_MEM);
-	ast->args[ast->i] = cpy.line;
 	len = 0;
 	while (ast->target->args[len])
 		len++;
