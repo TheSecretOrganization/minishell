@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/12 09:47:05 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 23:12:46 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ static int	prepare_exec(t_cmd *cmd, t_exec *exec, char **path)
 	return (C_SUCCESS);
 }
 
+static void	close_pipe(t_exec *exec)
+{
+	if (exec->infile != -1 && exec->infile != STDIN_FILENO)
+		(close(exec->infile), exec->infile = -1);
+	if (exec->outfile != -1 && exec->outfile != STDOUT_FILENO)
+		(close(exec->outfile), exec->outfile = -1);
+}
+
 /**
  * Execute a command
  * @param data data of the program
@@ -49,23 +57,25 @@ int	dispatch_cmd(t_data *data)
 	int		pid;
 	int		err;
 
+	err = C_SUCCESS;
 	pid = -1;
 	init_exec(&exec, data);
 	while (exec.target)
 	{
 		err = prepare_exec(exec.target, &exec, data->path);
 		if (exec.args == NULL || err != C_SUCCESS)
-			return (free(exec.pathname), err);
-		if (exec.is_builtin)
+			pid = err;
+		else if (exec.is_builtin)
 			pid = exec_builtin(&exec);
 		else
 			do_exec(&exec, data->envp, &pid);
+		close_pipe(&exec);
 		exec.target = find_element(*(exec.target), T_PIPE);
 		if (exec.target)
 			exec.infile = exec.pipes[0];
 	}
 	free(exec.pathname);
-	if (exec.is_builtin)
+	if (exec.is_builtin || err != C_SUCCESS)
 		return (pid);
 	return (wait_children(pid));
 }
