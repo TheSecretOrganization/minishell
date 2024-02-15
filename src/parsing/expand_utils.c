@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:48:40 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 13:50:28 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:00:04 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,11 @@ int	expand(t_data *d)
 	i = -1;
 	while (d->line[++i])
 	{
-		if (!(q.nq % 2) && ((d->line[i] == '$'
-			&& (d->line[i + 1] == '?' || ft_isalpha(d->line[i + 1])))
-				|| (d->line[i] == '~' && !(q.nd % 2)
-					&& ft_is_space(d->line[i + 1]))) && chec_perm(d->line, i))
+		if (!(q.nq % 2) && (d->line[i] == '$'
+				&& (d->line[i + 1] == '?' || ft_isalpha(d->line[i + 1])))
+			&& chec_perm(d->line, i))
 		{
-			if (expand_var(d, i, q.nd))
+			if (expand_var(d, i))
 				return (C_MEM);
 			i--;
 			continue ;

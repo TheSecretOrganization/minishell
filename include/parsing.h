@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 13:13:21 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:58:23 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int		check_hd(char *s, size_t i);
 
 char	*expand_variable(t_data *data, size_t i, int add_q);
 char	*expand_status(t_data *data, int add_q);
-t_code	expand_var(t_data *data, size_t i, size_t nd);
+t_code	expand_var(t_data *data, size_t i);
 int		expand(t_data *d);
 char	*join_and_replace(char *line, char *td, char *tr, int add_q);
 

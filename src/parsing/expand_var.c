@@ -45,34 +45,6 @@ char	*expand_variable(t_data *data, size_t i, int add_q)
 }
 
 /**
- * @brief Expand the path to the home of the current user
- *
- * @param data pointer on where the data is stored
- * @param i pointer on the position in the line
- * @return char * or NULL if an error occurs
- */
-static char	*expand_home(t_data *data, size_t i)
-{
-	char	*td;
-	char	*tr;
-
-	td = ft_substr(data->line, i, 1);
-	if (!td)
-		return (error(C_MEM, "ft_substr", M_MEM), NULL);
-	tr = ft_getenv(*data, "HOME");
-	if (!tr)
-		data->line = join_and_replace(data->line, td, "", 1);
-	else
-	{
-		data->line = join_and_replace(data->line, td, tr, 1);
-		free(tr);
-	}
-	if (!data->line)
-		return (free(td), error(C_MEM, "ft_fstrrplc", M_MEM), NULL);
-	return (free(td), data->line);
-}
-
-/**
  * @brief Expand the status code of the last command
  *
  * @param data pointer on where the data is stored
@@ -96,18 +68,11 @@ char	*expand_status(t_data *data, int add_q)
  *
  * @param data pointer on where the data is stored
  * @param i pointer on the position in line
- * @param nd number of double quotes parsed
  * @return char * or NULL if an error occurs
  */
-t_code	expand_var(t_data *data, size_t i, size_t nd)
+t_code	expand_var(t_data *data, size_t i)
 {
-	if (data->line[i] == '~' && !(nd % 2) && (ft_is_space(data->line[i + 1])
-			|| ft_strchr(CH_SPCL, data->line[i + 1])))
-	{
-		if (!expand_home(data, i))
-			return (C_MEM);
-	}
-	else if (data->line[i] == '$'
+	if (data->line[i] == '$'
 		&& (data->line[i + 1] == '?' || ft_isalpha(data->line[i + 1])))
 	{
 		if (data->line[i + 1] == '?')
