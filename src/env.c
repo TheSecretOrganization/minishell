@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 13:22:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 15:11:41 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/15 14:57:09 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_code	ft_setenv(t_data *data, char *item, char *value)
 	{
 		if (ft_strncmp(data->envp[i], item, len_item))
 			continue ;
-		if (item[len_item] != '=' && item[len_item] != '\0')
+		if (data->envp[i][len_item] != '=' && data->envp[i][len_item] != '\0')
 			continue ;
 		if (value)
 		{
