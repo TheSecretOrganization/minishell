@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/15 13:49:36 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:31:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 		read_here_doc(exec, cpy, wfd);
 	}
 	(close(wfd), register_action(SIGINT, NULL, SIG_IGN));
-	if (wait(&code) == -1)
+	if (waitpid(pid, &code, 0) == -1)
 		return (perror("wait"), C_GEN);
 	register_signals();
 	if (WIFEXITED(code) && WEXITSTATUS(code) == SIGINT)
