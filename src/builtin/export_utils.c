@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 13:44:33 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 17:21:56 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 10:54:11 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	check_arg(char *arg, char **value)
 
 	i = -1;
 	*value = NULL;
-	if (!arg[0] || arg[0] == '=')
+	if (!arg[0] || arg[0] == '=' || ft_isdigit(arg[0]))
 		return (ft_dprintf(2, \
 		"export: `%s': not a valid identifier\n", arg), C_GEN);
 	if (arg[0] == '_' && (arg[1] == '=' || arg[1] == '\0'))
