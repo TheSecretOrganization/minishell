@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:48:40 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 12:56:31 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 12:58:16 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*join_and_replace(char *line, char *td, char *tr, int add_q)
 int	expand(t_data *d)
 {
 	t_quotes	q;
-	size_t	i;
+	size_t		i;
 
 	q.nd = 0;
 	q.nq = 0;
