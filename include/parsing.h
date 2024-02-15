@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 13:58:23 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:07:36 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ typedef struct s_ast
 	t_cmd	*target;
 	char	**args;
 	size_t	i;
-	int		status;
-	char	**envp;
 }	t_ast;
 
 typedef struct s_quotes

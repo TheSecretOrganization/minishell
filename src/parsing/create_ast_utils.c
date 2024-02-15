@@ -6,12 +6,17 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 08:35:48 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:09:13 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
+/**
+ * @brief free remaining args
+ *
+ * @param ast data of the constructor of the ast
+ */
 void	free_args(t_ast *ast)
 {
 	size_t	i;
@@ -77,6 +82,12 @@ static char	*get_next_substr(char *line, char **end)
 	return (sub);
 }
 
+/**
+ * @brief Count the args in line
+ *
+ * @param line line to parse
+ * @return size_t
+ */
 size_t	count_args(char *line)
 {
 	size_t	i;
@@ -92,6 +103,12 @@ size_t	count_args(char *line)
 	return (i);
 }
 
+/**
+ * @brief Split line in args
+ *
+ * @param line line to pars
+ * @return char** or NULL
+ */
 char	**split_line(char *line)
 {
 	size_t	i;

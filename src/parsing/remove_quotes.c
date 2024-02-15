@@ -6,12 +6,19 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:12:34 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 13:13:09 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:11:56 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
+/**
+ * @brief Check here_doc permission
+ *
+ * @param s string to parse
+ * @param i position in s
+ * @return int
+ */
 int	check_hd(char *s, size_t i)
 {
 	if (s[i++] != '<')

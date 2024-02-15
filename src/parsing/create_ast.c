@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 13:16:09 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:07:30 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ t_code	create_ast(t_data *data)
 	if (!ast.args)
 		return (C_MEM);
 	ast.i = -1;
-	ast.status = data->status;
-	ast.envp = data->envp;
 	ast.target = data->cmd;
 	while (ast.args[++ast.i])
 		if (create_element(&ast))
