@@ -107,7 +107,7 @@ t_code	expand_var(t_data *data, size_t i, size_t nd)
 		if (!expand_home(data, i))
 			return (C_MEM);
 	}
-	else if (data->line[i] == '$' && data->line[i + 1])
+	else if (data->line[i] == '$' && ft_isalpha(data->line[i + 1]))
 	{
 		if (data->line[i + 1] == '?')
 			expand_status(data, 1);
