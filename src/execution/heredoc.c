@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/15 13:46:19 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:47:29 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ static int	expand_hd(char **line, int status, char **envp)
 	tmp.envp = envp;
 	while ((*line)[++i])
 	{
-		if ((*line)[i] == '$' && ft_isalpha((*line)[i + 1])
-			&& !ft_is_space((*line)[i + 1]))
+		if ((*line)[i] == '$' && ft_isalpha((*line)[i + 1]))
 		{
 			if ((*line)[i + 1] == '?')
 				(*line) = expand_status(&tmp, 0);
