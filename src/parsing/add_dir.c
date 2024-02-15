@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/25 11:18:39 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 09:02:21 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 09:20:20 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_code	add_in(t_ast *ast, t_intype type)
 	if (!file)
 		return (free_args(ast), error(C_MEM, "ft_calloc", M_MEM));
 	file->intype = type;
-	file->filename = ast->args[(ast->i)++];
+	file->filename = ast->args[(ast->i)];
 	cpy.line = file->filename;
 	if (type != IT_HERE_DOC)
 		remove_and_expand(&(cpy.line), &cpy, 1, 0);
@@ -41,7 +41,7 @@ static t_code	add_in(t_ast *ast, t_intype type)
 	if (!cpy.line)
 		return (free(file), free_args(ast), C_MEM);
 	file->filename = cpy.line;
-	if (addback_cmd(ast->target, new_element(T_INFILE, file)))
+	if (addback_cmd(ast->target, new_element(T_INFILE, file)) && ast->i++)
 		return (free_args(ast), free(file->filename),
 			free(file), error(C_MEM, "addback_cmd", M_MEM));
 	return (C_SUCCESS);
@@ -66,13 +66,13 @@ static t_code	add_out(t_ast *ast, t_outtype type)
 	if (!file)
 		return (free_args(ast), error(C_MEM, "ft_calloc", M_MEM));
 	file->outtype = type;
-	file->filename = ast->args[(ast->i)++];
+	file->filename = ast->args[(ast->i)];
 	cpy.line = file->filename;
 	remove_and_expand(&(cpy.line), &cpy, 1, 1);
 	if (!cpy.line)
 		return (free(file), free_args(ast), C_MEM);
 	file->filename = cpy.line;
-	if (addback_cmd(ast->target, new_element(T_INFILE, file)))
+	if (addback_cmd(ast->target, new_element(T_INFILE, file)) && ast->i++)
 		return (free_args(ast), free(file->filename),
 			free(file), error(C_MEM, "addback_cmd", M_MEM));
 	return (C_SUCCESS);
