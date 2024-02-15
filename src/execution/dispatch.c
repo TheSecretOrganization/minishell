@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:41:06 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 22:29:48 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 23:12:46 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	dispatch_cmd(t_data *data)
 	int		pid;
 	int		err;
 
+	err = C_SUCCESS;
 	pid = -1;
 	init_exec(&exec, data);
 	while (exec.target)
