@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:06:06 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/14 18:08:49 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 08:53:44 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 
 typedef struct s_ast
 {
-	char	*next;
-	char	*new_i;
 	t_cmd	*target;
+	char	**args;
 	size_t	i;
+	int		status;
+	char	**envp;
 }	t_ast;
 
 t_code	parse_line(t_data *data);
@@ -44,9 +45,10 @@ t_code	expand_var(t_data *data, size_t i, size_t nd);
 
 t_code	create_ast(t_data *data);
 t_code	o_init_cmd(t_cmd **cmd);
-t_code	add_ope(t_ast *ast, char *line);
-t_code	add_dir(t_ast *ast, char *line);
-char	*get_next_substr(t_ast *ast, char *line);
-int		remove_quotes(char **s, t_data *d, int expand);
+t_code	add_ope(t_ast *ast);
+t_code	add_dir(t_ast *ast);
+int		remove_and_expand(char **s, t_data *d, int expand, int remove);
+char	**split_line(char *line);
+void	free_args(t_ast *ast);
 
 #endif
