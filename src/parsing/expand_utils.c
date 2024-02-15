@@ -6,7 +6,7 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:48:40 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 12:58:16 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 13:30:21 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,18 @@ char	*join_and_replace(char *line, char *td, char *tr, int add_q)
 	return (free(new_tr), result);
 }
 
+static int	chec_perm(char *s, size_t i)
+{
+	if (i == 0)
+		return (1);
+	while (--i > 0)
+	{
+		if (s[i] == '<' && s[i - 1] == '<')
+			return (0);
+	}
+	return (1);
+}
+
 /**
  * @brief Remove outer quotes from a line
  *
@@ -44,10 +56,9 @@ int	expand(t_data *d)
 	i = -1;
 	while (d->line[++i])
 	{
-		if (!(q.nq % 2) && !check_hd(d->line, i)
-			&& ((d->line[i] == '$' && d->line[i + 1])
+		if (!(q.nq % 2) && ((d->line[i] == '$' && d->line[i + 1])
 				|| (d->line[i] == '~' && !(q.nd % 2)
-					&& ft_is_space(d->line[i + 1]))))
+					&& ft_is_space(d->line[i + 1]))) && chec_perm(d->line, i))
 		{
 			if (expand_var(d, i, q.nd))
 				return (C_MEM);
