@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 10:18:12 by averin            #+#    #+#             */
-/*   Updated: 2024/02/14 12:34:16 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 15:40:33 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 
+	if (isatty(0) != 1)
+		return (printf("Hhhmmmmmm\n"));
 	((void)argc, (void)argv, register_signals());
 	if (init_data(&data, envp) != C_SUCCESS)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 10:44:54 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 11:07:42 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/15 18:31:53 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ static int	expand_hd(char **line, int status, char **envp)
 	tmp.envp = envp;
 	while ((*line)[++i])
 	{
-		if ((*line)[i] == '$' && (*line)[i + 1] && !ft_is_space((*line)[i + 1]))
+		if ((*line)[i] == '$'
+			&& ((*line)[i + 1] == '?' || ft_isalpha((*line)[i + 1])))
 		{
 			if ((*line)[i + 1] == '?')
-				(*line) = expand_status(&tmp);
+				(*line) = expand_status(&tmp, 0);
 			else
-				(*line) = expand_variable(&tmp, &i);
+				(*line) = expand_variable(&tmp, i, 0);
 			if (!(*line))
 				return (C_MEM);
+			i--;
 		}
 	}
 	return (C_SUCCESS);
@@ -130,7 +132,7 @@ static int	here_doc_prompt(t_exec *exec, char *delimiter, int wfd, int rfd)
 		read_here_doc(exec, cpy, wfd);
 	}
 	(close(wfd), register_action(SIGINT, NULL, SIG_IGN));
-	if (wait(&code) == -1)
+	if (waitpid(pid, &code, 0) == -1)
 		return (perror("wait"), C_GEN);
 	register_signals();
 	if (WIFEXITED(code) && WEXITSTATUS(code) == SIGINT)

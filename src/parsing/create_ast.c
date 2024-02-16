@@ -6,33 +6,55 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/18 13:35:10 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 08:53:33 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:07:30 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
 /**
+ * Join the new argument argument with the joined ones
+ * @param ast pointer on the control structure
+ * @return t_code C_SUCCES or an error
+*/
+static t_code	add_arg(t_ast *ast)
+{
+	char	**new;
+	size_t	len;
+
+	len = 0;
+	remove_quotes(ast->args[ast->i]);
+	while (ast->target->args[len])
+		len++;
+	new = ft_calloc(len + 2, sizeof(char *));
+	if (!new)
+		return (free_args(ast), C_MEM);
+	len = -1;
+	while (ast->target->args[++len])
+		new[len] = ast->target->args[len];
+	new[len] = ast->args[ast->i];
+	(free(ast->target->args), ast->target->args = new);
+	return (C_SUCCESS);
+}
+
+/**
  * @brief Create a new element according to it's type
  *
- * @param data pointer on the data of the program
  * @param ast data of the ast
  * @return t_code C_SUCCESS or an error
  */
-static t_code	create_element(t_data *data, t_ast *ast)
+static t_code	create_element(t_ast *ast)
 {
-	ast->next = get_next_substr(ast, data->line);
-	if (!ast->next)
-		return (C_MEM);
-	if (ast->next[0] != '\0' && ft_strchr(CH_OPE, ast->next[0]))
+	if (ast->args[ast->i][0] != '\0' && ft_strchr(CH_OPE, ast->args[ast->i][0]))
 	{
 		if (!ast->target->args[0])
 			(free(ast->target->args), ast->target->args = NULL);
-		return (add_ope(ast, data->line));
+		return (add_ope(ast));
 	}
-	else if (ast->next[0] != '\0' && ft_strchr(CH_DIR, ast->next[0]))
-		return (add_dir(ast, data->line));
-	return (add_arg(ast, data->line));
+	else if (ast->args[ast->i][0] != '\0'
+		&& ft_strchr(CH_DIR, ast->args[ast->i][0]))
+		return (add_dir(ast));
+	return (add_arg(ast));
 }
 
 /**
@@ -45,12 +67,16 @@ t_code	create_ast(t_data *data)
 	t_ast	ast;
 
 	if (o_init_cmd(&(data->cmd)))
-		(clean_data(data), exit(C_MEM));
-	ast.i = 0;
+		return (C_MEM);
+	ast.args = split_line(data->line);
+	if (!ast.args)
+		return (C_MEM);
+	ast.i = -1;
 	ast.target = data->cmd;
-	while (data->line[ast.i])
-		if (create_element(data, &ast))
+	while (ast.args[++ast.i])
+		if (create_element(&ast))
 			return (C_MEM);
+	free(ast.args);
 	if (!ast.target->args[0])
 		(free(ast.target->args), ast.target->args = NULL);
 	return (C_SUCCESS);

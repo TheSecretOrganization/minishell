@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 09:38:16 by averin            #+#    #+#             */
-/*   Updated: 2024/02/13 09:16:07 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/15 08:57:04 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	cmd_echo(t_exec *exec)
 
 	i = 0;
 	first = 1;
+	if (write(exec->outfile, "", 0) == -1)
+		return (perror("echo"), C_GEN);
 	if (exec->args[1] == NULL)
 		return (ft_putstr_fd("\n", exec->outfile), C_SUCCESS);
 	while (exec->args[++i] && has_n_args(exec->args[i]))

@@ -6,61 +6,25 @@
 /*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 22:18:43 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/13 17:19:52 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:09:13 by abasdere         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
 /**
- * @brief Remove outer quotes from a line
+ * @brief free remaining args
  *
- * @param s pointer on the string to trim
+ * @param ast data of the constructor of the ast
  */
-void	remove_quotes(char **s)
+void	free_args(t_ast *ast)
 {
-	size_t	nq;
-	size_t	nd;
 	size_t	i;
 
-	nq = 0;
-	nd = 0;
 	i = -1;
-	while ((*s)[++i])
-	{
-		if ((*s)[i] == '\'' && !(nd % 2) && ++nq)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), \
-			ft_strlen((*s)) - i), i--);
-		else if ((*s)[i] == '\"' && !(nq % 2) && ++nd)
-			(ft_memcpy(&((*s)[i]), &((*s)[i + 1]), \
-			ft_strlen((*s)) - i), i--);
-	}
-}
-
-/**
- * Join the new argument argument with the joined ones
- * @param ast pointer on the control structure
- * @param line line parsed
- * @return t_code C_SUCCES or an error
-*/
-t_code	add_arg(t_ast *ast, char *line)
-{
-	char	**new;
-	size_t	len;
-
-	remove_quotes(&(ast->next));
-	len = 0;
-	while (ast->target->args[len])
-		len++;
-	new = ft_calloc(len + 2, sizeof(char *));
-	if (!new)
-		return (ft_fsplit(ast->target->args), free(ast->next), C_MEM);
-	len = -1;
-	while (ast->target->args[++len])
-		new[len] = ast->target->args[len];
-	new[len] = ast->next;
-	(free(ast->target->args), ast->target->args = new);
-	return (ast->i = ast->new_i - line, C_SUCCESS);
+	while (ast->args[ast->i + ++i])
+		free(ast->args[ast->i]);
+	free(ast->args);
 }
 
 /**
@@ -91,7 +55,7 @@ static char	*find_next_arg(char *line, char **end)
 				c = **end;
 			else if (c && **end == c)
 				c = '\0';
-			if (!c && ft_is_space(**end))
+			if (!c && (ft_is_space(**end) || ft_strchr(CH_SPCL, **end)))
 				break ;
 			(*end)++;
 		}
@@ -102,19 +66,68 @@ static char	*find_next_arg(char *line, char **end)
 /**
  * @brief Get the next substr object
  *
- * @param ast pointer on the top of the ast
  * @param line line parsed
+ * @param end pointer on the end of str
  * @return char* or NULL
  */
-char	*get_next_substr(t_ast *ast, char *line)
+static char	*get_next_substr(char *line, char **end)
 {
 	char	*sub;
 	char	*start;
-	char	*end;
 
-	start = find_next_arg(line + ast->i, &end);
-	sub = ft_substr(line, start - line, end - start);
+	start = find_next_arg(line, end);
+	sub = ft_substr(line, start - line, *end - start);
 	if (!sub)
 		return (error(C_MEM, "ft_substr", M_MEM), NULL);
-	return (ast->new_i = end, sub);
+	return (sub);
+}
+
+/**
+ * @brief Count the args in line
+ *
+ * @param line line to parse
+ * @return size_t
+ */
+size_t	count_args(char *line)
+{
+	size_t	i;
+	char	*end;
+
+	i = 0;
+	while (*line)
+	{
+		end = NULL;
+		i++;
+		(find_next_arg(line, &end), line = end);
+	}
+	return (i);
+}
+
+/**
+ * @brief Split line in args
+ *
+ * @param line line to pars
+ * @return char** or NULL
+ */
+char	**split_line(char *line)
+{
+	size_t	i;
+	size_t	cw;
+	char	*end;
+	char	**args;
+
+	i = -1;
+	cw = count_args(line);
+	end = NULL;
+	args = ft_calloc(cw + 1, sizeof(char *));
+	if (!args)
+		return (error(C_MEM, "ft_calloc", M_MEM), NULL);
+	while (*line && ++i < cw)
+	{
+		args[i] = get_next_substr(line, &end);
+		if (!args[i])
+			return (ft_fsplit(args), NULL);
+		line = end;
+	}
+	return (args);
 }

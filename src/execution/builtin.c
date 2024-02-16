@@ -6,7 +6,7 @@
 /*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 08:13:56 by averin            #+#    #+#             */
-/*   Updated: 2024/02/06 08:58:37 by averin           ###   ########.fr       */
+/*   Updated: 2024/02/14 22:30:49 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ int	exec_builtin(t_exec *exec)
 	if (exec->outfile == -1)
 		exec->outfile = STDOUT_FILENO;
 	code = exec->builtin(exec);
-	if (exec->infile != STDIN_FILENO)
-		(close(exec->infile), exec->infile = -1);
-	if (exec->outfile != STDOUT_FILENO)
-		(close(exec->outfile), exec->outfile = -1);
 	return (code);
 }
 
