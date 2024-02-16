@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remove_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abasdere <abasdere@student.42.fr>          +#+  +:+       +#+        */
+/*   By: averin <averin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:12:34 by abasdere          #+#    #+#             */
-/*   Updated: 2024/02/15 14:11:56 by abasdere         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:49:13 by averin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ int	check_hd(char *s, size_t i)
  */
 static int	set_perm(char *s, t_quotes *q, size_t i)
 {
-	if (!q->e && s[i] == '\"' && !(q->nq % 2) && i > 0 && s[i - 1] == '=')
-		return (q->e = 1, 0);
-	else if (q->e && s[i] == '\"' && !(q->nq % 2) && (q->nd)++ % 2)
-		return (q->e = 0, 1);
 	if (!q->h && check_hd(s, i))
 		return (q->h = 1, 0);
 	else if (q->h && s[i] == '\"' && !(q->nq % 2) && (q->nd)++ % 2)
@@ -68,14 +64,13 @@ int	remove_quotes(char *s)
 	len = ft_strlen(s);
 	q.nd = 0;
 	q.nq = 0;
-	q.e = 0;
 	q.h = 0;
 	while (++i < len)
 	{
 		if (set_perm(s, &q, i))
 			continue ;
 		if ((s[i] == '\'' && !(q.nd % 2) && ++(q.nq) && !q.h)
-			|| (s[i] == '\"' && !(q.nq % 2) && ++(q.nd) && !q.e && !q.h))
+			|| (s[i] == '\"' && !(q.nq % 2) && ++(q.nd) && !q.h))
 		{
 			ft_memcpy(&(s[i]), &(s[i + 1]), len - i);
 			len--;
